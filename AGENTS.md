@@ -47,7 +47,7 @@ On this machine, prefix Gradle commands with `GRADLE_USER_HOME=/tmp/opencode/gra
 
 | Property | Env var | Default |
 | --- | --- | --- |
-| `spring.datasource.url` | `DB_URL` | `` |
+| `spring.datasource.url` | `DB_URL` | empty (set in the launcher config) |
 | `spring.datasource.username` | `DB_USERNAME` | `app` |
 | `spring.datasource.password` | `DB_PASSWORD` | empty |
 | `opencode.base-url` | `OPENCODE_BASE_URL` | empty (discovered via `opencode service status`) |

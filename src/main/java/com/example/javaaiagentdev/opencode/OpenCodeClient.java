@@ -12,10 +12,14 @@ import java.util.Base64;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 @Component
 public class OpenCodeClient {
+
+    private static final Logger log = LoggerFactory.getLogger(OpenCodeClient.class);
 
     private static final Duration REQUEST_TIMEOUT = Duration.ofSeconds(30);
     private static final Duration WAIT_TIMEOUT = Duration.ofMinutes(3);
@@ -35,6 +39,7 @@ public class OpenCodeClient {
     }
 
     public String createSession(String title) {
+        log.debug("Creating OpenCode session: {}", title);
         Map<String, Object> body = new LinkedHashMap<>();
         body.put("title", title);
         body.put("model", Map.of("id", model(), "providerID", provider()));
@@ -52,10 +57,12 @@ public class OpenCodeClient {
         if (sessionId.isBlank()) {
             throw new IllegalStateException("OpenCode returned no session id: " + response.body());
         }
+        log.info("OpenCode session created: {}", sessionId);
         return sessionId;
     }
 
     public void prompt(String sessionId, String text) {
+        log.debug("Sending prompt to session {} ({} chars)", sessionId, text.length());
         HttpResponse<String> response = send(request("/api/session/" + sessionId + "/prompt")
                 .POST(HttpRequest.BodyPublishers.ofString(toJson(Map.of("text", text))))
                 .build());
@@ -63,6 +70,7 @@ public class OpenCodeClient {
     }
 
     public void waitForCompletion(String sessionId) {
+        log.debug("Waiting for session {} to become idle", sessionId);
         HttpResponse<String> response = send(request("/api/experimental/session/" + sessionId + "/wait")
                 .timeout(WAIT_TIMEOUT)
                 .POST(HttpRequest.BodyPublishers.noBody())
@@ -73,6 +81,7 @@ public class OpenCodeClient {
     }
 
     public String lastAssistantText(String sessionId) {
+        log.debug("Reading messages from session {}", sessionId);
         HttpResponse<String> response = send(request("/api/session/" + sessionId + "/message?limit=20")
                 .GET()
                 .build());
@@ -88,6 +97,7 @@ public class OpenCodeClient {
             if ("assistant".equals(type)) {
                 String text = textOf(message);
                 if (!text.isBlank()) {
+                    log.debug("Assistant reply received ({} chars)", text.length());
                     return text;
                 }
                 String error = message.path("error").path("message").asText(null);

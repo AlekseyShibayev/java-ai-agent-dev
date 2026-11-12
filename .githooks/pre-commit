@@ -11,6 +11,19 @@ fi
 
 pattern='-----BEGIN [A-Z ]*PRIVATE KEY-----|AKIA[0-9A-Z]{16}|gh[pousr]_[A-Za-z0-9]{36,}|github_pat_[A-Za-z0-9_]{50,}|xox[baprs]-[0-9A-Za-z-]{10,}|AIza[0-9A-Za-z_-]{35}|[0-9]{8,10}:[A-Za-z0-9_-]{35}|(password|passwd|secret|token|api[_-]?key|access[_-]?key)[[:space:]]*[:=][[:space:]]*["'\'']?[A-Za-z0-9_./+-]{8,}'
 
+# Hardcoded database URLs leak host names and topology even without a password.
+jdbc='jdbc:[a-z0-9]+://[^[:space:]]+'
+jdbc_matches=$(git grep --cached -nI -E -e "$jdbc" -- . 2>/dev/null || true)
+
+if [ -n "$jdbc_matches" ]; then
+    echo "Commit blocked: hardcoded JDBC URL in staged files:" >&2
+    printf '%s\n' "$jdbc_matches" >&2
+    echo >&2
+    echo "Use a placeholder with no default value, for example \${DB_URL:}." >&2
+    echo "Verified false positive: SKIP_SECRET_CHECK=1 git commit ..." >&2
+    exit 1
+fi
+
 matches=$(git grep --cached -nI -E -e "$pattern" -- . 2>/dev/null || true)
 matches=$(printf '%s\n' "$matches" | grep -vE '\$\{|change[_-]?me|example|placeholder|your[_-]|xxxx|<[^>]+>|\*\*\*|redacted' || true)
 
