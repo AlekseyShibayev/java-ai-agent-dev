@@ -28,9 +28,10 @@ ls ~/.config/opencode/skills/skill-creator/SKILL.md
 ## 2. MCP с IntelliJ
 
 - [x] В `opencode.json` добавлен сервер `intellij`
-- [ ] В IDE включён MCP Server: `Ctrl+Alt+S` → **AI → MCP Server** → **Enable MCP Server** → Apply
-- [ ] `opencode mcp list` показывает `intellij connected`
-- [ ] В новой сессии доступны инструменты IDE (build, problems, debug, search)
+- [x] В IDE включён MCP Server: `Ctrl+Alt+S` → **AI → MCP Server** → **Enable MCP Server** → Apply
+- [x] `opencode mcp list` показывает `intellij connected`
+- [x] В новой сессии доступны инструменты IDE (подключено 40 tools)
+- [ ] В IDE открыт проект по актуальному пути `java-ai-agent-dev` (после переименования IDE всё ещё держит старый путь)
 
 Конфигурация в `opencode.json`:
 
@@ -39,13 +40,16 @@ ls ~/.config/opencode/skills/skill-creator/SKILL.md
   "mcp": {
     "servers": {
       "intellij": {
-        "type": "local",
-        "command": ["npx", "-y", "@jetbrains/mcp-proxy"]
+        "type": "remote",
+        "url": "http://127.0.0.1:64342/stream"
       }
     }
   }
 }
 ```
+
+Важно: OpenCode не поддерживает SSE-транспорт напрямую — на `http://127.0.0.1:64342/sse` он получает `HTTP 405`.
+Нужен **HTTP Stream** endpoint (`/stream`), его же показывает кнопка «Copy HTTP Stream Config» в настройках IDE.
 
 Проверка:
 
@@ -53,14 +57,7 @@ ls ~/.config/opencode/skills/skill-creator/SKILL.md
 /home/user/.opencode/bin/opencode mcp list
 ```
 
-Если запущено несколько IDE, порт задаётся явно:
-
-```json
-"environment": { "IDE_PORT": "63342" }
-```
-
-Прокси ищет IDE на портах `63342–63352` и проверяет `/api/mcp/list_tools`.
-Пока MCP Server в IDE выключен, эндпоинт отвечает `404`, а сервер остаётся `pending`.
+Если запущено несколько IDE, порт и URL берутся из настроек MCP Server в конкретной IDE.
 
 ## Как добавлять задачи
 
