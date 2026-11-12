@@ -9,4 +9,4 @@
 
 Скрытые служебные агенты — `compaction`, `title`, `summary`: обслуживают сессию, напрямую не выбираются.
 
-Роли `creative`, `critic`, `judge`, `orchestrator` — не из коробки, а проектные определения в `.opencode/agents/`.
+Проектные роли (например, `creative`, `critic`) можно добавить в `.opencode/agents/`; сейчас в репозитории их нет.
