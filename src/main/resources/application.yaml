@@ -1,0 +1,25 @@
+# Встроенные дефолты. Секретов здесь быть не должно.
+# Реальные значения (токены, пароли) кладутся в ./application.yaml рядом
+# с запущенным приложением — этот файл в .gitignore.
+
+spring:
+  application:
+    name: telegram-ai-dev-agent
+
+  datasource:
+    url: ${DB_URL:}
+    username: ${DB_USERNAME:devagent}
+    password: ${DB_PASSWORD:}
+
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: validate
+
+  liquibase:
+    change-log: classpath:db/changelog/db.changelog-master.yaml
+
+telegram:
+  bot:
+    token: ${TELEGRAM_BOT_TOKEN:}
+    username: ${TELEGRAM_BOT_USERNAME:}

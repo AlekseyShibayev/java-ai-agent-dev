@@ -1,0 +1,15 @@
+services:
+  postgres:
+    image: postgres:17
+    container_name: devagent-postgres
+    environment:
+      POSTGRES_DB: ${DB_NAME:-devagent}
+      POSTGRES_USER: ${DB_USERNAME:-devagent}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:?DB_PASSWORD is required}
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:

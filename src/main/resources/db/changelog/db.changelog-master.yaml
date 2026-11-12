@@ -1,0 +1,7 @@
+databaseChangeLog:
+  - changeSet:
+      id: 000-baseline
+      author: dev
+      comment: "Каркас. Схема будет описана отдельными changeset'ами."
+      changes:
+        - empty: {}

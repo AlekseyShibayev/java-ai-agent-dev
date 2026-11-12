@@ -1,0 +1,27 @@
+# Секреты — никогда не коммитить
+/application.yaml
+/application-*.yaml
+/application-*.yml
+/application-local.yaml
+/application-local.yml
+/application-secrets.yaml
+/application-secrets.yml
+*.local.yaml
+*.local.yml
+.env
+.env.*
+
+# Gradle
+.gradle/
+build/
+
+# Логи
+logs/
+
+# IDE
+.idea/
+*.iml
+.vscode/
+
+# OS
+.DS_Store
