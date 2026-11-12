@@ -8,7 +8,7 @@ spring:
 
   datasource:
     url: ${DB_URL:}
-    username: ${DB_USERNAME:devagent}
+    username: ${DB_USERNAME:app}
     password: ${DB_PASSWORD:}
 
   jpa:
@@ -19,7 +19,10 @@ spring:
   liquibase:
     change-log: classpath:db/changelog/db.changelog-master.yaml
 
-telegram:
-  bot:
-    token: ${TELEGRAM_BOT_TOKEN:}
-    username: ${TELEGRAM_BOT_USERNAME:}
+opencode:
+  base-url: ${OPENCODE_BASE_URL:}
+  binary: ${OPENCODE_BIN:opencode}
+  password: ${OPENCODE_PASSWORD:}
+  directory: ${OPENCODE_DIRECTORY:}
+  provider: ${OPENCODE_PROVIDER:opencode-go}
+  model: ${OPENCODE_MODEL:deepseek-v4.1-flash}
