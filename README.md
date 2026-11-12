@@ -29,7 +29,7 @@ Spring Boot-сервис работает с локальным OpenCode API: с
 
 ## Инструменты
 
-- `skill-creator` — в `.opencode/skills/`.
+- `skill-creator` — глобальный навык, `~/.config/opencode/skills/skill-creator/`; в репозитории не хранится.
 - MCP для IntelliJ — в `opencode.json` (нужно включить MCP Server в настройках IDE).
 
 ## Wiki

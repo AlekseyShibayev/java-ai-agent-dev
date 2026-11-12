@@ -24,7 +24,7 @@ On this machine, prefix Gradle commands with `GRADLE_USER_HOME=/tmp/opencode/gra
 - Skeleton: database, Liquibase `empty` baseline, context test, and an OpenCode API client (`opencode/`).
 - Implemented: create session, send prompt, wait for completion, read the last assistant text.
 - Not implemented: agent loop, tools, MCP, evals, streaming, UI.
-- Skills: `.opencode/skills/skill-creator/` (imported from `anthropics/skills`).
+- Skills: global, `~/.config/opencode/skills/skill-creator/` (imported from `anthropics/skills`); skills are not vendored in the repository.
 - MCP: `opencode.json` defines `intellij` as a remote server at `http://127.0.0.1:64342/stream`. Requires the IDE setting Settings | AI | MCP Server → Enable MCP Server. Use the HTTP Stream endpoint, not `/sse`.
 - Learning goal: AI development skills. Each feature follows spec → plan → implement → review → verify.
 
