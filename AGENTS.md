@@ -90,3 +90,4 @@ On this machine, prefix Gradle commands with `GRADLE_USER_HOME=/tmp/opencode/gra
 - Agree on the structure or plan first, then create files; do not add classes or packages "for the future".
 - Small steps: change → build/test.
 - The agent's "tests are green" is not proof: verify on a clean state yourself.
+- Database access is read-only for the agent: use the `read_only` role, never `app`. See `.ai/recommendations.md`.
