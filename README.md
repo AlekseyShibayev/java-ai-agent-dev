@@ -34,4 +34,4 @@ Spring Boot-сервис работает с локальным OpenCode API: с
 
 ## Wiki
 
-Документация для людей: стартовый чек-лист — `.ai/wiki/agent-setup.md`, рекомендации — `.ai/wiki/recommendations.md`.
+Общие инструкции для AI-проектов, не привязанные к этому репозиторию: `.ai/wiki/agent-setup.md`, `.ai/wiki/recommendations.md`.
