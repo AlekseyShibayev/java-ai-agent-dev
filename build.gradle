@@ -6,7 +6,7 @@ plugins {
 
 group = 'com.example'
 version = '0.0.1-SNAPSHOT'
-description = 'Telegram-бот с агентом, который вносит изменения в приложение и перезапускает его'
+description = 'Учебная лаборатория AI-разработки на Java: клиент OpenCode API'
 
 java {
     toolchain {

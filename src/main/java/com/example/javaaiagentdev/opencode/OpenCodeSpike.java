@@ -1,4 +1,4 @@
-package com.example.devagent.opencode;
+package com.example.javaaiagentdev.opencode;
 
 import java.time.Instant;
 import org.slf4j.Logger;

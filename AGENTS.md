@@ -6,9 +6,9 @@ On this machine, prefix Gradle commands with `GRADLE_USER_HOME=/tmp/opencode/gra
 
 - Build: `GRADLE_USER_HOME=/tmp/opencode/gradle-home ./gradlew build`
 - Tests: `GRADLE_USER_HOME=/tmp/opencode/gradle-home ./gradlew test`
-- Single test: `GRADLE_USER_HOME=/tmp/opencode/gradle-home ./gradlew test --tests "com.example.devagent.TelegramAiDevAgentApplicationTests"`
-- Run: `../telegram-ai-dev-agent_launcher/run.sh` (working directory is the launcher, so credentials come from its `application.yaml`)
-- OpenCode API spike: `../telegram-ai-dev-agent_launcher/run.sh --opencode.spike=true`
+- Single test: `GRADLE_USER_HOME=/tmp/opencode/gradle-home ./gradlew test --tests "com.example.javaaiagentdev.JavaAiAgentDevApplicationTests"`
+- Run: `../java-ai-agent-dev_launcher/run.sh` (working directory is the launcher, so credentials come from its `application.yaml`)
+- OpenCode API spike: `../java-ai-agent-dev_launcher/run.sh --opencode.spike=true`
 - Use the wrapper only; do not use a system `gradle` — the version is pinned (9.9.1).
 
 ## Stack
@@ -17,7 +17,7 @@ On this machine, prefix Gradle commands with `GRADLE_USER_HOME=/tmp/opencode/gra
 - Boot 4: the MVC starter is `spring-boot-starter-webmvc`; `spring-boot-starter-web` is deprecated.
 - Boot 4 auto-configuration is modular: Liquibase requires `spring-boot-liquibase`, not just `liquibase-core`.
 - OpenCode local HTTP API: Basic auth `opencode:<service password>`, model `deepseek-v4.1-flash`, provider `opencode-go`.
-- Single module, package `com.example.devagent`, main class `TelegramAiDevAgentApplication`.
+- Single module, package `com.example.javaaiagentdev`, main class `JavaAiAgentDevApplication`.
 
 ## Project state
 
@@ -42,7 +42,7 @@ On this machine, prefix Gradle commands with `GRADLE_USER_HOME=/tmp/opencode/gra
 ## Configuration and secrets
 
 - The repository is public. Commit only defaults and `${ENV:}` placeholders.
-- Real values (DB password, OpenCode service password) live in `../telegram-ai-dev-agent_launcher/application.yaml` — `0600`, outside the repository, overrides the classpath config.
+- Real values (DB password, OpenCode service password) live in `../java-ai-agent-dev_launcher/application.yaml` — `0600`, outside the repository, overrides the classpath config.
 - Do not invent new key names; use the existing ones:
 
 | Property | Env var | Default |
@@ -69,7 +69,7 @@ On this machine, prefix Gradle commands with `GRADLE_USER_HOME=/tmp/opencode/gra
 
 ## Git
 
-- Branch `main`; the remote is SSH (`git@github.com:AlekseyShibayev/telegram-ai-dev-agent.git`), with the key configured via repo-local `core.sshCommand`.
+- Branch `main`; the remote is SSH (`git@github.com:AlekseyShibayev/java-ai-agent-dev.git`), with the key configured via repo-local `core.sshCommand`.
 - Before pushing: run the build command from "Commands", check `git status`, and scan the changes for secrets.
 - Pre-commit hook `.githooks/pre-commit` blocks likely secrets in staged files. Enable it once per clone with `git config core.hooksPath .githooks`. Bypass only for a verified false positive: `SKIP_SECRET_CHECK=1 git commit ...`.
 - Secrets live only in `/application.yaml` and the launcher config. Do not add `build/`, `.gradle/`, IDE files, or other local files to the index.

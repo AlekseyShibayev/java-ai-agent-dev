@@ -1,7 +1,7 @@
 services:
   postgres:
     image: postgres:17
-    container_name: devagent-postgres
+    container_name: java-ai-agent-dev-postgres
     environment:
       POSTGRES_DB: ${DB_NAME:-devagent}
       POSTGRES_USER: ${DB_USERNAME:-app}

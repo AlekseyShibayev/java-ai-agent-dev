@@ -4,7 +4,7 @@
 
 spring:
   application:
-    name: telegram-ai-dev-agent
+    name: java-ai-agent-dev
 
   datasource:
     url: ${DB_URL:}

@@ -1,4 +1,4 @@
-package com.example.devagent;
+package com.example.javaaiagentdev;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -6,9 +6,9 @@ import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 
 @ConfigurationPropertiesScan
 @SpringBootApplication
-public class TelegramAiDevAgentApplication {
+public class JavaAiAgentDevApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(TelegramAiDevAgentApplication.class, args);
+        SpringApplication.run(JavaAiAgentDevApplication.class, args);
     }
 }

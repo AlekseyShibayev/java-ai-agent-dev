@@ -1,4 +1,4 @@
-# AI Dev Agent Lab
+# Java AI Agent Dev
 
 ## Цель проекта
 
@@ -21,7 +21,7 @@ Spring Boot-сервис работает с локальным OpenCode API: с
 
 ## Статус
 
-Каркас: база данных, Liquibase, контекстный тест и клиент OpenCode API (`src/main/java/com/example/devagent/opencode`).
+Каркас: база данных, Liquibase, контекстный тест и клиент OpenCode API (`src/main/java/com/example/javaaiagentdev/opencode`).
 
 ## Задания
 

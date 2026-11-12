@@ -1,4 +1,4 @@
-package com.example.devagent.opencode;
+package com.example.javaaiagentdev.opencode;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 

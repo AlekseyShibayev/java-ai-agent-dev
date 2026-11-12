@@ -1,4 +1,4 @@
-package com.example.devagent.opencode;
+package com.example.javaaiagentdev.opencode;
 
 import tools.jackson.databind.JsonNode;
 import tools.jackson.databind.ObjectMapper;

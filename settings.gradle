@@ -5,4 +5,4 @@ pluginManagement {
     }
 }
 
-rootProject.name = 'telegram-ai-dev-agent'
+rootProject.name = 'java-ai-agent-dev'
