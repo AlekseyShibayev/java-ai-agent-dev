@@ -26,3 +26,8 @@ Spring Boot-сервис работает с локальным OpenCode API: с
 ## Задания
 
 Задачи и их статусы — в `docs/tasks/README.md`. Спека задачи пишется человеком, агент заполняет отчёт и открывает PR.
+
+## Инструменты
+
+- `skill-creator` — в `.opencode/skills/`.
+- MCP для IntelliJ — в `opencode.json` (нужно включить MCP Server в настройках IDE).
