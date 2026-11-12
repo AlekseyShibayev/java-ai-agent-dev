@@ -32,6 +32,6 @@ Spring Boot-сервис работает с локальным OpenCode API: с
 - `skill-creator` — в `.opencode/skills/`.
 - MCP для IntelliJ — в `opencode.json` (нужно включить MCP Server в настройках IDE).
 
-## Папка `.ai`
+## Wiki
 
-Заметки и чек-листы для работы с агентом. Стартовый чек-лист — `.ai/agent-setup.md`.
+Документация для людей: стартовый чек-лист — `wiki/agent-setup.md`, рекомендации — `wiki/recommendations.md`.
