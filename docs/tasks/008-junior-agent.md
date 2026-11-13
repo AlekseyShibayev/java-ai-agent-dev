@@ -1,7 +1,7 @@
 ---
 id: "008"
 title: "Джун: primary-агент и команда входа"
-status: draft
+status: ready
 created: 2026-11-13
 branch: task/008-junior-agent
 pr:
