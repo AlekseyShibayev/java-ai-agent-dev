@@ -8,9 +8,9 @@
 
 ## 2. Отправка сообщения
 
-- [ ] 2.1 Red `ChatMessageControllerTest`: `POST /chat/messages` → `202 {runId, sessionId}`; первое сообщение создаёт сессию, следующее переиспользует её; при активном прогоне — `409`, промпт в OpenCode не уходит.
-- [ ] 2.2 Green: хранение `opencodeSessionId` и `runId` в HTTP-сессии, `ChatMessageController`, запрет второго прогона по `RunRegistry`; тест `ChatMessageControllerTest` зелёный.
-- [ ] 2.3 Ответ на HTMX-запрос (`HX-Request`) — фрагмент с сообщением пользователя, контейнером ответа с `sse-connect` и busy-композером; проверка — тест рендера фрагмента с `text` и `<script>` в тексте пользователя.
+- [x] 2.1 Red `ChatMessageControllerTest`: `POST /chat/messages` → `202 {runId, sessionId}`; первое сообщение создаёт сессию, следующее переиспользует её; при активном прогоне — `409`, промпт в OpenCode не уходит.
+- [x] 2.2 Green: хранение `opencodeSessionId` и `runId` в HTTP-сессии, `ChatMessageController`, запрет второго прогона по `RunRegistry`; тест `ChatMessageControllerTest` зелёный.
+- [x] 2.3 Ответ на HTMX-запрос (`HX-Request`) — фрагмент с сообщением пользователя, контейнером ответа с `sse-connect` и busy-композером; проверка — тест рендера фрагмента с `text` и `<script>` в тексте пользователя.
 
 ## 3. Поток событий
 

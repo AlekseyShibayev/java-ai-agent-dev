@@ -5,22 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Чат</title>
 </head>
-<body>
-<main id="chat" th:attr="data-session-id=${sessionId}">
+<body hx-ext="sse">
+<main id="chat">
     <div id="connection" class="banner" role="status" hidden>Нет связи</div>
     <div id="unavailable" class="banner" role="alert" th:if="${unavailable}">OpenCode недоступен</div>
 
     <section id="thread" aria-live="polite">
         <p id="empty" class="empty" th:unless="${activeRunId}">Начните диалог</p>
-        <div th:if="${activeRunId}" class="run" th:attr="data-run-id=${activeRunId}"></div>
+        <article class="message message-assistant" th:if="${activeRunId}">
+            <div th:replace="~{fragments/answer :: answer(${activeRunId})}"></div>
+        </article>
     </section>
 
-    <form id="composer" method="post" action="/chat/messages">
-        <label for="message">Сообщение</label>
-        <textarea id="message" name="text" rows="3" required></textarea>
-        <button id="send" type="submit">Отправить</button>
-        <button id="stop" type="button" disabled>Stop</button>
-    </form>
+    <form th:replace="~{fragments/composer :: composer(${activeRunId != null}, false)}"></form>
 </main>
 </body>
 </html>

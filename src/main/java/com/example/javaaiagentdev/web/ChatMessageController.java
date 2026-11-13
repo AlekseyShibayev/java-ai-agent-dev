@@ -8,13 +8,16 @@ import jakarta.servlet.http.HttpSession;
 import java.util.Map;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.ResponseBody;
 
-/** Starts a chat run for the message of the chat page. */
-@RestController
+/** Starts a chat run from the page (HTMX) or from the JSON API of the runtime. */
+@Controller
 @RequestMapping("/chat")
 public class ChatMessageController {
 
@@ -28,23 +31,52 @@ public class ChatMessageController {
         this.registry = registry;
     }
 
-    @PostMapping("/messages")
-    public ResponseEntity<Object> send(@RequestBody SendMessageRequest request, HttpSession httpSession) {
-        String text = request.text() == null ? "" : request.text().strip();
-        if (text.isEmpty()) {
-            throw new IllegalArgumentException("Message text must not be blank");
-        }
-        ChatPageSession page = new ChatPageSession(httpSession);
-        if (page.runId().flatMap(registry::find).filter(run -> run.status() == RunStatus.ACTIVE).isPresent()) {
+    @PostMapping(value = "/messages", headers = "HX-Request")
+    public Object sendFromPage(@ModelAttribute SendMessageRequest request, HttpSession httpSession, Model model) {
+        if (isBusy(httpSession)) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(Map.of("error", "Run already active"));
         }
+        String text = text(request.text());
+        StartRunResponse started = start(text, request.agent(), httpSession);
+        model.addAttribute("message", text);
+        model.addAttribute("runId", started.runId());
+        return "fragments/run";
+    }
+
+    @PostMapping(value = "/messages", headers = "!HX-Request")
+    @ResponseBody
+    public ResponseEntity<Object> send(@RequestBody SendMessageRequest request, HttpSession httpSession) {
+        if (isBusy(httpSession)) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(Map.of("error", "Run already active"));
+        }
+        return ResponseEntity.status(HttpStatus.ACCEPTED)
+                .body(start(text(request.text()), request.agent(), httpSession));
+    }
+
+    private StartRunResponse start(String text, String agent, HttpSession httpSession) {
+        ChatPageSession page = new ChatPageSession(httpSession);
         String sessionId = page.openCodeSessionId();
         if (sessionId == null) {
             sessionId = client.createSession("chat");
         }
-        String runId = service.start(sessionId, text, request.agent());
+        String runId = service.start(sessionId, text, agent);
         page.store(sessionId, runId);
-        return ResponseEntity.status(HttpStatus.ACCEPTED).body(new StartRunResponse(runId, sessionId));
+        return new StartRunResponse(runId, sessionId);
+    }
+
+    private boolean isBusy(HttpSession httpSession) {
+        return new ChatPageSession(httpSession).runId()
+                .flatMap(registry::find)
+                .filter(run -> run.status() == RunStatus.ACTIVE)
+                .isPresent();
+    }
+
+    private static String text(String value) {
+        String text = value == null ? "" : value.strip();
+        if (text.isEmpty()) {
+            throw new IllegalArgumentException("Message text must not be blank");
+        }
+        return text;
     }
 
     public record SendMessageRequest(String text, String agent) {
