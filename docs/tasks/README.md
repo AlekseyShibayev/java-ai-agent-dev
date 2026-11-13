@@ -17,20 +17,14 @@
 
 ## Статусы
 
-Живут в `docs/tasks/BOARD.md`; в файле задачи поля `status` нет.
-
-`создано` → `в работе` → `выполнено` → `закрыто`.
+`создано` → `в работе` → `выполнено` → `закрыто`. Полное правило — `docs/task-statuses.md`; текущие статусы — `BOARD.md`. В файле задачи поля `status` нет.
 
 ## Процесс
 
-1. Человек пишет файл задачи и добавляет строку в `BOARD.md` со статусом `создано`.
-2. Агент берёт задачу по прямому указанию: ставит `в работе` в `BOARD.md`, коммитит в `main` только `BOARD.md` и файл задачи, пушит, затем создаёт ветку `task/NNN-slug`. `BOARD.md` в ветке не правится — иначе merge конфликтует.
-3. Спека: change `openspec/changes/NNN-slug/` — `proposal`, `specs` (Requirement/Scenario), `design`, `tasks`; `openspec validate --strict --all` зелёный.
-4. Тесты по списку (red), затем код (green), затем рефакторинг.
-5. Проверка: acceptance закрыт, `./gradlew test` без фильтра зелёный.
-6. Финиш: ветка влита в `main` → строка `выполнено`; человек проверил → `закрыто`, файл задачи удалить, change архивировать (`openspec archive NNN-slug` → `openspec/changes/archive/YYYY-MM-DD-NNN-slug/`). История остаётся в коммитах и доске.
-
-При параллельных агентах claim — это коммит в `main` + `git push`: если `main` ушёл вперёд, `git pull --rebase`, перечитать строку и повторить.
+1. Спека: change `openspec/changes/NNN-slug/` — `proposal`, `specs` (Requirement/Scenario), `design`, `tasks`; `openspec validate --strict --all` зелёный.
+2. Тесты по списку (red), затем код (green), затем рефакторинг.
+3. Проверка: acceptance закрыт, `./gradlew test` без фильтра зелёный.
+4. Взятие задачи, финиш и архив — по `docs/task-statuses.md`.
 
 Держим только ближайшие задачи; завершённые файлы удаляем, строки в доске остаются.
 

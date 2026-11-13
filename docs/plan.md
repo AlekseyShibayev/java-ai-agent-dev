@@ -37,7 +37,6 @@
 - `build.gradle`, тесты, CI — protected paths.
 - Один NNN — один PR ≤ 300 строк; один NNN — один change, change может покрывать несколько NNN.
 - Требования — в `openspec/changes/<NNN>-<slug>/specs/`, приёмка — в файле задачи; текст не дублируется.
-- Статусы — только в `docs/tasks/BOARD.md`: `создано` → `в работе` → `выполнено` → `закрыто`.
-- После `закрыто` файл задачи удаляется, change архивируется в `openspec/changes/archive/YYYY-MM-DD-<id>/`.
+- Статусы и жизненный цикл — `docs/task-statuses.md`, текущие статусы — `docs/tasks/BOARD.md`.
 - `openspec validate --strict --all` зелёный перед PR.
 - Wiki — `.ai/wiki/`, не трогать без разрешения.
