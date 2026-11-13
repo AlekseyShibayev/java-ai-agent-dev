@@ -27,14 +27,14 @@ Chrome DevTools MCP / Playwright MCP для агента, кросс-брауз�
 
 ## Tests
 
-Тесты пишутся сейчас только для инфраструктуры (AC 1, 4, 5, 6): страница `/chat` появится в 004, сценарии чата — отдельный PR.
+Тесты пишутся пока только для инфраструктуры (AC 1, 4, 5, 6). Скоуп согласован с человеком в чате 2026-11-13: страница `/chat` ещё не существует (004), сценарии чата (AC 2, 3) перенесены в задачу 009.
 
 | Acceptance | Test | Type |
 | --- | --- | --- |
 | браузер ставится одной Gradle-задачей | `./gradlew playwrightInstall` | CLI |
 | браузер запускается без системного Chrome | `PlaywrightSmokeE2ETest.shouldLaunchBrowser` | Playwright |
+| падение сохраняет screenshot и trace в `build/` | `PlaywrightArtifactsE2ETest.shouldSaveArtifactsWhenTestFails` | Playwright |
 | headless по умолчанию, `-Pheaded` включает UI | `PlaywrightConfigTest.shouldDefaultToHeadless` | JUnit |
-| падение сохраняет screenshot и trace в `build/` | `PlaywrightArtifactsE2ETest.shouldSaveScreenshotAndTrace` | Playwright |
 | `./gradlew test` не запускает E2E | `./gradlew test` — тег `e2e` исключён | CLI |
 
 ## Verification
