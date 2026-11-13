@@ -4,12 +4,13 @@ import java.util.Map;
 import java.util.NoSuchElementException;
 import com.example.javaaiagentdev.opencode.OpenCodeUnavailableException;
 import com.example.javaaiagentdev.web.ChatMessageController;
+import com.example.javaaiagentdev.web.SseBridge;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-@RestControllerAdvice(assignableTypes = {ChatController.class, ChatMessageController.class})
+@RestControllerAdvice(assignableTypes = {ChatController.class, ChatMessageController.class, SseBridge.class})
 public class ChatErrorHandler {
 
     @ExceptionHandler(OpenCodeUnavailableException.class)

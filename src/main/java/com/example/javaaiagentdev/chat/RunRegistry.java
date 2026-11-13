@@ -100,6 +100,12 @@ public class RunRegistry {
             return status;
         }
 
+        public int eventCount() {
+            synchronized (this) {
+                return buffer.size();
+            }
+        }
+
         public String error() {
             return error;
         }
