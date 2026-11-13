@@ -27,9 +27,34 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.testcontainers:junit-jupiter:1.21.4'
     testImplementation 'org.testcontainers:postgresql:1.21.4'
+    testImplementation 'com.microsoft.playwright:playwright:1.65.0'
     testRuntimeOnly 'com.h2database:h2'
 }
 
 tasks.named('test') {
-    useJUnitPlatform()
+    useJUnitPlatform {
+        excludeTags 'e2e'
+    }
+}
+
+tasks.register('playwrightInstall', JavaExec) {
+    group = 'verification'
+    description = 'Installs the Chromium build used by the Playwright E2E tests'
+    classpath = sourceSets.test.runtimeClasspath
+    mainClass = 'com.microsoft.playwright.CLI'
+    args = ['install', 'chromium']
+}
+
+tasks.register('e2e', Test) {
+    group = 'verification'
+    description = 'Runs Playwright E2E tests (JUnit tag "e2e"); add -Pheaded to watch the browser'
+    testClassesDirs = sourceSets.test.output.classesDirs
+    classpath = sourceSets.test.runtimeClasspath
+    useJUnitPlatform {
+        includeTags 'e2e'
+    }
+    dependsOn 'playwrightInstall'
+    systemProperty 'e2e.headed',
+            providers.gradleProperty('headed').map { it.isEmpty() ? 'true' : it }.getOrElse('false')
+    shouldRunAfter tasks.named('test')
 }
