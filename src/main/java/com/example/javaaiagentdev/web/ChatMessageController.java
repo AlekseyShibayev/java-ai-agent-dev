@@ -59,7 +59,7 @@ public class ChatMessageController {
         if (isBusy(httpSession) && page.openCodeSessionId() != null) {
             service.abort(page.openCodeSessionId());
         }
-        return "fragments/composer :: composer(false, false)";
+        return "fragments/composer :: composer(busy=false, oob=false)";
     }
 
     private StartRunResponse start(String text, String agent, HttpSession httpSession) {
