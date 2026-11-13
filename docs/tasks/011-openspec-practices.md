@@ -1,7 +1,7 @@
 ---
 id: "011"
 title: "OpenSpec: практики, цель проекта, обучение"
-status: draft
+status: in-progress
 created: 2026-11-14
 branch: task/011-openspec-practices
 pr:
@@ -21,22 +21,35 @@ Spec Kit, миграция backlog и всех черновиков, CI-гейт
 - `openspec init --tools opencode` кладёт skills в `.agents/skills/` и не трогает `AGENTS.md`.
 - Сейчас цель расходится: `README.md` — «научиться AI-разработке», `docs/plan.md` — «локальное AI Lab».
 
-## Вопросы, которые нужно закрыть
+## Решения
 
-- `NNN`-файл остаётся в `docs/tasks/` или заменяется `changes/<id>/tasks.md`.
-- После `done` удаляем файл задачи (как сейчас) или переносим change в `archive/`.
-- Язык спек: русский, как `docs/`, или английский.
-- Одна спека на фичу или на этап из `plan.md`.
+- **D1. Роли артефактов.** `docs/tasks/NNN-slug.md` — единица работы и приёмки: id, статус, AC, ссылка на change. `openspec/changes/<id>/` — поведение (Requirement/Scenario) и план (design, tasks). Текст не дублируется: AC отвечает «что принять», спека — «как система ведёт себя». При расхождении спека главнее, AC правит человек.
+- **D2. После done.** Файл задачи удаляется, как сейчас; change архивируется через `openspec archive` в `openspec/changes/archive/YYYY-MM-DD-<id>/`.
+- **D3. Язык.** Текст спек русский, служебные заголовки и SHALL/MUST — английские (`openspec init --language ru`).
+- **D4. Гранулярность.** Спека — на capability (долговечное поведение, `chat-runtime`), не на этап `plan.md`.
+- **D5. Идентификатор change.** `<NNN>-<slug>` совпадает с файлом задачи — трассируемость важнее стиля имён.
+- **D6. Skills вендорятся.** `.agents/skills/openspec-*` в git, решение человека 2026-11-14; лимит PR ≤300 строк на этот PR снят (разрешено >5000 строк).
+
+## Подзадачи
+
+- [ ] 011.1 Решения, статус, ветка (этот файл).
+- [ ] 011.2 Тулчейн: Node ≥22.12 и `@fission-ai/openspec@2.0.0`; телеметрия выключена.
+- [ ] 011.3 `openspec init --tools opencode --language ru`; `openspec/config.yaml`, `.agents/skills/openspec-*` в git.
+- [ ] 011.4 Цель: одна формулировка в `README.md` и `docs/plan.md`; OpenSpec в списке практик.
+- [ ] 011.5 `AGENTS.md` и `docs/tasks/README.md`: ссылки на OpenSpec, правила D1–D5, команды.
+- [ ] 011.6 Пилот: change `003-runtime-chat-api` (proposal, specs, design, tasks) + связь с NNN-файлом 003.
+- [ ] 011.7 Проверка: `openspec validate --strict`, `./gradlew test` без фильтра.
+- [ ] 011.8 Обновить README «Статус» и «Документация», удалить завершённую задачу.
 
 ## Acceptance criteria
 
 - [ ] Цель в `README.md` и `docs/plan.md` сформулирована одинаково и совпадает по смыслу.
 - [ ] В списке того, чему учит проект (README, раздел «Цель проекта»), есть spec-driven development / OpenSpec.
-- [ ] `openspec init --tools opencode` выполнен; `openspec/` и `.agents/skills/openspec-*` в git; `openspec validate --strict` зелёный.
-- [ ] `AGENTS.md` и `docs/tasks/README.md` ссылаются на OpenSpec и не противоречат друг другу.
-- [ ] Правило «после done файл задачи удаляется» согласовано с `archive/`: куда уходит change.
-- [ ] Пилот: 003 оформлена как change (proposal + specs с Requirement/Scenario + tasks), связь change ↔ `NNN` описана.
-- [ ] Черновики 004, 008–010 не переписаны; backlog не тронут.
+- [ ] `openspec init --tools opencode` выполнен; `openspec/` и `.agents/skills/openspec-*` в git; `openspec validate --strict` зелёный на пилотном change.
+- [ ] `AGENTS.md` и `docs/tasks/README.md` ссылаются на OpenSpec и не противоречат друг другу; правило про вендоринг skills заменено на D6.
+- [ ] Правило «после done файл задачи удаляется» согласовано с `archive/`: change уходит в `openspec/changes/archive/YYYY-MM-DD-<id>/` (D2).
+- [ ] Пилот: 003 оформлена как change (proposal + specs с Requirement/Scenario + tasks), связь change ↔ `NNN` описана в обоих файлах.
+- [ ] Черновики 004, 009, 010 не переписаны; backlog не тронут.
 - [ ] `.ai/wiki/` не изменён.
 - [ ] `./gradlew test` зелёный без фильтра.
 
@@ -52,9 +65,10 @@ Spec Kit, миграция backlog и всех черновиков, CI-гейт
 ## Verification
 
 ```bash
+export PATH=/tmp/opencode/node22/bin:/tmp/opencode/openspec-cli/bin:$PATH
 openspec validate --strict
 openspec list
-openspec show <change-id>
+openspec show 003-runtime-chat-api
 GRADLE_USER_HOME=/tmp/opencode/gradle-home ./gradlew test
 ```
 
@@ -62,14 +76,14 @@ GRADLE_USER_HOME=/tmp/opencode/gradle-home ./gradlew test
 
 ## Constraints
 
-- Два PR: (1) `openspec init` и skills, (2) цель, `AGENTS.md`, пилот. Каждый ≤300 строк; если сгенерированные skills не влезают — согласовать исключение с человеком.
+- Один PR: лимит ≤300 строк снят человеком (2026-11-14) — сгенерированные skills и пилот в этом PR.
 - `.ai/wiki/`, `build.gradle`, существующие тесты, `opencode.json` не менять.
-- Телеметрия OpenSpec выключена: `openspec config set telemetry.enabled false`.
+- Телеметрия OpenSpec выключена: `openspec config set telemetry.enabled false` (глобальная настройка машины).
 - Секретов в новых файлах нет.
 
 ## Depends on
 
-- 010 (статусы и процесс): правила удаления и архивации согласуются до пилота.
+Нет. 010 (статусы) не блокирует: D1–D2 не меняют схему статусов.
 
 ## Out of scope
 
