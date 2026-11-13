@@ -85,6 +85,21 @@ class ChatMessageControllerTest {
     }
 
     @Test
+    void shouldStopRunAndReturnIdleComposer() throws Exception {
+        when(client.createSession("chat")).thenReturn("ses_1");
+        when(service.start("ses_1", "hi", null)).thenAnswer(invocation -> registry.start("ses_1"));
+        postMessage("hi").andExpect(status().isAccepted());
+
+        mockMvc.perform(post("/chat/stop")
+                        .session(session)
+                        .header("HX-Request", "true"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("fragments/composer :: composer(false, false)"));
+
+        verify(service).abort("ses_1");
+    }
+
+    @Test
     void shouldRejectSecondPromptWhileRunIsActive() throws Exception {
         when(client.createSession("chat")).thenReturn("ses_1");
         when(service.start("ses_1", "hi", null)).thenAnswer(invocation -> registry.start("ses_1"));
