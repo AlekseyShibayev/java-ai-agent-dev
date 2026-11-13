@@ -55,7 +55,17 @@ On this machine, prefix Gradle commands with `GRADLE_USER_HOME=/tmp/opencode/gra
 
 - `@SpringBootTest` + `@ActiveProfiles("test")`; in-memory H2 from `src/test/resources/application-test.yaml`. PostgreSQL is not required yet.
 - Context startup runs Liquibase: every common (non-`dbms`-filtered) changeset must work on H2, otherwise the test fails.
-- Do not weaken, delete, or disable existing tests to make a build pass. Tests and `build.gradle` are protected paths: changing them requires an explicit task.
+- Do not weaken, delete, or disable existing tests to make a build pass. Adding new tests is part of every task; changing or deleting existing tests and `build.gradle` requires an explicit task.
+
+## TDD
+
+- Red → green → refactor, one test at a time: a failing test comes before production code.
+- A `red` commit touches only `src/test/**`, `green` only `src/main/**`, `refactor` only `src/main/**` with tests untouched.
+- Red must fail on an assertion, not on compilation; a skeleton commit after red is allowed.
+- If the test itself is wrong, stop and ask. Never edit a test to make it pass.
+- Code that already exists gets characterization tests (green → refactor), not a fake red.
+- Spikes (e.g. 000) are exempt: they produce fixtures and notes, not TDD cycles.
+- Final run is `./gradlew test` without `--tests`; a filtered run is not proof.
 
 ## Configuration and secrets
 
@@ -96,7 +106,7 @@ On this machine, prefix Gradle commands with `GRADLE_USER_HOME=/tmp/opencode/gra
 
 - One current task per file: `docs/tasks/NNN-slug.md`.
 - When starting: read it, set `status: in-progress`, create branch `task/NNN-slug`.
-- Acceptance criteria and tests are owned by the human. Do not change them unless the task explicitly asks.
+- Acceptance criteria are owned by the human; the agent proposes test names and writes the tests. Do not change acceptance criteria unless the task explicitly asks.
 - Done requires: acceptance checked, tests added/updated, `./gradlew test` green, and human review.
 - After done: delete the task file. History stays in git commits and the PR.
 - Keep only unfinished tasks in `docs/tasks/`; delete the file after done.
