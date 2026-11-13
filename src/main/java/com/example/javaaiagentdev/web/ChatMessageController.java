@@ -56,9 +56,8 @@ public class ChatMessageController {
     @PostMapping(value = "/stop", headers = "HX-Request")
     public String stop(HttpSession httpSession) {
         ChatPageSession page = new ChatPageSession(httpSession);
-        String sessionId = page.openCodeSessionId();
-        if (sessionId != null) {
-            service.abort(sessionId);
+        if (isBusy(httpSession) && page.openCodeSessionId() != null) {
+            service.abort(page.openCodeSessionId());
         }
         return "fragments/composer :: composer(false, false)";
     }
