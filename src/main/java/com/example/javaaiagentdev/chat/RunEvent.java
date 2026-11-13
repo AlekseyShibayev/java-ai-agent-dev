@@ -8,6 +8,7 @@ public sealed interface RunEvent permits
         ReasoningEndedEvent,
         ToolStartedEvent,
         ToolCalledEvent,
+        ToolResultEvent,
         ToolFailedEvent,
         UsageUpdatedEvent,
         StepEndedEvent,

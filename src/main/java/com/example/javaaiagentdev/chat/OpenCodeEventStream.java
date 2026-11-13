@@ -56,9 +56,24 @@ public class OpenCodeEventStream {
             }
             String sessionId = data.path("sessionID").asText();
             Long seq = event.path("durable").has("seq") ? event.path("durable").path("seq").asLong() : null;
-            parser.parse(event).ifPresent(parsed -> registry.publish(sessionId, seq, parsed));
+            parser.parse(event).ifPresent(parsed -> {
+                registry.publish(sessionId, seq, parsed);
+                if (parsed instanceof StepEndedEvent) {
+                    publishToolResults(sessionId);
+                }
+            });
         } catch (RuntimeException e) {
             log.warn("Cannot parse OpenCode event: {}", e.getMessage());
+        }
+    }
+
+    private void publishToolResults(String sessionId) {
+        try {
+            for (ToolResultEvent result : ToolResults.parse(sessionId, client.sessionMessages(sessionId))) {
+                registry.publish(sessionId, null, result);
+            }
+        } catch (RuntimeException e) {
+            log.warn("Cannot read tool results of session {}: {}", sessionId, e.getMessage());
         }
     }
 

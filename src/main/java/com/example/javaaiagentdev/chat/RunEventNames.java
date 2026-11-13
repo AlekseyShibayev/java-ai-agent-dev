@@ -14,6 +14,7 @@ public final class RunEventNames {
             case ReasoningEndedEvent ignored -> "reasoning";
             case ToolStartedEvent ignored -> "tool";
             case ToolCalledEvent ignored -> "tool";
+            case ToolResultEvent ignored -> "tool";
             case ToolFailedEvent ignored -> "tool";
             case UsageUpdatedEvent ignored -> "usage";
             case StepEndedEvent ignored -> "usage";

@@ -159,6 +159,14 @@ public class OpenCodeClient {
                 + (failure == null ? "" : ": " + failure));
     }
 
+    public JsonNode sessionMessages(String sessionId) {
+        HttpResponse<String> response = send(request("/api/session/" + sessionId + "/message?limit=50")
+                .GET()
+                .build());
+        requireSuccess(response, "read messages");
+        return readTree(response.body()).path("data");
+    }
+
     private String textOf(JsonNode assistantMessage) {
         StringBuilder result = new StringBuilder();
         for (JsonNode part : assistantMessage.path("content")) {
