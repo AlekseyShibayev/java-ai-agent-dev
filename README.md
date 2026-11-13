@@ -40,6 +40,7 @@ AI Lab — локальное приложение для практики по 
 
 - `docs/plan.md` — цель, решения, 5 этапов.
 - `docs/tasks/` — текущие задачи и приёмка.
+- `docs/task-statuses.md` — статусы задач, claim, закрытие.
 - `openspec/` — спеки (`specs/`), активные change (`changes/`) и архив (`changes/archive/`).
 - `.ai/wiki/` — wiki и заметки; не редактировать без разрешения.
 
