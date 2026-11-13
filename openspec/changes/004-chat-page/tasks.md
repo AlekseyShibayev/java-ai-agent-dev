@@ -28,7 +28,7 @@
 
 ## 5. Проверка
 
-- [ ] 5.1 `GRADLE_USER_HOME=/tmp/opencode/gradle-home ./gradlew test` без фильтра — зелёный.
+- [x] 5.1 `GRADLE_USER_HOME=/tmp/opencode/gradle-home ./gradlew test` без фильтра — зелёный.
 - [ ] 5.2 `../java-ai-agent-dev_launcher/run.sh` и ручная проверка: открытие при выключенном OpenCode, отправка, стриминг дельтами, stop, обрыв сервиса и восстановление.
 
 ## Workflow follow-up
