@@ -94,7 +94,7 @@ class ChatMessageControllerTest {
                         .session(session)
                         .header("HX-Request", "true"))
                 .andExpect(status().isOk())
-                .andExpect(view().name("fragments/composer :: composer(false, false)"));
+                .andExpect(view().name("fragments/composer :: composer(busy=false, oob=false)"));
 
         verify(service).abort("ses_1");
     }
