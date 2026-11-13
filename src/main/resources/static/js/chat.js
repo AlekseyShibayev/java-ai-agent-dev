@@ -4,6 +4,7 @@
         return;
     }
     var connection = document.getElementById('connection');
+    var stream = null;
 
     function setBusy(busy) {
         var form = document.getElementById('composer');
@@ -19,22 +20,53 @@
         }
     }
 
-    document.body.addEventListener('htmx:sseOpen', function () {
-        connection.hidden = true;
-    });
-
-    document.body.addEventListener('htmx:sseError', function () {
-        connection.hidden = false;
-    });
-
-    document.body.addEventListener('htmx:sseMessage', function (event) {
-        if (event.detail.type !== 'state') {
-            return;
+    function disconnect() {
+        if (stream) {
+            stream.close();
+            stream = null;
         }
-        try {
-            setBusy(JSON.parse(event.detail.data).state === 'started');
-        } catch (ignored) {
-            // Unknown payload: the next state event fixes the composer.
+    }
+
+    function connect(url) {
+        disconnect();
+        var source = new EventSource(url);
+        stream = source;
+        source.onopen = function () {
+            connection.hidden = true;
+        };
+        source.onerror = function () {
+            if (source.readyState !== EventSource.CLOSED) {
+                connection.hidden = false;
+            }
+        };
+        source.addEventListener('text', function (event) {
+            var box = chat.querySelector('.answer-text');
+            if (box) {
+                box.insertAdjacentHTML('beforeend', event.data);
+            }
+        });
+        source.addEventListener('state', function (event) {
+            var state = JSON.parse(event.data).state;
+            setBusy(state === 'started');
+            if (state !== 'started') {
+                source.close();
+                if (stream === source) {
+                    stream = null;
+                }
+            }
+        });
+    }
+
+    function connectAnswer(scope) {
+        var answer = (scope || chat).querySelector('[data-sse-url]');
+        if (answer) {
+            connect(answer.getAttribute('data-sse-url'));
+        }
+    }
+
+    document.body.addEventListener('htmx:afterSwap', function (event) {
+        if (event.detail.target.id === 'thread') {
+            connectAnswer(event.detail.target);
         }
     });
 
@@ -49,4 +81,6 @@
         event.preventDefault();
         form.requestSubmit();
     });
+
+    connectAnswer(document);
 })();

@@ -55,6 +55,6 @@ class ChatMarkupTest {
 
         assertFalse(html.contains("<script>alert"), html);
         assertTrue(html.contains("&lt;script&gt;alert"), html);
-        assertTrue(html.contains("sse-connect=\"/chat/runs/run_1/events\""), html);
+        assertTrue(html.contains("data-sse-url=\"/chat/runs/run_1/events\""), html);
     }
 }

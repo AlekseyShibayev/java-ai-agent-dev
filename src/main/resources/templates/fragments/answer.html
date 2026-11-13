@@ -1,10 +1,9 @@
 <!DOCTYPE html>
 <html lang="ru" xmlns:th="http://www.thymeleaf.org">
 <body>
-<div th:fragment="answer(runId)" class="answer" style="white-space: pre-wrap" hx-ext="sse"
-     th:attr="sse-connect='/chat/runs/' + ${runId} + '/events'">
-    <span class="answer-text" sse-swap="text" hx-swap="beforeend"></span>
-    <span class="answer-state" sse-swap="state" hx-swap="none"></span>
+<div th:fragment="answer(runId)" class="answer" style="white-space: pre-wrap"
+     th:attr="data-sse-url='/chat/runs/' + ${runId} + '/events'">
+    <span class="answer-text"></span>
 </div>
 </body>
 </html>

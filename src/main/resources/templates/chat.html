@@ -5,10 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Чат</title>
     <script src="/js/htmx.min.js" defer></script>
-    <script src="/js/htmx-ext-sse.min.js" defer></script>
     <script src="/js/chat.js" defer></script>
 </head>
-<body hx-ext="sse">
+<body>
 <main id="chat">
     <div id="connection" class="banner" role="status" hidden>Нет связи</div>
     <div id="unavailable" class="banner" role="alert" th:if="${unavailable}">OpenCode недоступен</div>
