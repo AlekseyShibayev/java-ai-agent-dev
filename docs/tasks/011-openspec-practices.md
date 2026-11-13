@@ -1,7 +1,7 @@
 ---
 id: "011"
 title: "OpenSpec: практики, цель проекта, обучение"
-status: in-progress
+status: review
 created: 2026-11-14
 branch: task/011-openspec-practices
 pr:
@@ -32,14 +32,14 @@ Spec Kit, миграция backlog и всех черновиков, CI-гейт
 
 ## Подзадачи
 
-- [ ] 011.1 Решения, статус, ветка (этот файл).
-- [ ] 011.2 Тулчейн: Node ≥22.12 и `@fission-ai/openspec@2.0.0`; телеметрия выключена.
-- [ ] 011.3 `openspec init --tools opencode --language ru`; `openspec/config.yaml`, `.agents/skills/openspec-*` в git.
-- [ ] 011.4 Цель: одна формулировка в `README.md` и `docs/plan.md`; OpenSpec в списке практик.
-- [ ] 011.5 `AGENTS.md` и `docs/tasks/README.md`: ссылки на OpenSpec, правила D1–D5, команды.
-- [ ] 011.6 Пилот: change `003-runtime-chat-api` (proposal, specs, design, tasks) + связь с NNN-файлом 003.
-- [ ] 011.7 Проверка: `openspec validate --strict`, `./gradlew test` без фильтра.
-- [ ] 011.8 Обновить README «Статус» и «Документация», удалить завершённую задачу.
+- [x] 011.1 Решения, статус, ветка (этот файл).
+- [x] 011.2 Тулчейн: Node ≥22.12 и `@fission-ai/openspec@2.0.0`; телеметрия выключена.
+- [x] 011.3 `openspec init --tools opencode --language ru`; `openspec/config.yaml`, `.agents/skills/openspec-*` в git.
+- [x] 011.4 Цель: одна формулировка в `README.md` и `docs/plan.md`; OpenSpec в списке практик.
+- [x] 011.5 `AGENTS.md` и `docs/tasks/README.md`: ссылки на OpenSpec, правила D1–D5, команды.
+- [x] 011.6 Пилот: change `003-runtime-chat-api` (proposal, specs, design, tasks) + связь с NNN-файлом 003.
+- [x] 011.7 Проверка: `openspec validate --strict`, `./gradlew test` без фильтра.
+- [x] 011.8 Обновить README «Статус» и «Документация»; удаление файла задачи — на шаге `done`.
 
 ## Acceptance criteria
 

@@ -1,0 +1,28 @@
+schema: spec-driven
+
+context: |
+  Language: ru
+  All artifacts must be written in ru.
+  Keep OpenSpec structural headings and SHALL/MUST keywords in English.
+
+rules:
+  proposal:
+    - "Id change совпадает с файлом задачи docs/tasks/NNN-slug.md (D5)."
+    - "Ссылайся на NNN-файл задачи в разделе Impact."
+  specs:
+    - "Спека описывает наблюдаемое поведение, без имён классов и выбора библиотек."
+  tasks:
+    - "TDD: задача на тест идёт раньше задачи на код."
+    - "Один change — один NNN; код в одном NNN не больше 300 строк."
+
+# Per-operation guidance (optional)
+# Add advisory guidance for how apply and archive work should be conducted.
+# This is separate from artifact rules above.
+# Example:
+#   operations:
+#     apply:
+#       guidance:
+#         - Keep test summaries concise
+#     archive:
+#       guidance:
+#         - Summarize the archive outcome before finishing

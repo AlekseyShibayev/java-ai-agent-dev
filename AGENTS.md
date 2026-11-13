@@ -9,6 +9,11 @@ On this machine, prefix Gradle commands with `GRADLE_USER_HOME=/tmp/opencode/gra
 - Single test: `GRADLE_USER_HOME=/tmp/opencode/gradle-home ./gradlew test --tests "com.example.javaaiagentdev.JavaAiAgentDevApplicationTests"`
 - Run: `../java-ai-agent-dev_launcher/run.sh` (working directory is the launcher, so credentials come from its `application.yaml`)
 - OpenCode API spike: `../java-ai-agent-dev_launcher/run.sh --opencode.spike=true`
+- OpenSpec (нужен Node ≥ 22.12; на машине он в `/tmp/opencode`):
+  `export PATH=/tmp/opencode/node22/bin:/tmp/opencode/openspec-cli/bin:$PATH`
+  - Validate: `openspec validate --strict --all`
+  - List: `openspec list`
+  - Show: `openspec show <change-id>`
 - Use the wrapper only; do not use a system `gradle` — the version is pinned (9.9.1).
 
 ## Stack
@@ -31,9 +36,20 @@ On this machine, prefix Gradle commands with `GRADLE_USER_HOME=/tmp/opencode/gra
 ## Documentation
 
 - `docs/plan.md` — goal, decisions, 5 stages.
-- `docs/tasks/` — current tasks.
+- `docs/tasks/` — current tasks and acceptance.
+- `openspec/` — specs, active changes, archive (see "OpenSpec" below).
 - `.ai/wiki/` is user-owned. Do not edit, append, or delete anything there without explicit permission; propose changes first.
 - Documentation and task specs in `docs/` are drafts until the human moves them to `ready`.
+
+## OpenSpec
+
+- `openspec/changes/<NNN>-<slug>/` — поведение и план фичи: `proposal.md`, `specs/<capability>/spec.md` (Requirement/Scenario), `design.md`, `tasks.md`.
+- `openspec/specs/` — основные спеки (появляются при `openspec archive`), `openspec/changes/archive/YYYY-MM-DD-<id>/` — история.
+- Разделение ролей: файл задачи `docs/tasks/NNN-<slug>.md` держит статус и приёмку (AC), change — поведение и план. Текст не дублируется; при расхождении главнее спека, AC правит человек.
+- Один NNN — один change с тем же id `<NNN>-<slug>`; change может ссылаться на несколько NNN.
+- Язык: текст русский, структурные заголовки и SHALL/MUST — английские (`openspec/config.yaml`).
+- После `done`: файл задачи удалить, change архивировать (`openspec archive <id>`); `openspec validate --strict --all` — перед PR.
+- Skills OpenSpec (`.agents/skills/openspec-*`) вендорятся — это единственное исключение из правила «skills не храним в репозитории»; обновлять через `openspec update`.
 
 ## Project state
 
@@ -42,7 +58,7 @@ On this machine, prefix Gradle commands with `GRADLE_USER_HOME=/tmp/opencode/gra
 - OpenCode API contract verified; fixtures in `src/test/resources/opencode/`.
 - Implemented: create session, send prompt, wait for completion, read the last assistant text.
 - Not implemented: agent loop, tools, MCP, evals, streaming, UI.
-- Skills: global, `~/.config/opencode/skills/skill-creator/` (imported from `anthropics/skills`); skills are not vendored in the repository.
+- Skills: global, `~/.config/opencode/skills/skill-creator/` (imported from `anthropics/skills`); not vendored in the repository, except the OpenSpec skills in `.agents/skills/`.
 - MCP: `opencode.json` defines `intellij` as a remote server at `http://127.0.0.1:64342/stream`. Requires the IDE setting Settings | AI | MCP Server → Enable MCP Server. Use the HTTP Stream endpoint, not `/sse`.
 - Learning goal: AI development skills. Each feature follows spec → plan → implement → review → verify.
 

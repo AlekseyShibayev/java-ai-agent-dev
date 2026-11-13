@@ -4,7 +4,7 @@
 
 ## Цель
 
-Локальное AI Lab: чат с агентом, trace, инструменты, RAG, evals. Один Spring Boot-проект, без внешних каналов.
+Научиться AI-разработке на локальном AI Lab: чат с агентом, trace, инструменты, RAG и evals — один Spring Boot-проект без внешних каналов.
 
 ## Решения
 
@@ -15,6 +15,7 @@
 | БД | PostgreSQL, read-only роль для агента |
 | Поиск | Postgres FTS; `bge-m3` + pgvector только при разрыве |
 | Локальная модель | Ollama `qwen2.5:3b-instruct` |
+| Спецификации | OpenSpec: change `<NNN>-<slug>`, спека — на capability |
 | Секреты | только launcher-конфиг |
 
 ## Этапы
@@ -34,6 +35,8 @@
 ## Правила
 
 - `build.gradle`, тесты, CI — protected paths.
-- Один PR ≤ 300 строк.
-- После `done` файл задачи удаляется; история — в git.
+- Один NNN — один PR ≤ 300 строк; один NNN — один change, change может покрывать несколько NNN.
+- Требования — в `openspec/changes/<NNN>-<slug>/specs/`, приёмка — в файле задачи; текст не дублируется.
+- После `done` файл задачи удаляется, change архивируется в `openspec/changes/archive/YYYY-MM-DD-<id>/`.
+- `openspec validate --strict --all` зелёный перед PR.
 - Wiki — `.ai/wiki/`, не трогать без разрешения.
