@@ -42,6 +42,19 @@ public class OpenCodeClient {
                 .build();
     }
 
+    public boolean isAvailable() {
+        try {
+            HttpResponse<String> response = send(request("/api/session?limit=1").GET().build());
+            if (response.statusCode() >= 200 && response.statusCode() < 300) {
+                return true;
+            }
+            invalidateBaseUrl();
+            return false;
+        } catch (RuntimeException e) {
+            return false;
+        }
+    }
+
     public String createSession(String title) {
         log.debug("Creating OpenCode session: {}", title);
         Map<String, Object> body = new LinkedHashMap<>();
@@ -84,9 +97,13 @@ public class OpenCodeClient {
 
     public void abort(String sessionId) {
         log.debug("Aborting session {}", sessionId);
-        HttpResponse<String> response = send(request("/api/session/" + sessionId + "/abort")
+        HttpResponse<String> response = send(request("/api/session/" + sessionId + "/interrupt")
                 .POST(HttpRequest.BodyPublishers.noBody())
                 .build());
+        if (response.statusCode() == 404) {
+            log.debug("Nothing to abort in session {}", sessionId);
+            return;
+        }
         requireSuccess(response, "abort session");
     }
 

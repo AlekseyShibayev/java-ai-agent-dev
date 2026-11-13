@@ -26,7 +26,9 @@ class SseBridgeTest {
 
     @BeforeEach
     void setUp() {
-        mockMvc = MockMvcBuilders.standaloneSetup(new SseBridge(registry, new ObjectMapper())).build();
+        mockMvc = MockMvcBuilders.standaloneSetup(new SseBridge(registry, new ObjectMapper()))
+                .setControllerAdvice(new com.example.javaaiagentdev.chat.ChatErrorHandler())
+                .build();
     }
 
     @Test

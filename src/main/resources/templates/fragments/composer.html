@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<body>
+<form id="composer" th:fragment="composer(busy, oob)"
+      th:attr="hx-swap-oob=${oob ? 'true' : null}"
+      hx-post="/chat/messages" hx-target="#thread" hx-swap="beforeend">
+    <label for="message">Сообщение</label>
+    <textarea id="message" name="text" rows="3" required th:disabled="${busy}"></textarea>
+    <button id="send" type="submit" th:disabled="${busy}">Отправить</button>
+    <button id="stop" type="button" th:disabled="${!busy}"
+            hx-post="/chat/stop" hx-target="#composer" hx-swap="outerHTML">Stop</button>
+</form>
+</body>
+</html>

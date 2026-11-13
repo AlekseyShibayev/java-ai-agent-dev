@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Чат</title>
+    <script src="/js/htmx.min.js" defer></script>
+    <script src="/js/htmx-ext-sse.min.js" defer></script>
+    <script src="/js/chat.js" defer></script>
+</head>
+<body hx-ext="sse">
+<main id="chat">
+    <div id="connection" class="banner" role="status" hidden>Нет связи</div>
+    <div id="unavailable" class="banner" role="alert" th:if="${unavailable}">OpenCode недоступен</div>
+
+    <section id="thread" aria-live="polite">
+        <p id="empty" class="empty" th:unless="${activeRunId}">Начните диалог</p>
+        <article class="message message-assistant" th:if="${activeRunId}">
+            <div th:replace="~{fragments/answer :: answer(${activeRunId})}"></div>
+        </article>
+    </section>
+
+    <form th:replace="~{fragments/composer :: composer(${activeRunId != null}, false)}"></form>
+</main>
+</body>
+</html>
