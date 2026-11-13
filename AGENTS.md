@@ -19,6 +19,15 @@ On this machine, prefix Gradle commands with `GRADLE_USER_HOME=/tmp/opencode/gra
 - OpenCode local HTTP API: Basic auth `opencode:<service password>`, model `deepseek-v4.1-flash`, provider `opencode-go`.
 - Single module, package `com.example.javaaiagentdev`, main class `JavaAiAgentDevApplication`.
 
+## OpenCode API
+
+- Prompt: `POST /api/session/{id}/prompt` with `{text, agent}`; `parts` is rejected; `messageID` is not idempotent.
+- Events: SSE `/api/event`, `data:` frames + `: heartbeat`; filter by `data.sessionID`.
+- Completion: `session.execution.succeeded`; abort: `session.execution.interrupted`; tool failure: `session.tool.failed`.
+- Usage: `session.step.ended.data.cost/tokens`; cumulative in `session.usage.updated`.
+- Tools: `session.tool.called` has input; result in assistant part `{type:"tool", state:{status,content}}` from `/api/session/{id}/message`.
+- Permissions: agent config V2; `permission.asked`; reply `POST /api/session/{id}/permission/{requestId}/reply` with `{decision:"reject"}`.
+
 ## Documentation
 
 - `docs/plan.md` — goal, decisions, 5 stages.

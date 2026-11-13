@@ -1,0 +1,188 @@
+[
+ {
+  "id": "evt_test",
+  "created": 1794588849885,
+  "type": "session.execution.started",
+  "data": {
+   "sessionID": "ses_test"
+  },
+  "durable": {
+   "aggregateID": "ses_test",
+   "seq": 3,
+   "version": 1
+  }
+ },
+ {
+  "id": "evt_test",
+  "created": 1794588851040,
+  "type": "session.usage.updated",
+  "data": {
+   "sessionID": "ses_test",
+   "cost": 5.84e-05,
+   "tokens": {
+    "input": 519,
+    "output": 13,
+    "reasoning": 0,
+    "cache": {
+     "read": 0,
+     "write": 0
+    }
+   }
+  }
+ },
+ {
+  "id": "evt_test",
+  "created": 1794588852886,
+  "type": "session.step.started",
+  "location": {
+   "directory": "/repo"
+  },
+  "data": {
+   "sessionID": "ses_test",
+   "agent": "plan",
+   "model": {
+    "id": "deepseek-v4.1-flash",
+    "providerID": "opencode-go",
+    "variant": "default"
+   },
+   "assistantMessageID": "msg_test",
+   "snapshot": "snapshot_test",
+   "started": 1794588849933
+  },
+  "durable": {
+   "aggregateID": "ses_test",
+   "seq": 9,
+   "version": 1
+  }
+ },
+ {
+  "id": "evt_test",
+  "created": 1794588852890,
+  "type": "session.text.started",
+  "location": {
+   "directory": "/repo"
+  },
+  "data": {
+   "sessionID": "ses_test",
+   "assistantMessageID": "msg_test",
+   "ordinal": 0
+  },
+  "durable": {
+   "aggregateID": "ses_test",
+   "seq": 10,
+   "version": 1
+  }
+ },
+ {
+  "id": "evt_test",
+  "created": 1794588852894,
+  "type": "session.text.delta",
+  "location": {
+   "directory": "/repo"
+  },
+  "data": {
+   "sessionID": "ses_test",
+   "assistantMessageID": "msg_test",
+   "ordinal": 0,
+   "delta": "ok"
+  }
+ },
+ {
+  "id": "evt_test",
+  "created": 1794588852895,
+  "type": "session.text.ended",
+  "location": {
+   "directory": "/repo"
+  },
+  "data": {
+   "sessionID": "ses_test",
+   "assistantMessageID": "msg_test",
+   "ordinal": 0,
+   "text": "ok"
+  },
+  "durable": {
+   "aggregateID": "ses_test",
+   "seq": 11,
+   "version": 1
+  }
+ },
+ {
+  "id": "evt_test",
+  "created": 1794588852897,
+  "type": "session.step.streamed",
+  "location": {
+   "directory": "/repo"
+  },
+  "data": {
+   "sessionID": "ses_test",
+   "assistantMessageID": "msg_test"
+  },
+  "durable": {
+   "aggregateID": "ses_test",
+   "seq": 12,
+   "version": 1
+  }
+ },
+ {
+  "id": "evt_test",
+  "created": 1794588852909,
+  "type": "session.step.ended",
+  "location": {
+   "directory": "/repo"
+  },
+  "data": {
+   "sessionID": "ses_test",
+   "assistantMessageID": "msg_test",
+   "finish": "stop",
+   "rawFinish": "stop",
+   "cost": 0.0008723759999999999,
+   "tokens": {
+    "input": 5768,
+    "output": 3,
+    "reasoning": 0,
+    "cache": {
+     "read": 1792,
+     "write": 0
+    }
+   },
+   "snapshot": "snapshot_test",
+   "files": []
+  },
+  "durable": {
+   "aggregateID": "ses_test",
+   "seq": 13,
+   "version": 1
+  }
+ },
+ {
+  "id": "evt_test",
+  "created": 1794588852913,
+  "type": "session.usage.updated",
+  "data": {
+   "sessionID": "ses_test",
+   "cost": 0.0009307759999999999,
+   "tokens": {
+    "input": 6287,
+    "output": 16,
+    "reasoning": 0,
+    "cache": {
+     "read": 1792,
+     "write": 0
+    }
+   }
+  }
+ },
+ {
+  "id": "evt_test",
+  "created": 1794588852914,
+  "type": "session.execution.succeeded",
+  "data": {
+   "sessionID": "ses_test"
+  },
+  "durable": {
+   "aggregateID": "ses_test",
+   "seq": 14,
+   "version": 1
+  }
+ }
+]

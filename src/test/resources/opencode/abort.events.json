@@ -1,0 +1,225 @@
+[
+ {
+  "id": "evt_test",
+  "created": 1794588906069,
+  "type": "session.execution.started",
+  "data": {
+   "sessionID": "ses_test"
+  },
+  "durable": {
+   "aggregateID": "ses_test",
+   "seq": 2,
+   "version": 1
+  }
+ },
+ {
+  "id": "evt_test",
+  "created": 1794588907007,
+  "type": "session.usage.updated",
+  "data": {
+   "sessionID": "ses_test",
+   "cost": 5.8e-05,
+   "tokens": {
+    "input": 530,
+    "output": 10,
+    "reasoning": 0,
+    "cache": {
+     "read": 0,
+     "write": 0
+    }
+   }
+  }
+ },
+ {
+  "id": "evt_test",
+  "created": 1794588907534,
+  "type": "session.step.started",
+  "location": {
+   "directory": "/repo"
+  },
+  "data": {
+   "sessionID": "ses_test",
+   "agent": "build",
+   "model": {
+    "id": "deepseek-v4.1-flash",
+    "providerID": "opencode-go",
+    "variant": "default"
+   },
+   "assistantMessageID": "msg_test",
+   "snapshot": "snapshot_test",
+   "started": 1794588906117
+  },
+  "durable": {
+   "aggregateID": "ses_test",
+   "seq": 7,
+   "version": 1
+  }
+ },
+ {
+  "id": "evt_test",
+  "created": 1794588907539,
+  "type": "session.reasoning.started",
+  "location": {
+   "directory": "/repo"
+  },
+  "data": {
+   "sessionID": "ses_test",
+   "assistantMessageID": "msg_test",
+   "ordinal": 0,
+   "state": {
+    "reasoningField": "reasoning_content"
+   }
+  },
+  "durable": {
+   "aggregateID": "ses_test",
+   "seq": 8,
+   "version": 1
+  }
+ },
+ {
+  "id": "evt_test",
+  "created": 1794588907642,
+  "type": "session.reasoning.delta",
+  "location": {
+   "directory": "/repo"
+  },
+  "data": {
+   "sessionID": "ses_test",
+   "assistantMessageID": "msg_test",
+   "ordinal": 0,
+   "delta": "The user wants a long essay about Java, at least 3000 words"
+  }
+ },
+ {
+  "id": "evt_test",
+  "created": 1794588907761,
+  "type": "session.reasoning.delta",
+  "location": {
+   "directory": "/repo"
+  },
+  "data": {
+   "sessionID": "ses_test",
+   "assistantMessageID": "msg_test",
+   "ordinal": 0,
+   "delta": ". This is a writing task, no codebase work needed. I should just write it. Nothing in"
+  }
+ },
+ {
+  "id": "evt_test",
+  "created": 1794588907886,
+  "type": "session.reasoning.delta",
+  "location": {
+   "directory": "/repo"
+  },
+  "data": {
+   "sessionID": "ses_test",
+   "assistantMessageID": "msg_test",
+   "ordinal": 0,
+   "delta": " the repo needs modifying. Let me write a genuinely detailed,"
+  }
+ },
+ {
+  "id": "evt_test",
+  "created": 1794588908008,
+  "type": "session.reasoning.delta",
+  "location": {
+   "directory": "/repo"
+  },
+  "data": {
+   "sessionID": "ses_test",
+   "assistantMessageID": "msg_test",
+   "ordinal": 0,
+   "delta": " well-structured essay of 3000+ words.\n\nLet me plan"
+  }
+ },
+ {
+  "id": "evt_test",
+  "created": 1794588908075,
+  "type": "session.reasoning.delta",
+  "location": {
+   "directory": "/repo"
+  },
+  "data": {
+   "sessionID": "ses_test",
+   "assistantMessageID": "msg_test",
+   "ordinal": 0,
+   "delta": " sections:\n\n1. Introduction"
+  }
+ },
+ {
+  "id": "evt_test",
+  "created": 1794588908076,
+  "type": "session.reasoning.ended",
+  "location": {
+   "directory": "/repo"
+  },
+  "data": {
+   "sessionID": "ses_test",
+   "assistantMessageID": "msg_test",
+   "ordinal": 0,
+   "text": "The user wants a long essay about Java, at least 3000 words. This is a writing task, no codebase work needed. I should just write it. Nothing in the repo needs modifying. Let me write a genuinely detailed, well-structured essay of 3000+ words.\n\nLet me plan sections:\n\n1. Introduction",
+   "state": {
+    "reasoningField": "reasoning_content"
+   }
+  },
+  "durable": {
+   "aggregateID": "ses_test",
+   "seq": 9,
+   "version": 1
+  }
+ },
+ {
+  "id": "evt_test",
+  "created": 1794588908079,
+  "type": "session.step.streamed",
+  "location": {
+   "directory": "/repo"
+  },
+  "data": {
+   "sessionID": "ses_test",
+   "assistantMessageID": "msg_test"
+  },
+  "durable": {
+   "aggregateID": "ses_test",
+   "seq": 10,
+   "version": 1
+  }
+ },
+ {
+  "id": "evt_test",
+  "created": 1794588908092,
+  "type": "session.step.failed",
+  "location": {
+   "directory": "/repo"
+  },
+  "data": {
+   "sessionID": "ses_test",
+   "assistantMessageID": "msg_test",
+   "error": {
+    "type": "aborted",
+    "message": "Step interrupted"
+   },
+   "snapshot": "snapshot_test",
+   "files": []
+  },
+  "durable": {
+   "aggregateID": "ses_test",
+   "seq": 11,
+   "version": 1
+  }
+ },
+ {
+  "id": "evt_test",
+  "created": 1794588908096,
+  "type": "session.execution.interrupted",
+  "data": {
+   "sessionID": "ses_test",
+   "reason": "user"
+  },
+  "durable": {
+   "aggregateID": "ses_test",
+   "seq": 12,
+   "version": 1
+  }
+ }
+]

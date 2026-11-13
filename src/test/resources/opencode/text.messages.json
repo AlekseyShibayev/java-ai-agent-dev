@@ -1,0 +1,56 @@
+[
+ {
+  "id": "msg_test",
+  "time": {
+   "created": 1794588852914
+  },
+  "type": "idle",
+  "outcome": "succeeded"
+ },
+ {
+  "id": "msg_test",
+  "time": {
+   "created": 1794588849933,
+   "streamed": 1794588852897,
+   "completed": 1794588852909
+  },
+  "type": "assistant",
+  "agent": "plan",
+  "model": {
+   "id": "deepseek-v4.1-flash",
+   "providerID": "opencode-go",
+   "variant": "default"
+  },
+  "content": [
+   {
+    "type": "text",
+    "text": "ok"
+   }
+  ],
+  "snapshot": {
+   "start": "a7679730d4052bbd93ecb1f0864430f5d135c66a",
+   "end": "a7679730d4052bbd93ecb1f0864430f5d135c66a",
+   "files": []
+  },
+  "finish": "stop",
+  "rawFinish": "stop",
+  "cost": 0.0008723759999999999,
+  "tokens": {
+   "input": 5768,
+   "output": 3,
+   "reasoning": 0,
+   "cache": {
+    "read": 1792,
+    "write": 0
+   }
+  }
+ },
+ {
+  "id": "msg_test",
+  "time": {
+   "created": 1794588849902
+  },
+  "text": "Reply with exactly: ok",
+  "type": "user"
+ }
+]
