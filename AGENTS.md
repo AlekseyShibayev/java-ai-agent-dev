@@ -29,6 +29,7 @@ On this machine, prefix Gradle commands with `GRADLE_USER_HOME=/tmp/opencode/gra
 - Prompt: `POST /api/session/{id}/prompt` with `{text, agent}`; `parts` is rejected; `messageID` is not idempotent.
 - Events: SSE `/api/event`, `data:` frames + `: heartbeat`; filter by `data.sessionID`.
 - Completion: `session.execution.succeeded`; abort: `session.execution.interrupted`; tool failure: `session.tool.failed`.
+- Interrupt: `POST /api/session/{id}/interrupt` (the old `/abort` path returns 404); 404 means there is nothing to interrupt.
 - Usage: `session.step.ended.data.cost/tokens`; cumulative in `session.usage.updated`.
 - Tools: `session.tool.called` has input; result in assistant part `{type:"tool", state:{status,content}}` from `/api/session/{id}/message`.
 - Permissions: agent config V2; `permission.asked`; reply `POST /api/session/{id}/permission/{requestId}/reply` with `{decision:"reject"}`.
