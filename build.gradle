@@ -56,5 +56,7 @@ tasks.register('e2e', Test) {
     dependsOn 'playwrightInstall'
     systemProperty 'e2e.headed',
             providers.gradleProperty('headed').map { it.isEmpty() ? 'true' : it }.getOrElse('false')
+    // The headed flag is not a tracked input: always re-run so -Pheaded actually takes effect.
+    outputs.upToDateWhen { false }
     shouldRunAfter tasks.named('test')
 }
