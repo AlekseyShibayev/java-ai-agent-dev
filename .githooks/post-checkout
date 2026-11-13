@@ -1,0 +1,58 @@
+#!/bin/sh
+set -u
+
+# Keeps the human's IDE checkout on the branch the human last chose (usually
+# `main`). Agents run with OPENCODE=1 and must not change the branch of the
+# primary worktree: the switch is detected here and immediately undone.
+#
+# - human switch (no OPENCODE): recorded in .git/branch-guard, never blocked
+# - agent switch in a linked worktree: allowed, agent worktrees are independent
+# - deliberate override: SKIP_BRANCH_GUARD=1 git switch <branch>
+#
+# `git switch -c foo` by an agent leaves the created branch behind, but HEAD
+# stays where the human left it.
+
+if [ "${SKIP_BRANCH_GUARD:-0}" = "1" ] || [ "${OPENCODE_BRANCH_GUARD:-0}" = "1" ]; then
+    exit 0
+fi
+
+# Only branch switches, not file checkouts.
+[ "${3:-0}" = "1" ] || exit 0
+
+# A rebase, merge, cherry-pick, revert or bisect moves HEAD on purpose.
+for marker in MERGE_HEAD CHERRY_PICK_HEAD REVERT_HEAD BISECT_LOG rebase-merge rebase-apply sequencer; do
+    [ -e "$(git rev-parse --path-format=absolute --git-path "$marker" 2>/dev/null)" ] && exit 0
+done
+
+gitdir=$(git rev-parse --absolute-git-dir 2>/dev/null) || exit 0
+commondir=$(git rev-parse --path-format=absolute --git-common-dir 2>/dev/null) || exit 0
+# Linked worktree: its own HEAD, the IDE is not affected.
+[ "$gitdir" = "$commondir" ] || exit 0
+
+branch=$(git symbolic-ref --quiet --short HEAD 2>/dev/null || true)
+state="$gitdir/branch-guard"
+
+# The human is free to switch; remember where they landed.
+if [ -z "${OPENCODE:-}" ]; then
+    if [ -n "$branch" ]; then
+        printf '%s\n' "$branch" > "$state"
+    fi
+    exit 0
+fi
+
+want=$(cat "$state" 2>/dev/null || true)
+[ -n "$want" ] || want=main
+[ "$branch" = "$want" ] && exit 0
+
+echo >&2
+echo "branch guard: the IDE checkout must stay on '$want'." >&2
+echo "agents: use a separate worktree (git worktree add) instead of switching here." >&2
+if OPENCODE_BRANCH_GUARD=1 git switch -q "$want" 2>/dev/null; then
+    echo "branch guard: restored '$want' (override: SKIP_BRANCH_GUARD=1)." >&2
+    echo >&2
+    exit 0
+fi
+
+echo "branch guard: could not restore '$want' (dirty tree?); the human must switch manually." >&2
+echo >&2
+exit 1
