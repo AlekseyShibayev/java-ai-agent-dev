@@ -1,0 +1,117 @@
+[
+ {
+  "id": "msg_test",
+  "time": {
+   "created": 1794588860492
+  },
+  "type": "idle",
+  "outcome": "succeeded"
+ },
+ {
+  "id": "msg_test",
+  "time": {
+   "created": 1794588858353,
+   "streamed": 1794588860474,
+   "completed": 1794588860485
+  },
+  "type": "assistant",
+  "agent": "plan",
+  "model": {
+   "id": "deepseek-v4.1-flash",
+   "providerID": "opencode-go",
+   "variant": "default"
+  },
+  "content": [
+   {
+    "type": "text",
+    "text": "# AI Lab (java-ai-agent-dev)"
+   }
+  ],
+  "snapshot": {
+   "start": "9455d3f693b1d28a5a2d09c8fe761dd733443a27",
+   "end": "9455d3f693b1d28a5a2d09c8fe761dd733443a27",
+   "files": []
+  },
+  "finish": "stop",
+  "rawFinish": "stop",
+  "cost": 9.915600000000001e-05,
+  "tokens": {
+   "input": 462,
+   "output": 12,
+   "reasoning": 0,
+   "cache": {
+    "read": 7552,
+    "write": 0
+   }
+  }
+ },
+ {
+  "id": "msg_test",
+  "time": {
+   "created": 1794588854481,
+   "streamed": 1794588858287,
+   "completed": 1794588858312
+  },
+  "type": "assistant",
+  "agent": "plan",
+  "model": {
+   "id": "deepseek-v4.1-flash",
+   "providerID": "opencode-go",
+   "variant": "default"
+  },
+  "content": [
+   {
+    "type": "tool",
+    "id": "call_test",
+    "name": "read",
+    "executed": false,
+    "state": {
+     "status": "completed",
+     "input": {
+      "path": "/repo/README.md",
+      "limit": 20
+     },
+     "content": [
+      {
+       "type": "text",
+       "text": "Read file /repo/README.md, lines 1-20\n1: # AI Lab (java-ai-agent-dev)\n2: \n3: ## Цель проекта\n4: \n5: Научиться AI-разработке и эффективной работе с агентами: интеграция с LLM, tool calling, MCP, structured output, RAG, память, evals, guardrails, observability и локальные модели.\n6: \n7: ## Что делает приложение\n8: \n9: AI Lab — локальное приложение для практики по всему стеку LLM-приложений:\n10: \n11: - **Chat** — диалог с агентом, стриминг, шаги инструментов, стоимость, cancel.\n12: - **Wiki** — краткие конспекты по технологиям; одновременно корпус для RAG.\n13: - **Evals** — датасеты, прогоны, отчёты, регрессии.\n14: - **Runs / Trace** — полный след каждого запуска.\n15: \n16: Сейчас реализован каркас: Spring Boot-сервис работает с локальным OpenCode API (сессии, промпты, ожидание, чтение ответа). Модель — DeepSeek V4.1 Flash через провайдер `opencode-go`. Дальше — по плану.\n17: \n18: Каждая фича добавляется по циклу «спека → план → реализация агентом → ревью → проверка».\n19: \n20: ## Стек\n[Output truncated. Continue reading with offset: 21]"
+      }
+     ],
+     "metadata": {
+      "truncated": true
+     }
+    },
+    "time": {
+     "created": 1794588857922,
+     "ran": 1794588858283,
+     "completed": 1794588858298
+    }
+   }
+  ],
+  "snapshot": {
+   "start": "9455d3f693b1d28a5a2d09c8fe761dd733443a27",
+   "end": "9455d3f693b1d28a5a2d09c8fe761dd733443a27",
+   "files": []
+  },
+  "finish": "tool-calls",
+  "rawFinish": "tool_test",
+  "cost": 0.0009130259999999999,
+  "tokens": {
+   "input": 5775,
+   "output": 69,
+   "reasoning": 0,
+   "cache": {
+    "read": 1792,
+    "write": 0
+   }
+  }
+ },
+ {
+  "id": "msg_test",
+  "time": {
+   "created": 1794588854450
+  },
+  "text": "Read README.md and reply with its first heading only.",
+  "type": "user"
+ }
+]

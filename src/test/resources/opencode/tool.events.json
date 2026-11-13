@@ -1,0 +1,340 @@
+[
+ {
+  "id": "evt_test",
+  "created": 1794588854436,
+  "type": "session.execution.started",
+  "data": {
+   "sessionID": "ses_test"
+  },
+  "durable": {
+   "aggregateID": "ses_test",
+   "seq": 3,
+   "version": 1
+  }
+ },
+ {
+  "id": "evt_test",
+  "created": 1794588855931,
+  "type": "session.usage.updated",
+  "data": {
+   "sessionID": "ses_test",
+   "cost": 5.65e-05,
+   "tokens": {
+    "input": 525,
+    "output": 8,
+    "reasoning": 0,
+    "cache": {
+     "read": 0,
+     "write": 0
+    }
+   }
+  }
+ },
+ {
+  "id": "evt_test",
+  "created": 1794588857917,
+  "type": "session.step.started",
+  "location": {
+   "directory": "/repo"
+  },
+  "data": {
+   "sessionID": "ses_test",
+   "agent": "plan",
+   "model": {
+    "id": "deepseek-v4.1-flash",
+    "providerID": "opencode-go",
+    "variant": "default"
+   },
+   "assistantMessageID": "msg_test",
+   "snapshot": "snapshot_test",
+   "started": 1794588854481
+  },
+  "durable": {
+   "aggregateID": "ses_test",
+   "seq": 9,
+   "version": 1
+  }
+ },
+ {
+  "id": "evt_test",
+  "created": 1794588857922,
+  "type": "session.tool.input.started",
+  "location": {
+   "directory": "/repo"
+  },
+  "data": {
+   "sessionID": "ses_test",
+   "assistantMessageID": "msg_test",
+   "id": "call_test",
+   "name": "read"
+  },
+  "durable": {
+   "aggregateID": "ses_test",
+   "seq": 10,
+   "version": 1
+  }
+ },
+ {
+  "id": "evt_test",
+  "created": 1794588858279,
+  "type": "session.tool.input.ended",
+  "location": {
+   "directory": "/repo"
+  },
+  "data": {
+   "sessionID": "ses_test",
+   "assistantMessageID": "msg_test",
+   "id": "call_test",
+   "text": "{\"path\":\"/repo/README.md\",\"limit\":20}"
+  },
+  "durable": {
+   "aggregateID": "ses_test",
+   "seq": 11,
+   "version": 1
+  }
+ },
+ {
+  "id": "evt_test",
+  "created": 1794588858283,
+  "type": "session.tool.called",
+  "location": {
+   "directory": "/repo"
+  },
+  "data": {
+   "sessionID": "ses_test",
+   "assistantMessageID": "msg_test",
+   "id": "call_test",
+   "input": {
+    "path": "/repo/README.md",
+    "limit": 20
+   },
+   "executed": false
+  },
+  "durable": {
+   "aggregateID": "ses_test",
+   "seq": 12,
+   "version": 1
+  }
+ },
+ {
+  "id": "evt_test",
+  "created": 1794588858287,
+  "type": "session.step.streamed",
+  "location": {
+   "directory": "/repo"
+  },
+  "data": {
+   "sessionID": "ses_test",
+   "assistantMessageID": "msg_test"
+  },
+  "durable": {
+   "aggregateID": "ses_test",
+   "seq": 13,
+   "version": 1
+  }
+ },
+ {
+  "id": "evt_test",
+  "created": 1794588858312,
+  "type": "session.step.ended",
+  "location": {
+   "directory": "/repo"
+  },
+  "data": {
+   "sessionID": "ses_test",
+   "assistantMessageID": "msg_test",
+   "finish": "tool-calls",
+   "rawFinish": "tool_test",
+   "cost": 0.0009130259999999999,
+   "tokens": {
+    "input": 5775,
+    "output": 69,
+    "reasoning": 0,
+    "cache": {
+     "read": 1792,
+     "write": 0
+    }
+   },
+   "snapshot": "snapshot_test",
+   "files": []
+  },
+  "durable": {
+   "aggregateID": "ses_test",
+   "seq": 15,
+   "version": 1
+  }
+ },
+ {
+  "id": "evt_test",
+  "created": 1794588858316,
+  "type": "session.usage.updated",
+  "data": {
+   "sessionID": "ses_test",
+   "cost": 0.000969526,
+   "tokens": {
+    "input": 6300,
+    "output": 77,
+    "reasoning": 0,
+    "cache": {
+     "read": 1792,
+     "write": 0
+    }
+   }
+  }
+ },
+ {
+  "id": "evt_test",
+  "created": 1794588860358,
+  "type": "session.step.started",
+  "location": {
+   "directory": "/repo"
+  },
+  "data": {
+   "sessionID": "ses_test",
+   "agent": "plan",
+   "model": {
+    "id": "deepseek-v4.1-flash",
+    "providerID": "opencode-go",
+    "variant": "default"
+   },
+   "assistantMessageID": "msg_test",
+   "snapshot": "snapshot_test",
+   "started": 1794588858353
+  },
+  "durable": {
+   "aggregateID": "ses_test",
+   "seq": 16,
+   "version": 1
+  }
+ },
+ {
+  "id": "evt_test",
+  "created": 1794588860362,
+  "type": "session.text.started",
+  "location": {
+   "directory": "/repo"
+  },
+  "data": {
+   "sessionID": "ses_test",
+   "assistantMessageID": "msg_test",
+   "ordinal": 0
+  },
+  "durable": {
+   "aggregateID": "ses_test",
+   "seq": 17,
+   "version": 1
+  }
+ },
+ {
+  "id": "evt_test",
+  "created": 1794588860465,
+  "type": "session.text.delta",
+  "location": {
+   "directory": "/repo"
+  },
+  "data": {
+   "sessionID": "ses_test",
+   "assistantMessageID": "msg_test",
+   "ordinal": 0,
+   "delta": "# AI Lab (java-ai-agent-dev)"
+  }
+ },
+ {
+  "id": "evt_test",
+  "created": 1794588860471,
+  "type": "session.text.ended",
+  "location": {
+   "directory": "/repo"
+  },
+  "data": {
+   "sessionID": "ses_test",
+   "assistantMessageID": "msg_test",
+   "ordinal": 0,
+   "text": "# AI Lab (java-ai-agent-dev)"
+  },
+  "durable": {
+   "aggregateID": "ses_test",
+   "seq": 18,
+   "version": 1
+  }
+ },
+ {
+  "id": "evt_test",
+  "created": 1794588860474,
+  "type": "session.step.streamed",
+  "location": {
+   "directory": "/repo"
+  },
+  "data": {
+   "sessionID": "ses_test",
+   "assistantMessageID": "msg_test"
+  },
+  "durable": {
+   "aggregateID": "ses_test",
+   "seq": 19,
+   "version": 1
+  }
+ },
+ {
+  "id": "evt_test",
+  "created": 1794588860485,
+  "type": "session.step.ended",
+  "location": {
+   "directory": "/repo"
+  },
+  "data": {
+   "sessionID": "ses_test",
+   "assistantMessageID": "msg_test",
+   "finish": "stop",
+   "rawFinish": "stop",
+   "cost": 9.915600000000001e-05,
+   "tokens": {
+    "input": 462,
+    "output": 12,
+    "reasoning": 0,
+    "cache": {
+     "read": 7552,
+     "write": 0
+    }
+   },
+   "snapshot": "snapshot_test",
+   "files": []
+  },
+  "durable": {
+   "aggregateID": "ses_test",
+   "seq": 20,
+   "version": 1
+  }
+ },
+ {
+  "id": "evt_test",
+  "created": 1794588860490,
+  "type": "session.usage.updated",
+  "data": {
+   "sessionID": "ses_test",
+   "cost": 0.001068682,
+   "tokens": {
+    "input": 6762,
+    "output": 89,
+    "reasoning": 0,
+    "cache": {
+     "read": 9344,
+     "write": 0
+    }
+   }
+  }
+ },
+ {
+  "id": "evt_test",
+  "created": 1794588860492,
+  "type": "session.execution.succeeded",
+  "data": {
+   "sessionID": "ses_test"
+  },
+  "durable": {
+   "aggregateID": "ses_test",
+   "seq": 21,
+   "version": 1
+  }
+ }
+]

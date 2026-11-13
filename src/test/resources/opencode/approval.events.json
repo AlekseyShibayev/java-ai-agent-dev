@@ -1,0 +1,332 @@
+[
+ {
+  "id": "evt_test",
+  "created": 1794588861995,
+  "type": "session.execution.started",
+  "data": {
+   "sessionID": "ses_test"
+  },
+  "durable": {
+   "aggregateID": "ses_test",
+   "seq": 2,
+   "version": 1
+  }
+ },
+ {
+  "id": "evt_test",
+  "created": 1794588863882,
+  "type": "session.usage.updated",
+  "data": {
+   "sessionID": "ses_test",
+   "cost": 5.9900000000000006e-05,
+   "tokens": {
+    "input": 529,
+    "output": 14,
+    "reasoning": 0,
+    "cache": {
+     "read": 0,
+     "write": 0
+    }
+   }
+  }
+ },
+ {
+  "id": "evt_test",
+  "created": 1794588864440,
+  "type": "session.step.started",
+  "location": {
+   "directory": "/repo"
+  },
+  "data": {
+   "sessionID": "ses_test",
+   "agent": "probe-safe",
+   "model": {
+    "id": "deepseek-v4.1-flash",
+    "providerID": "opencode-go",
+    "variant": "default"
+   },
+   "assistantMessageID": "msg_test",
+   "snapshot": "snapshot_test",
+   "started": 1794588862050
+  },
+  "durable": {
+   "aggregateID": "ses_test",
+   "seq": 7,
+   "version": 1
+  }
+ },
+ {
+  "id": "evt_test",
+  "created": 1794588864445,
+  "type": "session.reasoning.started",
+  "location": {
+   "directory": "/repo"
+  },
+  "data": {
+   "sessionID": "ses_test",
+   "assistantMessageID": "msg_test",
+   "ordinal": 0,
+   "state": {
+    "reasoningField": "reasoning_content"
+   }
+  },
+  "durable": {
+   "aggregateID": "ses_test",
+   "seq": 8,
+   "version": 1
+  }
+ },
+ {
+  "id": "evt_test",
+  "created": 1794588864548,
+  "type": "session.reasoning.delta",
+  "location": {
+   "directory": "/repo"
+  },
+  "data": {
+   "sessionID": "ses_test",
+   "assistantMessageID": "msg_test",
+   "ordinal": 0,
+   "delta": "The user wants me to run exactly `echo opencode-probe` and return output. This is a test agent for permissions. Just"
+  }
+ },
+ {
+  "id": "evt_test",
+  "created": 1794588864618,
+  "type": "session.reasoning.delta",
+  "location": {
+   "directory": "/repo"
+  },
+  "data": {
+   "sessionID": "ses_test",
+   "assistantMessageID": "msg_test",
+   "ordinal": 0,
+   "delta": " run it."
+  }
+ },
+ {
+  "id": "evt_test",
+  "created": 1794588864619,
+  "type": "session.tool.input.started",
+  "location": {
+   "directory": "/repo"
+  },
+  "data": {
+   "sessionID": "ses_test",
+   "assistantMessageID": "msg_test",
+   "id": "call_test",
+   "name": "shell"
+  },
+  "durable": {
+   "aggregateID": "ses_test",
+   "seq": 9,
+   "version": 1
+  }
+ },
+ {
+  "id": "evt_test",
+  "created": 1794588864807,
+  "type": "session.reasoning.ended",
+  "location": {
+   "directory": "/repo"
+  },
+  "data": {
+   "sessionID": "ses_test",
+   "assistantMessageID": "msg_test",
+   "ordinal": 0,
+   "text": "The user wants me to run exactly `echo opencode-probe` and return output. This is a test agent for permissions. Just run it.",
+   "state": {
+    "reasoningField": "reasoning_content"
+   }
+  },
+  "durable": {
+   "aggregateID": "ses_test",
+   "seq": 10,
+   "version": 1
+  }
+ },
+ {
+  "id": "evt_test",
+  "created": 1794588864812,
+  "type": "session.tool.input.ended",
+  "location": {
+   "directory": "/repo"
+  },
+  "data": {
+   "sessionID": "ses_test",
+   "assistantMessageID": "msg_test",
+   "id": "call_test",
+   "text": "{\"command\":\"echo opencode-probe\"}"
+  },
+  "durable": {
+   "aggregateID": "ses_test",
+   "seq": 11,
+   "version": 1
+  }
+ },
+ {
+  "id": "evt_test",
+  "created": 1794588864815,
+  "type": "session.tool.called",
+  "location": {
+   "directory": "/repo"
+  },
+  "data": {
+   "sessionID": "ses_test",
+   "assistantMessageID": "msg_test",
+   "id": "call_test",
+   "input": {
+    "command": "echo opencode-probe"
+   },
+   "executed": false
+  },
+  "durable": {
+   "aggregateID": "ses_test",
+   "seq": 12,
+   "version": 1
+  }
+ },
+ {
+  "id": "evt_test",
+  "created": 1794588864818,
+  "type": "session.step.streamed",
+  "location": {
+   "directory": "/repo"
+  },
+  "data": {
+   "sessionID": "ses_test",
+   "assistantMessageID": "msg_test"
+  },
+  "durable": {
+   "aggregateID": "ses_test",
+   "seq": 13,
+   "version": 1
+  }
+ },
+ {
+  "id": "evt_test",
+  "created": 1794588864823,
+  "type": "permission.asked",
+  "location": {
+   "directory": "/repo"
+  },
+  "data": {
+   "id": "per_test",
+   "sessionID": "ses_test",
+   "action": "shell",
+   "resources": [
+    "echo opencode-probe"
+   ],
+   "save": [
+    "echo *"
+   ],
+   "source": {
+    "type": "tool",
+    "messageID": "msg_test",
+    "id": "call_test"
+   }
+  }
+ },
+ {
+  "id": "evt_test",
+  "created": 1794588865001,
+  "type": "permission.replied",
+  "location": {
+   "directory": "/repo"
+  },
+  "data": {
+   "sessionID": "ses_test",
+   "requestID": "per_test",
+   "reply": "reject"
+  }
+ },
+ {
+  "id": "evt_test",
+  "created": 1794588865004,
+  "type": "session.tool.failed",
+  "location": {
+   "directory": "/repo"
+  },
+  "data": {
+   "sessionID": "ses_test",
+   "assistantMessageID": "msg_test",
+   "id": "call_test",
+   "error": {
+    "type": "aborted",
+    "message": "The user declined this tool call"
+   },
+   "executed": false
+  },
+  "durable": {
+   "aggregateID": "ses_test",
+   "seq": 14,
+   "version": 2
+  }
+ },
+ {
+  "id": "evt_test",
+  "created": 1794588865017,
+  "type": "session.step.failed",
+  "location": {
+   "directory": "/repo"
+  },
+  "data": {
+   "sessionID": "ses_test",
+   "assistantMessageID": "msg_test",
+   "error": {
+    "type": "aborted",
+    "message": "Step interrupted"
+   },
+   "rawFinish": "tool_test",
+   "cost": 0.00091035,
+   "tokens": {
+    "input": 5781,
+    "output": 42,
+    "reasoning": 30,
+    "cache": {
+     "read": 0,
+     "write": 0
+    }
+   },
+   "snapshot": "snapshot_test",
+   "files": []
+  },
+  "durable": {
+   "aggregateID": "ses_test",
+   "seq": 15,
+   "version": 1
+  }
+ },
+ {
+  "id": "evt_test",
+  "created": 1794588865021,
+  "type": "session.usage.updated",
+  "data": {
+   "sessionID": "ses_test",
+   "cost": 0.00097025,
+   "tokens": {
+    "input": 6310,
+    "output": 56,
+    "reasoning": 30,
+    "cache": {
+     "read": 0,
+     "write": 0
+    }
+   }
+  }
+ },
+ {
+  "id": "evt_test",
+  "created": 1794588865023,
+  "type": "session.execution.interrupted",
+  "data": {
+   "sessionID": "ses_test",
+   "reason": "shutdown"
+  },
+  "durable": {
+   "aggregateID": "ses_test",
+   "seq": 16,
+   "version": 1
+  }
+ }
+]
