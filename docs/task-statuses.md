@@ -9,7 +9,7 @@
 | `создано` | человек | файл задачи написан; агент её не берёт сам |
 | `в работе` | агент-исполнитель | задача взята: claim в `main` и ветка `task/NNN-slug` |
 | `выполнено` | агент-исполнитель | ветка влита в `main`, задача ждёт ревью |
-| `закрыто` | агент-ревьюер | ревью прошло, файл задачи уходит в `docs/tasks/archive/`, change архивируется |
+| `закрыто` | агент-ревьюер | ревью прошло, change архивируется, файл задачи уходит в архив как `task.md` |
 
 ## Переходы
 
@@ -49,7 +49,7 @@
 ## Финиш
 
 1. Ветка влита в `main` → строка `выполнено`.
-2. Ревьюер проверил → строка `закрыто`, файл `docs/tasks/NNN-slug.md` переезжает в `docs/tasks/archive/NNN-slug.md` (`git mv`), change `openspec/changes/NNN-slug/` архивируется (`openspec archive NNN-slug`). Строка в доске остаётся как история.
+2. Ревьюер проверил → строка `закрыто`, change `openspec/changes/NNN-slug/` архивируется (`openspec archive NNN-slug` → `openspec/changes/archive/YYYY-MM-DD-NNN-slug/`), файл задачи переезжает туда же как `task.md` (`git mv docs/tasks/NNN-slug.md openspec/changes/archive/YYYY-MM-DD-NNN-slug/task.md`). Строка в доске остаётся как история. Если change не заводился, папка архива содержит только `task.md`.
 3. Ревью не прошло → строка `в работе`, в файл задачи добавляется блок:
 
 ```markdown
