@@ -33,8 +33,8 @@ Chrome DevTools MCP / Playwright MCP для агента, кросс-брауз�
 | --- | --- | --- |
 | браузер ставится одной Gradle-задачей | `./gradlew playwrightInstall` | CLI |
 | браузер запускается без системного Chrome | `PlaywrightSmokeE2ETest.shouldLaunchBrowser` | Playwright |
+| падение сохраняет screenshot и trace в `build/` | `PlaywrightArtifactsE2ETest.shouldSaveArtifactsWhenTestFails` | Playwright |
 | headless по умолчанию, `-Pheaded` включает UI | `PlaywrightConfigTest.shouldDefaultToHeadless` | JUnit |
-| падение сохраняет screenshot и trace в `build/` | `PlaywrightArtifactsE2ETest.shouldSaveScreenshotAndTrace` | Playwright |
 | `./gradlew test` не запускает E2E | `./gradlew test` — тег `e2e` исключён | CLI |
 
 ## Verification
