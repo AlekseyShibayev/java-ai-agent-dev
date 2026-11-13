@@ -48,7 +48,7 @@ On this machine, prefix Gradle commands with `GRADLE_USER_HOME=/tmp/opencode/gra
 - Разделение ролей: `docs/tasks/BOARD.md` держит статус, файл задачи `docs/tasks/NNN-<slug>.md` — приёмку (AC), change — поведение и план. Текст не дублируется; при расхождении главнее спека, AC правит человек.
 - Один NNN — один change с тем же id `<NNN>-<slug>`; change может ссылаться на несколько NNN.
 - Язык: текст русский, структурные заголовки и SHALL/MUST — английские (`openspec/config.yaml`).
-- После `закрыто`: файл задачи удалить, change архивировать (`openspec archive <id>`); `openspec validate --strict --all` — перед PR.
+- После `закрыто`: файл задачи переместить в `docs/tasks/archive/` (`git mv`), change архивировать (`openspec archive <id>`); `openspec validate --strict --all` — перед PR.
 - Skills OpenSpec (`.agents/skills/openspec-*`) вендорятся — это единственное исключение из правила «skills не храним в репозитории»; обновлять через `openspec update`.
 
 ## Project state
@@ -128,7 +128,7 @@ On this machine, prefix Gradle commands with `GRADLE_USER_HOME=/tmp/opencode/gra
 ## Tasks
 
 - One current task per file: `docs/tasks/NNN-slug.md`. Status lives only in `docs/tasks/BOARD.md`; task files have no `status` field. Lifecycle, claim, review and finish rules: `docs/task-statuses.md`.
-- Review is done by a separate agent in a clean session, not by the implementer: it verifies each acceptance criterion against `main`, then sets `закрыто` (and deletes the task file) or returns the task to `в работе` with a `## Ревью` block listing file:line findings. The human is not in the loop.
+- Review is done by a separate agent in a clean session, not by the implementer: it verifies each acceptance criterion against `main`, then sets `закрыто` (and moves the task file to `docs/tasks/archive/`) or returns the task to `в работе` with a `## Ревью` block listing file:line findings. The human is not in the loop.
 - Task numbers are immutable identifiers: never renumber, never reuse; new task = `max(NNN) + 1` across `docs/tasks/` and `docs/tasks/backlog/`, appended at the end and added to the board.
 - Deferred tasks move to `docs/tasks/backlog/` by `git mv` with the same number and unchanged contents. They are not on the board. Do not pick them up.
 - Take a task only when the human names it; `создано` is not a queue invitation.

@@ -46,7 +46,7 @@ AI Lab — локальное приложение для практики по 
 
 ## Задания
 
-Задачи — в `docs/tasks/`. Поведение фичи описано в `openspec/changes/<NNN>-<slug>/`; файл задачи ссылается на change и держит только приёмку. После выполнения файл задачи удаляется, change архивируется в `openspec/changes/archive/YYYY-MM-DD-<id>/`, история остаётся в git.
+Задачи — в `docs/tasks/`. Поведение фичи описано в `openspec/changes/<NNN>-<slug>/`; файл задачи ссылается на change и держит только приёмку. После выполнения файл задачи уходит в `docs/tasks/archive/`, change архивируется в `openspec/changes/archive/YYYY-MM-DD-<id>/`, история остаётся в git.
 
 ## Инструменты
 
