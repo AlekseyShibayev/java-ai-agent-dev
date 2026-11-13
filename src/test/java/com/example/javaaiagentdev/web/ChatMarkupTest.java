@@ -41,6 +41,8 @@ class ChatMarkupTest {
 
         assertTrue(html.contains("id=\"composer\""), html);
         assertTrue(html.contains("id=\"thread\""), html);
+        assertTrue(html.contains("/js/htmx.min.js"), html);
+        assertTrue(html.contains("/js/chat.js"), html);
     }
 
     @Test
