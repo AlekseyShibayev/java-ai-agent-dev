@@ -1,7 +1,6 @@
 ---
 id: "003"
 title: "Рантайм чата: API"
-status: in-progress
 created: 2026-11-13
 branch: task/003-runtime-chat-api
 pr:

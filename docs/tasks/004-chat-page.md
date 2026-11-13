@@ -1,7 +1,6 @@
 ---
 id: "004"
 title: "Страница чата и стриминг"
-status: draft
 created: 2026-11-13
 branch: task/004-chat-page
 pr:

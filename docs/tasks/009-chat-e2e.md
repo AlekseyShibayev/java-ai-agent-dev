@@ -1,7 +1,6 @@
 ---
 id: "009"
 title: "E2E страницы чата"
-status: draft
 created: 2026-11-14
 branch: task/009-chat-e2e
 pr:
