@@ -46,7 +46,7 @@ class OpenCodeClientAbortTest {
     void shouldAbortSession() {
         client.abort("ses_1");
 
-        assertEquals(List.of("POST /api/session/ses_1/abort"), requests);
+        assertEquals(List.of("POST /api/session/ses_1/interrupt"), requests);
     }
 
     @Test
