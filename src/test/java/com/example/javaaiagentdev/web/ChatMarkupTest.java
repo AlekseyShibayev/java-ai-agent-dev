@@ -23,6 +23,27 @@ class ChatMarkupTest {
     }
 
     @Test
+    void shouldKeepLineBreaksOfTheAnswer() {
+        Context context = new Context();
+        context.setVariable("runId", "run_1");
+
+        String html = engine.process("fragments/run", context);
+
+        assertTrue(html.contains("white-space: pre-wrap"), html);
+    }
+
+    @Test
+    void shouldRenderChatPage() {
+        Context context = new Context();
+        context.setVariable("unavailable", false);
+
+        String html = engine.process("chat", context);
+
+        assertTrue(html.contains("id=\"composer\""), html);
+        assertTrue(html.contains("id=\"thread\""), html);
+    }
+
+    @Test
     void shouldEscapeModelHtmlAndConnectAnswerToRun() {
         Context context = new Context();
         context.setVariable("message", "<script>alert('x')</script>");
