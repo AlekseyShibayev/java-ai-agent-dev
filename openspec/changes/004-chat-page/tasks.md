@@ -22,8 +22,8 @@
 
 - [x] 4.1 Red `ChatMarkupTest`: HTML из ответа модели экранируется, контейнер сохраняет переносы (`white-space: pre-wrap`).
 - [x] 4.2 Green: разметка и стили ленты; `ChatMarkupTest` зелёный.
-- [ ] 4.3 Red `ChatMessageControllerTest`: `POST /chat/stop` отменяет прогон и возвращает idle-композер.
-- [ ] 4.4 Green: stop-endpoint через HTMX; тест зелёный.
+- [x] 4.3 Red `ChatMessageControllerTest`: `POST /chat/stop` отменяет прогон и возвращает idle-композер.
+- [x] 4.4 Green: stop-endpoint через HTMX; тест зелёный.
 - [ ] 4.5 Скрипт страницы: баннер «нет связи» по `htmx:sseError`/`htmx:sseOpen`, разблокировка ввода по `state`, блокировка на время прогона; проверка — вручную в браузере (DOM-сценарии закрывает 009).
 
 ## 5. Проверка

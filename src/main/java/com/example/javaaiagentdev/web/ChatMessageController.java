@@ -53,6 +53,16 @@ public class ChatMessageController {
                 .body(start(text(request.text()), request.agent(), httpSession));
     }
 
+    @PostMapping(value = "/stop", headers = "HX-Request")
+    public String stop(HttpSession httpSession) {
+        ChatPageSession page = new ChatPageSession(httpSession);
+        String sessionId = page.openCodeSessionId();
+        if (sessionId != null) {
+            service.abort(sessionId);
+        }
+        return "fragments/composer :: composer(false, false)";
+    }
+
     private StartRunResponse start(String text, String agent, HttpSession httpSession) {
         ChatPageSession page = new ChatPageSession(httpSession);
         String sessionId = page.openCodeSessionId();

@@ -7,7 +7,8 @@
     <label for="message">Сообщение</label>
     <textarea id="message" name="text" rows="3" required th:disabled="${busy}"></textarea>
     <button id="send" type="submit" th:disabled="${busy}">Отправить</button>
-    <button id="stop" type="button" th:disabled="${!busy}">Stop</button>
+    <button id="stop" type="button" th:disabled="${!busy}"
+            hx-post="/chat/stop" hx-target="#composer" hx-swap="outerHTML">Stop</button>
 </form>
 </body>
 </html>
