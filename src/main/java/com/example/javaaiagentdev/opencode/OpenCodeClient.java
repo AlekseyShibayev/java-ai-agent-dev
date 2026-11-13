@@ -2,6 +2,9 @@ package com.example.javaaiagentdev.opencode;
 
 import tools.jackson.databind.JsonNode;
 import tools.jackson.databind.ObjectMapper;
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -12,6 +15,7 @@ import java.util.Base64;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Stream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -62,11 +66,56 @@ public class OpenCodeClient {
     }
 
     public void prompt(String sessionId, String text) {
+        prompt(sessionId, text, null);
+    }
+
+    public void prompt(String sessionId, String text, String agent) {
         log.debug("Sending prompt to session {} ({} chars)", sessionId, text.length());
+        Map<String, Object> body = new LinkedHashMap<>();
+        body.put("text", text);
+        if (isNotBlank(agent)) {
+            body.put("agent", agent);
+        }
         HttpResponse<String> response = send(request("/api/session/" + sessionId + "/prompt")
-                .POST(HttpRequest.BodyPublishers.ofString(toJson(Map.of("text", text))))
+                .POST(HttpRequest.BodyPublishers.ofString(toJson(body)))
                 .build());
         requireSuccess(response, "send prompt");
+    }
+
+    public void abort(String sessionId) {
+        log.debug("Aborting session {}", sessionId);
+        HttpResponse<String> response = send(request("/api/session/" + sessionId + "/abort")
+                .POST(HttpRequest.BodyPublishers.noBody())
+                .build());
+        requireSuccess(response, "abort session");
+    }
+
+    public void replyPermission(String sessionId, String requestId, String decision) {
+        log.debug("Replying to permission {} of session {}: {}", requestId, sessionId, decision);
+        HttpResponse<String> response = send(request("/api/session/" + sessionId + "/permission/" + requestId + "/reply")
+                .POST(HttpRequest.BodyPublishers.ofString(toJson(Map.of("decision", decision))))
+                .build());
+        requireSuccess(response, "reply to permission");
+    }
+
+    /** Opens the shared event stream. The caller owns the stream and must close it. */
+    public Stream<String> eventLines() {
+        HttpRequest request = request("/api/event").GET().build();
+        try {
+            HttpResponse<InputStream> response = httpClient.send(request, HttpResponse.BodyHandlers.ofInputStream());
+            if (response.statusCode() != 200) {
+                response.body().close();
+                invalidateBaseUrl();
+                throw new OpenCodeUnavailableException("OpenCode event stream failed: HTTP " + response.statusCode());
+            }
+            return new BufferedReader(new InputStreamReader(response.body(), StandardCharsets.UTF_8)).lines();
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            throw new OpenCodeUnavailableException("OpenCode event stream interrupted", e);
+        } catch (Exception e) {
+            invalidateBaseUrl();
+            throw new OpenCodeUnavailableException("OpenCode event stream failed: " + e.getMessage(), e);
+        }
     }
 
     public void waitForCompletion(String sessionId) {
@@ -132,16 +181,25 @@ public class OpenCodeClient {
     private HttpResponse<String> send(HttpRequest request) {
         try {
             return httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            invalidateBaseUrl();
+            throw new OpenCodeUnavailableException("OpenCode request interrupted", e);
         } catch (Exception e) {
-            throw new IllegalStateException("OpenCode request failed: " + e.getMessage(), e);
+            invalidateBaseUrl();
+            throw new OpenCodeUnavailableException("OpenCode request failed: " + e.getMessage(), e);
         }
     }
 
     private void requireSuccess(HttpResponse<String> response, String operation) {
         if (response.statusCode() < 200 || response.statusCode() >= 300) {
-            throw new IllegalStateException("OpenCode " + operation + " failed: HTTP "
+            throw new OpenCodeUnavailableException("OpenCode " + operation + " failed: HTTP "
                     + response.statusCode() + " " + response.body());
         }
+    }
+
+    private void invalidateBaseUrl() {
+        resolvedBaseUrl = null;
     }
 
     private String baseUrl() {

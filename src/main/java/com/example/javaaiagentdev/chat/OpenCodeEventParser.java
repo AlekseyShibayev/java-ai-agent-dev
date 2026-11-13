@@ -3,9 +3,11 @@ package com.example.javaaiagentdev.chat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import org.springframework.stereotype.Component;
 import tools.jackson.databind.JsonNode;
 
 /** Turns a raw OpenCode event into a normalized run event. */
+@Component
 public class OpenCodeEventParser {
 
     public Optional<RunEvent> parse(JsonNode event) {

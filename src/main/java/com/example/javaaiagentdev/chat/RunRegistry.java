@@ -9,8 +9,10 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Consumer;
+import org.springframework.stereotype.Component;
 
 /** In-memory registry of chat runs. Events are deduplicated and fanned out to subscribers. */
+@Component
 public class RunRegistry {
 
     public static final int BUFFER_LIMIT = 1000;
@@ -53,6 +55,16 @@ public class RunRegistry {
         for (Run run : runs.values()) {
             if (run.sessionId.equals(sessionId)) {
                 run.accept(seq, event);
+            }
+        }
+    }
+
+    /** Closes the run as failed, for example when the prompt could not be sent. */
+    public void fail(String runId, String reason) {
+        Run run = runs.get(runId);
+        if (run != null) {
+            synchronized (run) {
+                run.fail(reason);
             }
         }
     }
