@@ -24,7 +24,7 @@
 1. Спека: change `openspec/changes/NNN-slug/` — `proposal`, `specs` (Requirement/Scenario), `design`, `tasks`; `openspec validate --strict --all` зелёный.
 2. Тесты по списку (red), затем код (green), затем рефакторинг.
 3. Проверка: acceptance закрыт, `./gradlew test` без фильтра зелёный.
-4. Взятие задачи, финиш и архив — по `docs/task-statuses.md`.
+4. Взятие задачи, ревью, финиш и архив — по `docs/task-statuses.md`.
 
 Держим только ближайшие задачи; завершённые файлы удаляем, строки в доске остаются.
 
