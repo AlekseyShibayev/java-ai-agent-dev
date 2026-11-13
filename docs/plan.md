@@ -19,7 +19,7 @@
 
 ## Этапы
 
-1. **Чат + trace.** 000 (контракт OpenCode) → 001 (БД, написать после 000) → runtime → SSE/UI.
+1. **Чат + trace.** 000/001 готово → 002 (рантайм чата) → SSE/UI.
 2. **Инструменты.** MCP, `wiki_search`, approval.
 3. **Native loop.** Ollama, свой цикл tool calling.
 4. **RAG + evals.** FTS → при разрыве `bge-m3`; JSONL-набор.
@@ -29,7 +29,7 @@
 
 ## Сейчас
 
-`000-opencode-contract`: проверить API, записать фикстуры. Код приложения не менять.
+`002-runtime-chat-api`: рантайм чата над OpenCode. 000/001 закрыты.
 
 ## Правила
 

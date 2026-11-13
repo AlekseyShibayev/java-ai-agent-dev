@@ -28,7 +28,7 @@ AI Lab — локальное приложение для практики по 
 
 ## Статус
 
-Каркас: база данных, Liquibase, контекстный тест и клиент OpenCode API (`src/main/java/com/example/javaaiagentdev/opencode`). План — `docs/plan.md`; текущая задача — `000-opencode-contract`. Код не менялся.
+Каркас и DB-фундамент: база данных, Liquibase, контекстный тест, клиент OpenCode API (`src/main/java/com/example/javaaiagentdev/opencode`), pgvector/роли/read-only datasource. План — `docs/plan.md`; 000/001 закрыты, следующая — `002-runtime-chat-api`.
 
 ## Документация
 

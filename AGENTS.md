@@ -38,6 +38,8 @@ On this machine, prefix Gradle commands with `GRADLE_USER_HOME=/tmp/opencode/gra
 ## Project state
 
 - Skeleton: database, Liquibase `empty` baseline, context test, and an OpenCode API client (`opencode/`).
+- DB foundation: pgvector:pg17, `owner`/`app`/`read_only` roles, read-only datasource, `SqlGuard`.
+- OpenCode API contract verified; fixtures in `src/test/resources/opencode/`.
 - Implemented: create session, send prompt, wait for completion, read the last assistant text.
 - Not implemented: agent loop, tools, MCP, evals, streaming, UI.
 - Skills: global, `~/.config/opencode/skills/skill-creator/` (imported from `anthropics/skills`); skills are not vendored in the repository.
