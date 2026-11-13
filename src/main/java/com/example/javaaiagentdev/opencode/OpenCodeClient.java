@@ -43,7 +43,16 @@ public class OpenCodeClient {
     }
 
     public boolean isAvailable() {
-        return true;
+        try {
+            HttpResponse<String> response = send(request("/api/session?limit=1").GET().build());
+            if (response.statusCode() >= 200 && response.statusCode() < 300) {
+                return true;
+            }
+            invalidateBaseUrl();
+            return false;
+        } catch (RuntimeException e) {
+            return false;
+        }
     }
 
     public String createSession(String title) {

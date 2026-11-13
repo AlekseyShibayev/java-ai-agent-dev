@@ -13,6 +13,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.servlet.View;
 
 class ChatPageControllerTest {
 
@@ -23,7 +24,10 @@ class ChatPageControllerTest {
 
     @BeforeEach
     void setUp() {
-        mockMvc = MockMvcBuilders.standaloneSetup(new ChatPageController(client, registry)).build();
+        mockMvc = MockMvcBuilders.standaloneSetup(new ChatPageController(client, registry))
+                .setViewResolvers((viewName, locale) -> (View) (model, request, response) -> {
+                })
+                .build();
     }
 
     @Test

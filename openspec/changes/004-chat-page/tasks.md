@@ -2,9 +2,9 @@
 
 ## 1. Каркас страницы
 
-- [ ] 1.1 Вендорить HTMX `2.0.11` и `htmx-ext-sse` `2.2.4` в `src/main/resources/static/js/`; проверка: файлы на месте, в шаблонах нет ссылок на внешние URL.
-- [ ] 1.2 Red `ChatPageControllerTest`: `/chat` отдаёт 200 с пустой лентой; при недоступном OpenCode — 200 и сообщение об ошибке, а не 500.
-- [ ] 1.3 Green: `spring-boot-starter-thymeleaf` в `build.gradle`, контроллер страницы, `chat.html` с композером и пустым состоянием; тест `ChatPageControllerTest` зелёный.
+- [x] 1.1 Вендорить HTMX `2.0.11` и `htmx-ext-sse` `2.2.4` в `src/main/resources/static/js/`; проверка: файлы на месте, в шаблонах нет ссылок на внешние URL.
+- [x] 1.2 Red `ChatPageControllerTest`: `/chat` отдаёт 200 с пустой лентой; при недоступном OpenCode — 200 и сообщение об ошибке, а не 500.
+- [x] 1.3 Green: `spring-boot-starter-thymeleaf` в `build.gradle`, контроллер страницы, `chat.html` с композером и пустым состоянием; тест `ChatPageControllerTest` зелёный.
 
 ## 2. Отправка сообщения
 
