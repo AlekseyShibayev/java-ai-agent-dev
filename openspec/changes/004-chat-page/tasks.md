@@ -33,5 +33,5 @@
 
 ## Workflow follow-up
 
-- Merge ветки `task/004-chat-page` в `main`, статус `выполнено`.
+- Merge ветки `task/004-chat-page` в `main`, статус `на ревью`.
 - Ревью отдельным агентом, при успехе — архив change и перенос файла задачи в `openspec/changes/archive/`.

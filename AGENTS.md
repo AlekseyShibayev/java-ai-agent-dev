@@ -128,8 +128,8 @@ On this machine, prefix Gradle commands with `GRADLE_USER_HOME=/tmp/opencode/gra
 
 ## Tasks
 
-- One current task per file: `docs/tasks/NNN-slug.md`. Status lives in `docs/tasks/BOARD.md` and only `в работе`/`выполнено` get a row; `создано` is a file without a row. Task files have no `status` field. Lifecycle, claim, review and finish rules: `docs/task-statuses.md`.
-- Review is done by a separate agent in a clean session, not by the implementer: it verifies each acceptance criterion against `main`, then sets `закрыто` (and moves the task file into that change archive as `task.md`) or returns the task to `в работе` with a `## Ревью` block listing file:line findings. The human is not in the loop.
+- One current task per file: `docs/tasks/NNN-slug.md`. Status lives in `docs/tasks/BOARD.md` and only `в работе`/`на ревью` get a row; `создано` is a file without a row. The board also has a `Кто` column (who holds the task). Task files have no `status` field. Lifecycle, claim, review and finish rules: `docs/task-statuses.md`.
+- Review is done by a separate agent in a clean session, not by the implementer: it verifies each acceptance criterion against `main`, then sets `закрыто` (and moves the task file into that change archive as `task.md`) or returns the task to `в работе` with a `### NNN — <task>` block of file:line findings in the `## Ревью` section under the `docs/tasks/BOARD.md` table (the task file is not edited). The human is not in the loop.
 - Task numbers are immutable identifiers: never renumber, never reuse; new task = `max(NNN) + 1` across `docs/tasks/` and `docs/tasks/backlog/`, appended at the end and added to the board.
 - Deferred tasks move to `docs/tasks/backlog/` by `git mv` with the same number and unchanged contents. They are not on the board. Do not pick them up.
 - Take a task only when the human names it; `создано` is not a queue invitation.
