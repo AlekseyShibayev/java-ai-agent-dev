@@ -100,6 +100,19 @@ class ChatMessageControllerTest {
     }
 
     @Test
+    void shouldNotAbortWhenRunIsAlreadyOver() throws Exception {
+        when(client.createSession("chat")).thenReturn("ses_1");
+        when(service.start("ses_1", "hi", null)).thenAnswer(invocation -> registry.start("ses_1"));
+        postMessage("hi").andExpect(status().isAccepted());
+        registry.publish("ses_1", 1L, new ExecutionSucceededEvent("ses_1"));
+
+        mockMvc.perform(post("/chat/stop").session(session).header("HX-Request", "true"))
+                .andExpect(status().isOk());
+
+        verify(service, never()).abort("ses_1");
+    }
+
+    @Test
     void shouldRejectSecondPromptWhileRunIsActive() throws Exception {
         when(client.createSession("chat")).thenReturn("ses_1");
         when(service.start("ses_1", "hi", null)).thenAnswer(invocation -> registry.start("ses_1"));
