@@ -114,7 +114,7 @@ On this machine, prefix Gradle commands with `GRADLE_USER_HOME=/tmp/opencode/gra
 - One current task per file: `docs/tasks/NNN-slug.md`.
 - Task numbers are immutable identifiers: never renumber, never reuse; new task = `max(NNN) + 1` across `docs/tasks/` and `docs/tasks/backlog/`, appended at the end.
 - Deferred tasks move to `docs/tasks/backlog/` by `git mv` with the same number and unchanged contents. Do not pick them up.
-- When starting: read it, set `status: in-progress`, create branch `task/NNN-slug`.
+- When starting: read it, set `status: in-progress` in the task file, commit that file to `main` alone (`git status` shows only it), then create branch `task/NNN-slug` and work there.
 - Acceptance criteria are owned by the human; the agent proposes test names and writes the tests. Do not change acceptance criteria unless the task explicitly asks.
 - Done requires: acceptance checked, tests added/updated, `./gradlew test` green, and human review.
 - After done: delete the task file. History stays in git commits and the PR.
