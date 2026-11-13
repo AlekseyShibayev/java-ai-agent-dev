@@ -7,7 +7,9 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 import com.example.javaaiagentdev.chat.ChatErrorHandler;
 import com.example.javaaiagentdev.chat.ChatService;
@@ -20,6 +22,7 @@ import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpSession;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.servlet.View;
 
 class ChatMessageControllerTest {
 
@@ -35,6 +38,8 @@ class ChatMessageControllerTest {
         mockMvc = MockMvcBuilders
                 .standaloneSetup(new ChatMessageController(service, client, registry))
                 .setControllerAdvice(new ChatErrorHandler())
+                .setViewResolvers((viewName, locale) -> (View) (model, request, response) -> {
+                })
                 .build();
     }
 
@@ -61,6 +66,22 @@ class ChatMessageControllerTest {
 
         verify(client, times(1)).createSession("chat");
         verify(service).start("ses_1", "again", null);
+    }
+
+    @Test
+    void shouldRenderRunFragmentForHtmxRequest() throws Exception {
+        when(client.createSession("chat")).thenReturn("ses_1");
+        when(service.start("ses_1", "hi", null)).thenAnswer(invocation -> registry.start("ses_1"));
+
+        mockMvc.perform(post("/chat/messages")
+                        .session(session)
+                        .header("HX-Request", "true")
+                        .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                        .param("text", "hi"))
+                .andExpect(status().isOk())
+                .andExpect(model().attribute("message", "hi"))
+                .andExpect(model().attributeExists("runId"))
+                .andExpect(view().name("fragments/run"));
     }
 
     @Test
