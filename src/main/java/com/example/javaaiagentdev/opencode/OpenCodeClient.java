@@ -42,6 +42,10 @@ public class OpenCodeClient {
                 .build();
     }
 
+    public boolean isAvailable() {
+        return true;
+    }
+
     public String createSession(String title) {
         log.debug("Creating OpenCode session: {}", title);
         Map<String, Object> body = new LinkedHashMap<>();
