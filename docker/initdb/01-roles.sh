@@ -1,0 +1,28 @@
+#!/bin/sh
+set -eu
+
+psql -v ON_ERROR_STOP=1 \
+  --username "$POSTGRES_USER" \
+  --dbname "$POSTGRES_DB" \
+  -v app_password="$DB_PASSWORD" \
+  -v readonly_password="$DB_READONLY_PASSWORD" <<'EOSQL'
+SELECT current_user AS owner, current_database() AS dbname \gset
+
+CREATE ROLE app LOGIN PASSWORD :'app_password';
+CREATE ROLE read_only LOGIN PASSWORD :'readonly_password';
+
+GRANT CONNECT ON DATABASE :"dbname" TO app, read_only;
+GRANT USAGE ON SCHEMA public TO app, read_only;
+REVOKE CREATE ON SCHEMA public FROM PUBLIC;
+
+GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA public TO app;
+GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA public TO app;
+GRANT SELECT ON ALL TABLES IN SCHEMA public TO read_only;
+
+ALTER DEFAULT PRIVILEGES FOR ROLE :"owner" IN SCHEMA public
+  GRANT SELECT, INSERT, UPDATE, DELETE ON TABLES TO app;
+ALTER DEFAULT PRIVILEGES FOR ROLE :"owner" IN SCHEMA public
+  GRANT USAGE, SELECT ON SEQUENCES TO app;
+ALTER DEFAULT PRIVILEGES FOR ROLE :"owner" IN SCHEMA public
+  GRANT SELECT ON TABLES TO read_only;
+EOSQL

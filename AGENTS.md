@@ -78,6 +78,11 @@ On this machine, prefix Gradle commands with `GRADLE_USER_HOME=/tmp/opencode/gra
 | `spring.datasource.url` | `DB_URL` | empty (set in the launcher config) |
 | `spring.datasource.username` | `DB_USERNAME` | `app` |
 | `spring.datasource.password` | `DB_PASSWORD` | empty |
+| `spring.liquibase.user` | `DB_OWNER_USERNAME` | `spring.datasource.username` |
+| `spring.liquibase.password` | `DB_OWNER_PASSWORD` | `spring.datasource.password` |
+| `app.readonly-datasource.url` | `DB_READONLY_URL` | empty |
+| `app.readonly-datasource.username` | `DB_READONLY_USERNAME` | `read_only` |
+| `app.readonly-datasource.password` | `DB_READONLY_PASSWORD` | empty |
 | `opencode.base-url` | `OPENCODE_BASE_URL` | empty (discovered via `opencode service status`) |
 | `opencode.binary` | `OPENCODE_BIN` | `opencode` |
 | `opencode.password` | `OPENCODE_PASSWORD` | empty |
@@ -114,7 +119,7 @@ On this machine, prefix Gradle commands with `GRADLE_USER_HOME=/tmp/opencode/gra
 
 ## Working style
 
-- Be concise: short answers, no preamble, no restating the task. Prefer bullets and tables; expand only when asked.
+- Default answer: ≤ 10 lines or ≤ 150 words. Expand only when asked. No preamble, no restating the task, no "what next".
 - Agree on the structure or plan first, then create files; do not add classes or packages "for the future".
 - Small steps: change → build/test.
 - The agent's "tests are green" is not proof: verify on a clean state yourself.
