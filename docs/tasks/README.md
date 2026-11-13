@@ -1,6 +1,6 @@
 # Задачи
 
-Одна задача — один файл `NNN-slug.md` и один change `openspec/changes/NNN-slug/`. Статусы — только в `BOARD.md`. В `docs/tasks/` только незакрытые задачи; после `закрыто` файл переезжает в `openspec/changes/archive/YYYY-MM-DD-NNN-slug/task.md`.
+Одна задача — один файл `NNN-slug.md` и один change `openspec/changes/NNN-slug/`. Статусы — в `BOARD.md`; исключение `создано`: файл есть, строки в доске нет. В доске только `в работе` и `выполнено`. В `docs/tasks/` только незакрытые задачи; после `закрыто` файл переезжает в `openspec/changes/archive/YYYY-MM-DD-NNN-slug/task.md`.
 
 ## Нумерация
 
@@ -26,7 +26,7 @@
 3. Проверка: acceptance закрыт, `./gradlew test` без фильтра зелёный.
 4. Взятие задачи, ревью, финиш и архив — по `docs/task-statuses.md`.
 
-Держим только ближайшие задачи; завершённые файлы переносим в `openspec/changes/archive/`, строки в доске остаются.
+Держим только ближайшие задачи; завершённые файлы переносим в `openspec/changes/archive/`, строки из доски удаляем.
 
 ## OpenSpec
 
