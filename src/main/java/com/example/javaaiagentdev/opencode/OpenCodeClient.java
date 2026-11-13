@@ -100,6 +100,10 @@ public class OpenCodeClient {
         HttpResponse<String> response = send(request("/api/session/" + sessionId + "/abort")
                 .POST(HttpRequest.BodyPublishers.noBody())
                 .build());
+        if (response.statusCode() == 404) {
+            log.debug("Nothing to abort in session {}", sessionId);
+            return;
+        }
         requireSuccess(response, "abort session");
     }
 
