@@ -18,6 +18,14 @@ spring:
 
   liquibase:
     change-log: classpath:db/changelog/db.changelog-master.yaml
+    user: ${DB_OWNER_USERNAME:${spring.datasource.username}}
+    password: ${DB_OWNER_PASSWORD:${spring.datasource.password}}
+
+app:
+  readonly-datasource:
+    url: ${DB_READONLY_URL:}
+    username: ${DB_READONLY_USERNAME:read_only}
+    password: ${DB_READONLY_PASSWORD:}
 
 opencode:
   base-url: ${OPENCODE_BASE_URL:}
