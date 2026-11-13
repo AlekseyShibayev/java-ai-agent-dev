@@ -1,7 +1,6 @@
 ---
 id: "002"
 title: "Открытые вопросы рантайма чата"
-status: draft
 created: 2026-11-13
 branch: task/002-open-questions
 pr:

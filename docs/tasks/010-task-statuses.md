@@ -1,7 +1,6 @@
 ---
 id: "010"
 title: "Статусы задач и процесс Джуна"
-status: draft
 created: 2026-11-14
 branch: task/010-task-statuses
 pr:

@@ -1,7 +1,6 @@
 ---
 id: "005"
 title: "Карточки инструментов, reasoning, стоимость"
-status: draft
 created: 2026-11-13
 branch: task/005-chat-tools
 pr:
