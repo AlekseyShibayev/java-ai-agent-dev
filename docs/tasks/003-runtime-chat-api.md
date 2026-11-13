@@ -5,7 +5,12 @@ status: draft
 created: 2026-11-13
 branch: task/003-runtime-chat-api
 pr:
+openspec: 003-runtime-chat-api
 ---
+
+## Change
+
+Поведение и план — `openspec/changes/003-runtime-chat-api/` (`proposal`, `specs/chat-runtime`, `design`, `tasks`). Этот файл держит приёмку: AC — что принимаем, спека — как система ведёт себя.
 
 ## Goal
 
