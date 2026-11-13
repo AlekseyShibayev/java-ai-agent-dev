@@ -1,7 +1,7 @@
 ---
 id: "007"
 title: "E2E UI: Playwright"
-status: draft
+status: in-progress
 created: 2026-11-13
 branch: task/007-playwright
 pr:
@@ -27,14 +27,15 @@ Chrome DevTools MCP / Playwright MCP для агента, кросс-брауз�
 
 ## Tests
 
-Предлагаемые имена (human подтверждает):
+Тесты пишутся сейчас только для инфраструктуры (AC 1, 4, 5, 6): страница `/chat` появится в 004, сценарии чата — отдельный PR.
 
 | Acceptance | Test | Type |
 | --- | --- | --- |
-| страница чата открывается | `ChatPageE2ETest.shouldOpenChatPage` | Playwright |
-| сообщение отправляется и появляется в ленте | `ChatPageE2ETest.shouldSendMessage` | Playwright |
-| артефакты пишутся при падении | `PlaywrightArtifactsTest.shouldSaveTrace` | Playwright |
-| установка браузера | `./gradlew playwrightInstall` | CLI |
+| браузер ставится одной Gradle-задачей | `./gradlew playwrightInstall` | CLI |
+| браузер запускается без системного Chrome | `PlaywrightSmokeE2ETest.shouldLaunchBrowser` | Playwright |
+| headless по умолчанию, `-Pheaded` включает UI | `PlaywrightConfigTest.shouldDefaultToHeadless` | JUnit |
+| падение сохраняет screenshot и trace в `build/` | `PlaywrightArtifactsE2ETest.shouldSaveScreenshotAndTrace` | Playwright |
+| `./gradlew test` не запускает E2E | `./gradlew test` — тег `e2e` исключён | CLI |
 
 ## Verification
 
