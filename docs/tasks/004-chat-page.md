@@ -1,9 +1,9 @@
 ---
-id: "003"
+id: "004"
 title: "Страница чата и стриминг"
 status: draft
 created: 2026-11-13
-branch: task/003-chat-page
+branch: task/004-chat-page
 pr:
 ---
 
@@ -13,7 +13,7 @@ pr:
 
 ## Non-goals
 
-Карточки инструментов, reasoning, стоимость, permissions (задачи 004/005). Markdown. Хранение истории.
+Карточки инструментов, reasoning, стоимость, permissions (задачи 005/006). Markdown. Хранение истории.
 
 ## Acceptance criteria
 

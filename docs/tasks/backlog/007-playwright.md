@@ -1,9 +1,9 @@
 ---
-id: "006"
+id: "007"
 title: "E2E UI: Playwright"
 status: draft
 created: 2026-11-13
-branch: task/006-playwright
+branch: task/007-playwright
 pr:
 ---
 
@@ -52,4 +52,4 @@ GRADLE_USER_HOME=/tmp/opencode/gradle-home ./gradlew test
 
 ## Out of scope
 
-E2E для инструментов и permissions (задачи 004/005 покрывают это на уровне API), мобильные вьюпорты, параллельные шарды.
+E2E для инструментов и permissions (задачи 005/006 покрывают это на уровне API), мобильные вьюпорты, параллельные шарды.

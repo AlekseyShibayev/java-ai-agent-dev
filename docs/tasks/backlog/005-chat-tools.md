@@ -1,9 +1,9 @@
 ---
-id: "004"
+id: "005"
 title: "Карточки инструментов, reasoning, стоимость"
 status: draft
 created: 2026-11-13
-branch: task/004-chat-tools
+branch: task/005-chat-tools
 pr:
 ---
 
@@ -13,7 +13,7 @@ pr:
 
 ## Non-goals
 
-Approvals (005), RAG, MCP-настройка, отдельная страница trace.
+Approvals (006), RAG, MCP-настройка, отдельная страница trace.
 
 ## Acceptance criteria
 

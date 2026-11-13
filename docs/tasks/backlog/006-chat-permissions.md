@@ -1,9 +1,9 @@
 ---
-id: "005"
+id: "006"
 title: "Approval в чате"
 status: draft
 created: 2026-11-13
-branch: task/005-chat-permissions
+branch: task/006-chat-permissions
 pr:
 ---
 

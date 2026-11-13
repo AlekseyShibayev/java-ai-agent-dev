@@ -1,9 +1,9 @@
 ---
-id: "002"
+id: "003"
 title: "Рантайм чата: API"
 status: draft
 created: 2026-11-13
-branch: task/002-runtime-chat-api
+branch: task/003-runtime-chat-api
 pr:
 ---
 
