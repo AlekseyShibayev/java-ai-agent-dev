@@ -6,6 +6,7 @@
     var connection = document.getElementById('connection');
     var stream = null;
     var currentSessionId = null;
+    var currentAnswer = null;
     var run = emptyRun();
 
     function emptyRun() {
@@ -44,7 +45,7 @@
     }
 
     function answer() {
-        return chat.querySelector('.answer');
+        return currentAnswer || chat.querySelector('.answer');
     }
 
     function steps() {
@@ -310,9 +311,10 @@
         footer.hidden = false;
     }
 
-    function connect(url, sessionId) {
+    function connect(url, sessionId, box) {
         disconnect();
         currentSessionId = sessionId || null;
+        currentAnswer = box || chat.querySelector('.answer');
         run = emptyRun();
         var source = new EventSource(url);
         stream = source;
@@ -325,7 +327,7 @@
             }
         };
         source.addEventListener('text', function (event) {
-            var box = chat.querySelector('.answer-text');
+            var box = answer() && answer().querySelector('.answer-text');
             if (box) {
                 box.insertAdjacentHTML('beforeend', event.data);
             }
@@ -419,9 +421,10 @@
     }
 
     function connectAnswer(scope) {
-        var answerBox = (scope || chat).querySelector('[data-sse-url]');
+        var boxes = (scope || chat).querySelectorAll('[data-sse-url]');
+        var answerBox = boxes.length ? boxes[boxes.length - 1] : null;
         if (answerBox) {
-            connect(answerBox.getAttribute('data-sse-url'), answerBox.getAttribute('data-session-id'));
+            connect(answerBox.getAttribute('data-sse-url'), answerBox.getAttribute('data-session-id'), answerBox);
         }
     }
 
