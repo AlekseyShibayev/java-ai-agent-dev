@@ -5,7 +5,7 @@
 | № | Задача | Статус | Кто |
 | --- | --- | --- | --- |
 | 009 | E2E страницы чата | на ревью | junior |
-| 018 | Оформление страницы чата | в ревью | junior |
+| 018 | Оформление страницы чата | в работе | junior |
 | 019 | Чат по умолчанию на локальной модели Ollama | на ревью | junior |
 | 021 | Команда code review по номеру ветки | в работе | AShibaev |
 
@@ -22,3 +22,10 @@
 - `.opencode/commands/code-review.md:15` — шаг 4 берёт `branch:` из frontmatter (локально или из `origin/<branch>`) и при отсутствии останавливается; у задачи в `на ревью` ветки уже нет: `git ls-remote --heads origin` отдаёт только `main`, `git rev-parse --verify origin/task/009-chat-e2e` → exit 128. Команда не может взять ни одну задачу. Ожидалось: фолбэк на merge-коммит/sha вершины задачи (ручной обход: `git worktree add --detach abe6474`).
 - `.opencode/commands/code-review.md:17` — `git pull --rebase` на шаге 6 падает при незакоммиченных правках вне `docs/mini-jira/BOARD.md`: воспроизведено на `M .ai/recommendations.md` → `error: cannot pull with rebase: You have unstaged changes`. Ожидалось: `git -c rebase.autostash=true pull --rebase` либо явная precondition-проверка дерева (шаг 5 смотрит только `BOARD.md`).
 - `docs/mini-jira/README.md:5` — осталось «В доске только `в работе` и `выполнено`», хотя в том же коммите раздел «Статусы» (строка 22) и `BOARD.md` перечисляют `в работе`/`на ревью`/`в ревью`/`закрыто`. Ожидалось: тот же список в строке 5.
+
+### 018 — Оформление страницы чата
+
+- `src/main/resources/static/css/chat.css:59` — у `#chat` нет `min-height`: пустая страница короче экрана, и `position: sticky` композера не к чему прилипать — на свежем чате композер висит в середине (`composerBottom=375` при `viewport=713`, Chromium 900×700). Ожидалось: композер прижат к низу окна и на пустой странице.
+- `src/main/resources/static/css/chat.css:65` — `padding: 22px 18px 132px` даёт мёртвую полосу под композером: при прокрутке до конца документа композер отрывается от низа (`composerBottom=589` при `viewport=713`). Ожидалось: композер остаётся у нижней кромки, отступ под ленту не нужен при `sticky`.
+- `src/main/resources/static/css/chat.css:141` — `#chat:has(#send:disabled) .answer-text::after` вешает курсор генерации на все `.answer-text` ленты, включая завершённые ответы: при втором прогоне у первого ответа `getComputedStyle(…, '::after').content === '"▍"'`. Ожидалось: индикатор только в текущем ответе, у завершённых его нет.
+- `src/main/resources/static/css/chat.css:138` — `.answer-text:empty::before { content: "печатает…" }` не привязан к активному прогону: после завершения прогона с пустым ответом (Stop до первого токена, ошибка) «печатает…» остаётся навсегда. Ожидалось: после завершения индикаторы исчезают (приёмка, п. 4).
