@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <title>Chat permissions fixture</title>
+</head>
+<body>
+<main id="chat">
+    <div id="connection" class="banner" role="status" hidden>Нет связи</div>
+    <section id="thread">
+        <article class="message message-assistant">
+            <div class="answer" data-sse-url="fixture://run" data-session-id="ses_1">
+                <div class="run-steps"></div>
+                <span class="answer-text"></span>
+                <footer class="run-usage" hidden>
+                    <span class="run-cost"></span>
+                    <span class="run-tokens"></span>
+                </footer>
+            </div>
+        </article>
+    </section>
+    <form id="composer">
+        <textarea id="message" name="text" aria-label="Сообщение"></textarea>
+        <button id="send" type="submit">Отправить</button>
+        <button id="stop" type="button" disabled>Stop</button>
+    </form>
+</main>
+<script>
+    window.__emit = function (name, data) {
+        var source = window.__source;
+        var listeners = source.__listeners[name] || [];
+        listeners.forEach(function (listener) {
+            listener({data: data});
+        });
+    };
+    window.EventSource = function (url) {
+        this.url = url;
+        this.readyState = 1;
+        this.__listeners = {};
+        window.__source = this;
+    };
+    window.EventSource.prototype.addEventListener = function (name, listener) {
+        (this.__listeners[name] = this.__listeners[name] || []).push(listener);
+    };
+    window.EventSource.prototype.close = function () {
+        this.readyState = 2;
+    };
+
+    window.__replies = [];
+    window.__lastReply = null;
+    window.__fetchStatus = 204;
+    window.fetch = function (url, options) {
+        var reply = {
+            url: url,
+            method: options && options.method,
+            body: options && options.body
+        };
+        window.__replies.push(reply);
+        window.__lastReply = reply;
+        var status = window.__fetchStatus;
+        return Promise.resolve({
+            ok: status >= 200 && status < 300,
+            status: status,
+            json: function () {
+                return Promise.resolve({error: "Unknown permission request: per_1"});
+            }
+        });
+    };
+</script>
+<script src="../../main/static/js/chat.js"></script>
+</body>
+</html>

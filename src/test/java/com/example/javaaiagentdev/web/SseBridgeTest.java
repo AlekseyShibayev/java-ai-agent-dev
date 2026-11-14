@@ -9,6 +9,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.example.javaaiagentdev.chat.ExecutionSucceededEvent;
+import com.example.javaaiagentdev.chat.PermissionAskedEvent;
+import com.example.javaaiagentdev.chat.PermissionRepliedEvent;
 import com.example.javaaiagentdev.chat.RunRegistry;
 import com.example.javaaiagentdev.chat.StepEndedEvent;
 import com.example.javaaiagentdev.chat.TextDeltaEvent;
@@ -87,6 +89,29 @@ class SseBridgeTest {
         assertTrue(body.contains("event:tool.failed"), body);
         assertTrue(body.contains("event:usage.step"), body);
         assertTrue(body.contains("event:usage.session"), body);
+    }
+
+    @Test
+    void shouldNamePermissionEventsAndSkipOtherSessions() throws Exception {
+        String runId = registry.start("ses_1");
+        registry.publish("ses_1", 1L, new PermissionAskedEvent("ses_1", "per_1", "shell",
+                java.util.List.of("echo hi"), java.util.List.of()));
+        registry.publish("ses_1", 2L, new PermissionRepliedEvent("ses_1", "per_1", "reject"));
+        registry.publish("ses_1", 3L, new PermissionAskedEvent("ses_2", "per_2", "shell",
+                java.util.List.of("rm -rf /"), java.util.List.of()));
+        registry.publish("ses_1", 4L, new ExecutionSucceededEvent("ses_1"));
+
+        MvcResult result = mockMvc.perform(get("/chat/runs/" + runId + "/events").accept("text/event-stream"))
+                .andExpect(request().asyncStarted())
+                .andReturn();
+        String body = mockMvc.perform(asyncDispatch(result))
+                .andExpect(status().isOk())
+                .andReturn().getResponse().getContentAsString();
+
+        assertTrue(body.contains("event:permission.asked"), body);
+        assertTrue(body.contains("event:permission.replied"), body);
+        assertTrue(body.contains("per_1"), body);
+        assertFalse(body.contains("per_2"), "event of another session must not reach the run: " + body);
     }
 
     @Test
