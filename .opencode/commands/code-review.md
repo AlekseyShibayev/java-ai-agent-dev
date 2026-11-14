@@ -58,7 +58,7 @@ subagent: true
 
 3. Один коммит `Task NNN: review findings`, `git push`.
 
-После любого вердикта: рабочее дерево чистое, ветка основного checkout не менялась, `git log origin/main -1` совпадает с локальным.
+После любого вердикта: `git status --porcelain` по `docs/` и `openspec/` пуст, ветка основного checkout не менялась, `git log origin/main -1` совпадает с локальным.
 
 ## Отчёт
 
