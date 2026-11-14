@@ -19,7 +19,7 @@
 
 - [x] 3.1 `./gradlew test` без фильтра зелёный; `./gradlew e2e` зелёный.
 - [x] 3.2 `openspec validate --strict --all` зелёный.
-- [ ] 3.3 Merge ветки `task/005-chat-tools` в `main`, статус `на ревью`.
+- [x] 3.3 Merge ветки `task/005-chat-tools` в `main`, статус `на ревью`.
 
 ## Workflow follow-up
 
