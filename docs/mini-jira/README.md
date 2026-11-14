@@ -21,9 +21,35 @@
 
 `создано` → `в работе` → `на ревью` → `закрыто`. Полное правило — `docs/task-statuses.md`; текущие статусы — `BOARD.md`. В файле задачи поля `status` нет.
 
+## Формат файла задачи
+
+Файл задачи — короткий: что просил человек и что принимаем. Как делать — в change.
+
+```markdown
+---
+id: "NNN"
+title: "..."
+created: YYYY-MM-DD
+branch: task/NNN-slug
+pr:
+openspec: NNN-slug   # только когда change уже создан
+---
+
+## Что сделать
+
+Одно-три предложения: что и зачем, без плана реализации.
+
+## Приёмка
+
+- [ ] Проверяемый результат.
+```
+
+- Блоки `Tests`, `Verification`, `Constraints`, `Non-goals`, `Out of scope`, `Depends on` в файле задачи не живут: тесты, план и ограничения — в `openspec/changes/NNN-slug/`.
+- Приёмку формулирует человек; агент её не переписывает.
+
 ## Процесс
 
-1. Спека: change `openspec/changes/NNN-slug/` — `proposal`, `specs` (Requirement/Scenario), `design`, `tasks`; `openspec validate --strict --all` зелёный.
+1. Спека: когда задачу берут в работу, заводится change `openspec/changes/NNN-slug/` — `proposal`, `specs` (Requirement/Scenario), `design`, `tasks`; `openspec validate --strict --all` зелёный. До этого change нет, файл задачи несёт только суть и приёмку.
 2. Тесты по списку (red), затем код (green), затем рефакторинг.
 3. Проверка: acceptance закрыт, `./gradlew test` без фильтра зелёный.
 4. Взятие задачи, ревью, финиш и архив — по `docs/task-statuses.md`.
@@ -40,11 +66,9 @@
 
 ## Tests (red first)
 
-В задаче обязателен блок — acceptance → имя теста → тип:
+Список «acceptance → имя теста → тип» живёт в `tasks.md` change, не в файле задачи:
 
 ```markdown
-## Tests
-
 | Acceptance | Test | Type |
 | --- | --- | --- |
 | read_only не пишет | ReadOnlyRoleTest.shouldRejectInsert | Testcontainers |
