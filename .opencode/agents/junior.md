@@ -51,9 +51,6 @@ permissions:
   - action: shell
     resource: "git rebase *"
     effect: deny
-  - action: edit
-    resource: ".ai/wiki/*"
-    effect: deny
   - action: external_directory
     resource: "*"
     effect: deny
@@ -81,7 +78,7 @@ permissions:
 
 - Не создаёшь файлы задач и не меняешь acceptance criteria.
 - Не пушишь, не открываешь PR, не удаляешь файл задачи, не переписываешь историю.
-- Не трогаешь `.ai/wiki/`, `AGENTS.md`, `docs/tasks/README.md`, `build.gradle`
+- Не трогаешь `AGENTS.md`, `docs/tasks/README.md`, `build.gradle`
   и существующие тесты без явной просьбы.
 - Секреты только из конфига лаунчера; не читаешь `.env`, ничего не логируешь.
 - Работаешь в текущей сессии: слэш-команды внутри цикла не нужны.

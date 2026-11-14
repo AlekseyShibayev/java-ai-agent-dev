@@ -12,7 +12,7 @@ pr:
 
 ## Non-goals
 
-Трекер, БД, MCP-инструменты, блокировки через refs, автоматическое закрытие, изменение кода приложения, правка `.ai/wiki/`.
+Трекер, БД, MCP-инструменты, блокировки через refs, автоматическое закрытие, изменение кода приложения, правка `личные заметки`.
 
 ## Контекст
 
@@ -50,7 +50,7 @@ GRADLE_USER_HOME=/tmp/opencode/gradle-home ./gradlew test
 
 ## Constraints
 
-- `.ai/wiki/`, `build.gradle`, тесты, `opencode.json`, `docs/tasks/012-openapi-docs.md` (кроме удаления `status:`) не менять.
+- `личные заметки`, `build.gradle`, тесты, `opencode.json`, `docs/tasks/012-openapi-docs.md` (кроме удаления `status:`) не менять.
 - PR ≤ 300 строк.
 
 ## Out of scope

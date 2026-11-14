@@ -39,7 +39,6 @@ On this machine, prefix Gradle commands with `GRADLE_USER_HOME=/tmp/opencode/gra
 - `docs/plan.md` — goal, decisions, 5 stages.
 - `docs/tasks/` — current tasks, `BOARD.md` (statuses) and acceptance.
 - `openspec/` — specs, active changes, archive (see "OpenSpec" below).
-- `.ai/wiki/` is user-owned. Do not edit, append, or delete anything there without explicit permission; propose changes first.
 - Task specs in `docs/` are drafts until the human names the task for work (board status `создано` is not an invitation).
 
 ## OpenSpec

@@ -13,7 +13,7 @@ pr:
 
 ## Non-goals
 
-Spec Kit, миграция backlog и всех черновиков, CI-гейт на `openspec validate`, плагины и хуки OpenCode, изменение кода приложения и `build.gradle`, правка `.ai/wiki/`, пересмотр статусов (010).
+Spec Kit, миграция backlog и всех черновиков, CI-гейт на `openspec validate`, плагины и хуки OpenCode, изменение кода приложения и `build.gradle`, правка `личные заметки`, пересмотр статусов (010).
 
 ## Контекст
 
@@ -50,7 +50,7 @@ Spec Kit, миграция backlog и всех черновиков, CI-гейт
 - [ ] Правило «после done файл задачи удаляется» согласовано с `archive/`: change уходит в `openspec/changes/archive/YYYY-MM-DD-<id>/` (D2).
 - [ ] Пилот: 003 оформлена как change (proposal + specs с Requirement/Scenario + tasks), связь change ↔ `NNN` описана в обоих файлах.
 - [ ] Черновики 004, 009, 010 не переписаны; backlog не тронут.
-- [ ] `.ai/wiki/` не изменён.
+- [ ] `личные заметки` не изменён.
 - [ ] `./gradlew test` зелёный без фильтра.
 
 ## Tests
@@ -77,7 +77,7 @@ GRADLE_USER_HOME=/tmp/opencode/gradle-home ./gradlew test
 ## Constraints
 
 - Один PR: лимит ≤300 строк снят человеком (2026-11-14) — сгенерированные skills и пилот в этом PR.
-- `.ai/wiki/`, `build.gradle`, существующие тесты, `opencode.json` не менять.
+- `личные заметки`, `build.gradle`, существующие тесты, `opencode.json` не менять.
 - Телеметрия OpenSpec выключена: `openspec config set telemetry.enabled false` (глобальная настройка машины).
 - Секретов в новых файлах нет.
 

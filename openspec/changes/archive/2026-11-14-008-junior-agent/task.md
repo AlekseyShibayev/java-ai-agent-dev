@@ -13,7 +13,7 @@ pr:
 
 ## Non-goals
 
-Пересмотр статусов и процедуры (010), правка `AGENTS.md`, `docs/tasks/README.md` и новая `docs/junior.md`, код-тесты конфигурации, субагенты (аналитик, чекер), плагины и хуки, глобальная установка в `~/.config/opencode/`, автоматический push/PR/удаление файла задачи, правка `.ai/wiki/`.
+Пересмотр статусов и процедуры (010), правка `AGENTS.md`, `docs/tasks/README.md` и новая `docs/junior.md`, код-тесты конфигурации, субагенты (аналитик, чекер), плагины и хуки, глобальная установка в `~/.config/opencode/`, автоматический push/PR/удаление файла задачи, правка `личные заметки`.
 
 ## Контекст и принятые решения
 
@@ -38,7 +38,7 @@ pr:
 
 - `shell "*"` → deny, затем allow: `git status *`, `git diff *`, `git log *`, `git show *`, `git add *`, `git commit *`, `git switch *`, `git checkout *`, `git branch *`, `GRADLE_USER_HOME=/tmp/opencode/gradle-home ./gradlew *`;
 - после allow — deny: `git push *`, `git reset --hard *`, `git clean *`, `git commit --amend *`, `git rebase *`;
-- `edit` deny `.ai/wiki/*`;
+- `edit` deny личные заметки;
 - `external_directory "*"` deny: конфиг лаунчера лежит вне репозитория;
 - `read` deny `*.env*`, затем allow `*.env.example`;
 - `question "*"` allow: диалог с человеком — часть работы.
@@ -53,7 +53,7 @@ pr:
 - [ ] `../java-ai-agent-dev_launcher/application.yaml` недоступен Джуну; `*.env*` не читается, `*.env.example` читается.
 - [ ] `./gradlew` без `GRADLE_USER_HOME=/tmp/opencode/gradle-home` отклоняется, с ним — разрешён.
 - [ ] Джун не создаёт файлы задач, а работает с существующим в `docs/tasks/`.
-- [ ] `AGENTS.md`, `docs/tasks/README.md`, `.ai/wiki/`, `build.gradle`, `opencode.json` не изменены.
+- [ ] `AGENTS.md`, `docs/tasks/README.md`, `личные заметки`, `build.gradle`, `opencode.json` не изменены.
 - [ ] `./gradlew test` зелёный без фильтра.
 
 ## Tests
@@ -72,7 +72,7 @@ opencode debug agents
 ## Constraints
 
 - PR ≤ 300 строк; только два новых файла.
-- `build.gradle`, существующие тесты, `.ai/wiki/`, `application.yaml` — не менять.
+- `build.gradle`, существующие тесты, `личные заметки`, `application.yaml` — не менять.
 - Секреты только из лаунчер-конфига; ничего не логировать.
 
 ## Out of scope

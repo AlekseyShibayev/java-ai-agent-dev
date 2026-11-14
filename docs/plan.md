@@ -39,4 +39,3 @@
 - Требования — в `openspec/changes/<NNN>-<slug>/specs/`, приёмка — в файле задачи; текст не дублируется.
 - Статусы и жизненный цикл — `docs/task-statuses.md`, текущие статусы — `docs/tasks/BOARD.md`.
 - `openspec validate --strict --all` зелёный перед PR.
-- Wiki — `.ai/wiki/`, не трогать без разрешения.

@@ -40,7 +40,7 @@ GRADLE_USER_HOME=/tmp/opencode/gradle-home ./gradlew test
 
 ## Constraints
 
-- `.ai/wiki/`, `build.gradle`, тесты, `opencode.json` не менять.
+- `личные заметки`, `build.gradle`, тесты, `opencode.json` не менять.
 - PR ≤ 300 строк.
 
 ## Out of scope
