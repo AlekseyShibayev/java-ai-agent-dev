@@ -4,6 +4,7 @@ title: "E2E страницы чата"
 created: 2026-11-14
 branch: task/009-chat-e2e
 pr:
+openspec: 009-chat-e2e
 ---
 
 ## Что сделать
