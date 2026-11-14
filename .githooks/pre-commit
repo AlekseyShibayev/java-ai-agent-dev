@@ -1,39 +1,168 @@
 #!/bin/sh
 set -eu
 
-# Blocks commits that contain likely secrets. Scans the staged content only.
+# Commit gate driven by the project constitution: `.ai/constitution.md`.
+# Every numbered item in the file must carry a `[<letter><number>]` id, and a
+# matching `check_<id>` below must exist and pass.
+#
+# - an item without an id blocks the commit (a rule cannot be added without
+#   enforcing it)
+# - an id without a `check_<id>` function blocks the commit
+# - a failing check blocks the commit
+#
 # Bypass for a verified false positive: SKIP_SECRET_CHECK=1 git commit ...
 
 if [ "${SKIP_SECRET_CHECK:-0}" = "1" ]; then
-    echo "secret check skipped (SKIP_SECRET_CHECK=1)"
+    echo "constitution checks skipped (SKIP_SECRET_CHECK=1)"
     exit 0
 fi
 
-pattern='-----BEGIN [A-Z ]*PRIVATE KEY-----|AKIA[0-9A-Z]{16}|gh[pousr]_[A-Za-z0-9]{36,}|github_pat_[A-Za-z0-9_]{50,}|xox[baprs]-[0-9A-Za-z-]{10,}|AIza[0-9A-Za-z_-]{35}|[0-9]{8,10}:[A-Za-z0-9_-]{35}|(password|passwd|secret|token|api[_-]?key|access[_-]?key)[[:space:]]*[:=][[:space:]]*["'\'']?[A-Za-z0-9_./+-]{8,}'
+cd "$(git rev-parse --show-toplevel)"
 
-# Hardcoded database URLs leak host names and topology even without a password.
-jdbc='jdbc:[a-z0-9]+://[^[:space:]]+'
-jdbc_matches=$(git grep --cached -nI -E -e "$jdbc" -- . 2>/dev/null || true)
-
-if [ -n "$jdbc_matches" ]; then
-    echo "Commit blocked: hardcoded JDBC URL in staged files:" >&2
-    printf '%s\n' "$jdbc_matches" >&2
-    echo >&2
-    echo "Use a placeholder with no default value, for example \${DB_URL:}." >&2
-    echo "Verified false positive: SKIP_SECRET_CHECK=1 git commit ..." >&2
+constitution=${CONSTITUTION_FILE:-.ai/constitution.md}
+if [ ! -f "$constitution" ]; then
+    echo "Commit blocked: $constitution not found; the constitution is required." >&2
     exit 1
 fi
 
-matches=$(git grep --cached -nI -E -e "$pattern" -- . 2>/dev/null || true)
-matches=$(printf '%s\n' "$matches" | grep -vE '\$\{|change[_-]?me|example|placeholder|your[_-]|xxxx|<[^>]+>|\*\*\*|redacted' || true)
+items=$(grep -cE '^[0-9]+\.' "$constitution" || true)
+rules=$(sed -n 's/.*\[\([A-Z][0-9][0-9]*\)\].*/\1/p' "$constitution")
+id_count=$(printf '%s\n' "$rules" | grep -c . || true)
 
-if [ -n "$matches" ]; then
-    echo "Commit blocked: possible secrets in staged files:" >&2
-    printf '%s\n' "$matches" >&2
-    echo >&2
-    echo "Remove the secret, or use an environment placeholder such as \${MY_SECRET}." >&2
-    echo "Verified false positive: SKIP_SECRET_CHECK=1 git commit ..." >&2
+if [ "$items" -ne "$id_count" ]; then
+    echo "Commit blocked: every constitution item needs an id like [S1] ($items items, $id_count tagged)." >&2
     exit 1
 fi
+
+db_config=$(git show :src/main/resources/application.yaml 2>/dev/null || true)
+
+# [S0] The constitution changes only with the human's approval.
+check_S0() {
+    if [ "${CONSTITUTION_APPROVED:-0}" = "1" ]; then
+        return 0
+    fi
+    changed=$(git diff --cached --name-only -- .ai/constitution.md 2>/dev/null || true)
+    if [ -n "$changed" ]; then
+        echo "Commit blocked: [S0] .ai/constitution.md is changed without the human's approval." >&2
+        echo "Agree on the wording first, then commit with CONSTITUTION_APPROVED=1." >&2
+        return 1
+    fi
+    return 0
+}
+
+# [S1] The agent reaches the database only through the read_only role.
+check_S1() {
+    if [ -z "$db_config" ]; then
+        echo "Commit blocked: [S1] src/main/resources/application.yaml is missing; the read-only datasource is required." >&2
+        return 1
+    fi
+    if ! printf '%s\n' "$db_config" | grep -q 'DB_READONLY_USERNAME:read_only'; then
+        echo "Commit blocked: [S1] app.readonly-datasource.username must default to read_only:" >&2
+        printf '%s\n' "$db_config" | grep -nE '^[[:space:]]*username:' >&2 || true
+        return 1
+    fi
+    if printf '%s\n' "$db_config" | grep -qE 'DB_READONLY_[A-Z]+:\$\{DB_'; then
+        echo "Commit blocked: [S1] the read-only datasource must not fall back to write credentials." >&2
+        return 1
+    fi
+    return 0
+}
+
+# [S2] No secrets in the commit: keys, tokens, passwords, connection strings.
+check_S2() {
+    pattern='-----BEGIN [A-Z ]*PRIVATE KEY-----|AKIA[0-9A-Z]{16}|gh[pousr]_[A-Za-z0-9]{36,}|github_pat_[A-Za-z0-9_]{50,}|xox[baprs]-[0-9A-Za-z-]{10,}|AIza[0-9A-Za-z_-]{35}|[0-9]{8,10}:[A-Za-z0-9_-]{35}|(password|passwd|secret|token|api[_-]?key|access[_-]?key)[[:space:]]*[:=][[:space:]]*["'\'']?[A-Za-z0-9_./+-]{8,}'
+
+    matches=$(git grep --cached -nI -E -e "$pattern" -- . 2>/dev/null || true)
+    matches=$(printf '%s\n' "$matches" | grep -vE '\$\{|change[_-]?me|example|placeholder|your[_-]|xxxx|<[^>]+>|\*\*\*|redacted' || true)
+
+    if [ -n "$matches" ]; then
+        echo "Commit blocked: [S2] possible secrets in staged files:" >&2
+        printf '%s\n' "$matches" >&2
+        echo >&2
+        echo "Remove the secret, or use an environment placeholder such as \${MY_SECRET}." >&2
+        echo "Verified false positive: SKIP_SECRET_CHECK=1 git commit ..." >&2
+        return 1
+    fi
+    return 0
+}
+
+# [S3] No hardcoded JDBC URLs: they leak host names and topology even without
+# a password. Use a placeholder with no default value, for example ${DB_URL:}.
+check_S3() {
+    jdbc='jdbc:[a-z0-9]+://[^[:space:]]+'
+    jdbc_matches=$(git grep --cached -nI -E -e "$jdbc" -- . 2>/dev/null || true)
+
+    if [ -n "$jdbc_matches" ]; then
+        echo "Commit blocked: [S3] hardcoded JDBC URL in staged files:" >&2
+        printf '%s\n' "$jdbc_matches" >&2
+        echo >&2
+        echo "Use a placeholder with no default value, for example \${DB_URL:}." >&2
+        echo "Verified false positive: SKIP_SECRET_CHECK=1 git commit ..." >&2
+        return 1
+    fi
+    return 0
+}
+
+# [S4] A secret never leaves the launch config: no secret-named value is
+# logged or printed. The rule also covers errors, agent replies and traces;
+# this check catches the common logging patterns.
+check_S4() {
+    leaks=$(git grep --cached -nIE \
+        -e 'log\.(trace|debug|info|warn|error)[[:space:]]*\(' \
+        -e 'System\.(out|err)\.print' \
+        -e 'printStackTrace' \
+        -- . 2>/dev/null | awk '
+            {
+                line = $0
+                sub(/^[^:]*:[0-9]+:/, "", line)
+                if (!match(line, /(log\.(trace|debug|info|warn|error)|System\.(out|err)\.print(f|ln)?|printStackTrace)[[:space:]]*\(/)) next
+                args = substr(line, RSTART)
+                gsub(/"[^"]*"/, "\"\"", args)
+                low = tolower(args)
+                if (low ~ /(password|passwd|secret|token|api_?key|credential)([^a-z0-9_]|$)/) print $0
+            }' || true)
+
+    if [ -n "$leaks" ]; then
+        echo "Commit blocked: [S4] a secret-looking value is logged or printed:" >&2
+        printf '%s\n' "$leaks" >&2
+        echo >&2
+        echo "Keep the secret in the launch config; log an event, not the value." >&2
+        echo "Verified false positive: SKIP_SECRET_CHECK=1 git commit ..." >&2
+        return 1
+    fi
+    return 0
+}
+
+# [S5] Local config with secrets stays out of the index: the launcher
+# application.yaml and .env files are ignored and never tracked.
+check_S5() {
+    failed=0
+    for path in application.yaml .env; do
+        if ! git check-ignore -q "$path"; then
+            echo "Commit blocked: [S5] $path is not ignored by .gitignore." >&2
+            failed=1
+        fi
+    done
+    tracked=$(git ls-files | grep -E '^application[^/]*\.ya?ml$|^\.env($|\.)' || true)
+    if [ -n "$tracked" ]; then
+        echo "Commit blocked: [S5] local config is tracked in the repository:" >&2
+        printf '%s\n' "$tracked" >&2
+        failed=1
+    fi
+    return "$failed"
+}
+
+for rule in $rules; do
+    if ! eval "command -v check_$rule" >/dev/null 2>&1; then
+        echo "Commit blocked: constitution rule [$rule] has no check_$rule in .githooks/pre-commit." >&2
+        exit 1
+    fi
+done
+
+for rule in $rules; do
+    if ! eval "check_$rule"; then
+        exit 1
+    fi
+done
 
 exit 0
