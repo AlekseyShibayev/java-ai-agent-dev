@@ -1,0 +1,212 @@
+/* AI Lab — оформление страницы чата. Локально, без фреймворков и внешних шрифтов. */
+
+:root {
+    --bg: #f5f6fb;
+    --surface: #ffffff;
+    --text: #171a24;
+    --muted: #616a80;
+    --border: #e3e6f0;
+    --accent: #5b6cff;
+    --accent-ink: #ffffff;
+    --mint: #00c2a8;
+    --glow-1: rgba(91, 108, 255, 0.18);
+    --glow-2: rgba(0, 194, 168, 0.16);
+    --shadow: 0 10px 30px rgba(23, 26, 36, 0.08);
+    --warn-bg: #fff4d6;
+    --warn-fg: #7a4a00;
+    --warn-border: #f0d089;
+    --error-bg: #ffe6e6;
+    --error-fg: #8d1b1b;
+    --error-border: #f3b4b4;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --bg: #0e1016;
+        --surface: #171a23;
+        --text: #e8eaf2;
+        --muted: #9aa3b8;
+        --border: #272b38;
+        --accent: #7c8cff;
+        --mint: #35d0b5;
+        --glow-1: rgba(124, 140, 255, 0.22);
+        --glow-2: rgba(53, 208, 181, 0.16);
+        --shadow: 0 12px 34px rgba(0, 0, 0, 0.45);
+        --warn-bg: #3a2c0d;
+        --warn-fg: #ffd98a;
+        --warn-border: #6b5314;
+        --error-bg: #3a1717;
+        --error-fg: #ffb4b4;
+        --error-border: #6d2a2a;
+    }
+}
+
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+html, body { margin: 0; min-height: 100%; }
+
+body {
+    font: 16px/1.55 ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+    color: var(--text);
+    background:
+        radial-gradient(1100px 520px at 8% -12%, var(--glow-1), transparent 62%),
+        radial-gradient(820px 460px at 102% -4%, var(--glow-2), transparent 58%),
+        var(--bg);
+    background-attachment: fixed;
+    -webkit-font-smoothing: antialiased;
+}
+
+#chat {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 22px 18px 132px;
+}
+
+#app-header { padding: 4px 2px 2px; }
+
+#app-header h1 {
+    margin: 0;
+    font-size: 22px;
+    letter-spacing: -0.02em;
+    background: linear-gradient(92deg, var(--accent), var(--mint));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+#app-header p { margin: 2px 0 0; font-size: 13px; color: var(--muted); }
+
+.banner {
+    position: sticky;
+    top: 8px;
+    z-index: 5;
+    padding: 9px 14px;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 600;
+    backdrop-filter: blur(8px);
+}
+
+.banner::before { content: "⚠ "; }
+#connection { background: var(--warn-bg); color: var(--warn-fg); border: 1px solid var(--warn-border); }
+#unavailable { background: var(--error-bg); color: var(--error-fg); border: 1px solid var(--error-border); }
+
+#thread { display: flex; flex-direction: column; gap: 12px; min-height: 140px; }
+
+#empty {
+    align-self: center;
+    margin: 34px 0;
+    padding: 16px 22px;
+    border: 1px dashed var(--border);
+    border-radius: 16px;
+    color: var(--muted);
+    font-size: 15px;
+}
+
+#empty::before { content: "💬 "; }
+#thread:has(article.message) #empty { display: none; }
+
+.message {
+    width: fit-content;
+    max-width: min(100%, 640px);
+    padding: 12px 16px;
+    border-radius: 18px;
+    box-shadow: var(--shadow);
+    overflow-wrap: anywhere;
+    white-space: pre-wrap;
+    animation: pop 160ms ease-out;
+}
+
+.message-user {
+    align-self: flex-end;
+    border-bottom-right-radius: 6px;
+    color: var(--accent-ink);
+    background: linear-gradient(135deg, var(--accent), var(--mint));
+}
+
+.message-assistant {
+    align-self: flex-start;
+    border: 1px solid var(--border);
+    border-bottom-left-radius: 6px;
+    background: var(--surface);
+}
+
+.answer { white-space: pre-wrap; }
+.answer-text:empty::before { content: "печатает…"; color: var(--muted); }
+
+/* Пока прогон активен, «Отправить» заблокирована: показываем курсор генерации. */
+#chat:has(#send:disabled) .answer-text::after {
+    content: "▍";
+    margin-left: 2px;
+    color: var(--accent);
+    animation: blink 1s steps(2, end) infinite;
+}
+
+#composer {
+    position: sticky;
+    bottom: 0;
+    z-index: 4;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto auto;
+    gap: 10px;
+    align-items: end;
+    padding: 12px;
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    background: color-mix(in srgb, var(--surface) 88%, transparent);
+    box-shadow: var(--shadow);
+    backdrop-filter: blur(10px);
+}
+
+#composer label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+
+#message {
+    min-height: 54px;
+    max-height: 220px;
+    padding: 10px 12px;
+    border: 0;
+    border-radius: 12px;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    resize: vertical;
+}
+
+#message:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+
+#composer button {
+    padding: 11px 18px;
+    border: 0;
+    border-radius: 12px;
+    font: inherit;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 100ms ease, filter 150ms ease;
+}
+
+#send { color: var(--accent-ink); background: linear-gradient(135deg, var(--accent), var(--mint)); }
+#stop { color: var(--muted); background: transparent; border: 1px solid var(--border); }
+
+#composer button:hover:not(:disabled) { filter: brightness(1.07); transform: translateY(-1px); }
+#composer button:active:not(:disabled) { transform: translateY(0); }
+#composer button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+#composer button:disabled { opacity: 0.45; cursor: not-allowed; }
+
+@keyframes blink { 50% { opacity: 0; } }
+@keyframes pop { from { opacity: 0; transform: translateY(4px); } }
+
+@media (prefers-reduced-motion: reduce) {
+    .message, #chat:has(#send:disabled) .answer-text::after { animation: none; }
+    #composer button { transition: none; }
+}
+
+@media (max-width: 640px) {
+    #chat { padding: 14px 10px 108px; }
+    .message { max-width: 100%; }
+    #composer { grid-template-columns: 1fr 1fr; padding: 10px; }
+    #message { grid-column: 1 / -1; min-height: 46px; }
+    #composer button { width: 100%; }
+}

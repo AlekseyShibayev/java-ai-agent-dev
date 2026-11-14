@@ -4,11 +4,16 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Чат</title>
+    <link rel="stylesheet" href="/css/chat.css">
     <script src="/js/htmx.min.js" defer></script>
     <script src="/js/chat.js" defer></script>
 </head>
 <body>
 <main id="chat">
+    <header id="app-header">
+        <h1>AI Lab</h1>
+        <p>чат с локальной моделью</p>
+    </header>
     <div id="connection" class="banner" role="status" hidden>Нет связи</div>
     <div id="unavailable" class="banner" role="alert" th:if="${unavailable}">OpenCode недоступен</div>
 
