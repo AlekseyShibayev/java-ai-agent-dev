@@ -4,7 +4,7 @@
 
 On this machine, prefix Gradle commands with `GRADLE_USER_HOME=/tmp/opencode/gradle-home` (see "Environment"). A plain `./gradlew` fails here.
 
-- Build: `GRADLE_USER_HOME=/tmp/opencode/gradle-home ./gradlew build` (`make build` is a human shortcut and skips tests)
+- Build: `GRADLE_USER_HOME=/tmp/opencode/gradle-home ./gradlew build`
 - Tests: `GRADLE_USER_HOME=/tmp/opencode/gradle-home ./gradlew test`
 - Single test: `GRADLE_USER_HOME=/tmp/opencode/gradle-home ./gradlew test --tests "com.example.javaaiagentdev.JavaAiAgentDevApplicationTests"`
 - Run: `../java-ai-agent-dev_launcher/run.sh` (working directory is the launcher, so credentials come from its `application.yaml`)
