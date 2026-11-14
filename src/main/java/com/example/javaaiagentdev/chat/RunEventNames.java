@@ -12,12 +12,12 @@ public final class RunEventNames {
             case TextEndedEvent ignored -> "text";
             case ReasoningDeltaEvent ignored -> "reasoning";
             case ReasoningEndedEvent ignored -> "reasoning";
-            case ToolStartedEvent ignored -> "tool";
-            case ToolCalledEvent ignored -> "tool";
-            case ToolResultEvent ignored -> "tool";
-            case ToolFailedEvent ignored -> "tool";
-            case UsageUpdatedEvent ignored -> "usage";
-            case StepEndedEvent ignored -> "usage";
+            case ToolStartedEvent ignored -> "tool.started";
+            case ToolCalledEvent ignored -> "tool.called";
+            case ToolResultEvent ignored -> "tool.result";
+            case ToolFailedEvent ignored -> "tool.failed";
+            case UsageUpdatedEvent ignored -> "usage.session";
+            case StepEndedEvent ignored -> "usage.step";
             case PermissionAskedEvent ignored -> "permission";
             case PermissionRepliedEvent ignored -> "permission";
             case ExecutionStartedEvent ignored -> "state";

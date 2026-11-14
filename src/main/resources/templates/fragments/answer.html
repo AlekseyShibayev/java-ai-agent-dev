@@ -3,7 +3,12 @@
 <body>
 <div th:fragment="answer(runId)" class="answer" style="white-space: pre-wrap"
      th:attr="data-sse-url='/chat/runs/' + ${runId} + '/events'">
+    <div class="run-steps"></div>
     <span class="answer-text"></span>
+    <footer class="run-usage" hidden>
+        <span class="run-cost"></span>
+        <span class="run-tokens"></span>
+    </footer>
 </div>
 </body>
 </html>
