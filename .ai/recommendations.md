@@ -12,4 +12,4 @@
 
 ## MCP
 
-1. MCP с IDE настроен: сервер `intellij` в `opencode.json` через HTTP Stream (не `/sse`).
+1. MCP с IDE.
