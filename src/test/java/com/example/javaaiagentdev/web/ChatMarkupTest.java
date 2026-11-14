@@ -58,6 +58,18 @@ class ChatMarkupTest {
     }
 
     @Test
+    void shouldExposeSessionIdForPermissionReplies() {
+        Context context = new Context();
+        context.setVariable("message", "hi");
+        context.setVariable("runId", "run_1");
+        context.setVariable("sessionId", "ses_1");
+
+        String html = engine.process("fragments/run", context);
+
+        assertTrue(html.contains("data-session-id=\"ses_1\""), html);
+    }
+
+    @Test
     void shouldEscapeModelHtmlAndConnectAnswerToRun() {
         Context context = new Context();
         context.setVariable("message", "<script>alert('x')</script>");

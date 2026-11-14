@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="ru" xmlns:th="http://www.thymeleaf.org">
 <body>
-<div th:fragment="answer(runId)" class="answer" style="white-space: pre-wrap"
-     th:attr="data-sse-url='/chat/runs/' + ${runId} + '/events'">
+<div th:fragment="answer(runId, sessionId)" class="answer" style="white-space: pre-wrap"
+     th:attr="data-sse-url='/chat/runs/' + ${runId} + '/events', data-session-id=${sessionId}">
     <div class="run-steps"></div>
     <span class="answer-text"></span>
     <footer class="run-usage" hidden>

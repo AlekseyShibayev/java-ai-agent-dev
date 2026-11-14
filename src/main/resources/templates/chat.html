@@ -20,7 +20,7 @@
     <section id="thread" aria-live="polite">
         <p id="empty" class="empty" th:unless="${activeRunId}">Начните диалог</p>
         <article class="message message-assistant" th:if="${activeRunId}">
-            <div th:replace="~{fragments/answer :: answer(${activeRunId})}"></div>
+            <div th:replace="~{fragments/answer :: answer(${activeRunId}, ${sessionId})}"></div>
         </article>
     </section>
 

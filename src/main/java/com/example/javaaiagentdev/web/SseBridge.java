@@ -54,6 +54,9 @@ public class SseBridge {
         AtomicInteger nextId = new AtomicInteger(1);
         Set<Integer> textOrdinals = ConcurrentHashMap.newKeySet();
         AutoCloseable subscription = registry.subscribe(runId, event -> {
+            if (!run.sessionId().equals(event.sessionId())) {
+                return;
+            }
             int id = nextId.getAndIncrement();
             if (id <= after) {
                 return;
