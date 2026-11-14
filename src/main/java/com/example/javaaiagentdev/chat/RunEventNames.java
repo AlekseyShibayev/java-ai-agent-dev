@@ -18,8 +18,8 @@ public final class RunEventNames {
             case ToolFailedEvent ignored -> "tool.failed";
             case UsageUpdatedEvent ignored -> "usage.session";
             case StepEndedEvent ignored -> "usage.step";
-            case PermissionAskedEvent ignored -> "permission";
-            case PermissionRepliedEvent ignored -> "permission";
+            case PermissionAskedEvent ignored -> "permission.asked";
+            case PermissionRepliedEvent ignored -> "permission.replied";
             case ExecutionStartedEvent ignored -> "state";
             case ExecutionSucceededEvent ignored -> "state";
             case ExecutionInterruptedEvent ignored -> "state";

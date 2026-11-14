@@ -3,7 +3,7 @@
 <body>
 <article class="message message-user" th:text="${message}"></article>
 <article class="message message-assistant">
-    <div th:replace="~{fragments/answer :: answer(${runId})}"></div>
+    <div th:replace="~{fragments/answer :: answer(${runId}, ${sessionId})}"></div>
 </article>
 <div th:replace="~{fragments/composer :: composer(true, true)}"></div>
 </body>

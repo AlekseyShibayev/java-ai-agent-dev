@@ -201,6 +201,45 @@ body {
 
 .run-cost { color: var(--text); font-weight: 600; }
 
+.permission-card {
+    padding: 10px 12px;
+    border: 1px solid var(--warn-border);
+    border-radius: 12px;
+    background: color-mix(in srgb, var(--warn-bg) 55%, var(--surface));
+    font-size: 14px;
+}
+
+.permission-title { margin: 0 0 4px; font-weight: 600; }
+.permission-action {
+    margin: 0 0 6px;
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+.permission-resources { margin: 0 0 10px; padding-left: 20px; overflow-wrap: anywhere; }
+.permission-resources:empty { display: none; }
+
+.permission-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+
+.permission-card button {
+    padding: 7px 14px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    color: var(--text);
+    background: var(--surface);
+    font: inherit;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.permission-allow { color: var(--accent-ink); border-color: transparent; background: var(--accent); }
+.permission-reject { color: var(--error-fg); border-color: var(--error-border); }
+.permission-card button:hover:not(:disabled) { filter: brightness(1.07); }
+.permission-card button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.permission-card button:disabled { opacity: 0.45; cursor: not-allowed; }
+
+.permission-error { margin: 8px 0 0; color: var(--error-fg); font-weight: 600; }
+.permission-card.permission-stale { border-color: var(--error-border); background: var(--error-bg); }
+
 
 /* Пока прогон активен, «Отправить» заблокирована: показываем курсор генерации. */
 #chat:has(#send:disabled) .answer-text::after {

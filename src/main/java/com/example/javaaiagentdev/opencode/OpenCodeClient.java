@@ -14,6 +14,7 @@ import java.time.Duration;
 import java.util.Base64;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Stream;
 import org.slf4j.Logger;
@@ -112,6 +113,9 @@ public class OpenCodeClient {
         HttpResponse<String> response = send(request("/api/session/" + sessionId + "/permission/" + requestId + "/reply")
                 .POST(HttpRequest.BodyPublishers.ofString(toJson(Map.of("decision", decision))))
                 .build());
+        if (response.statusCode() == 404) {
+            throw new NoSuchElementException("Unknown permission request: " + requestId);
+        }
         requireSuccess(response, "reply to permission");
     }
 

@@ -17,4 +17,6 @@ public sealed interface RunEvent permits
         ExecutionInterruptedEvent,
         PermissionAskedEvent,
         PermissionRepliedEvent {
+
+    String sessionId();
 }

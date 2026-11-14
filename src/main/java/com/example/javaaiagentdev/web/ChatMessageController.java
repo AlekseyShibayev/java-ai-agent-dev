@@ -40,6 +40,7 @@ public class ChatMessageController {
         StartRunResponse started = start(text, request.agent(), httpSession);
         model.addAttribute("message", text);
         model.addAttribute("runId", started.runId());
+        model.addAttribute("sessionId", started.sessionId());
         return "fragments/run";
     }
 

@@ -5,12 +5,14 @@
     }
     var connection = document.getElementById('connection');
     var stream = null;
+    var currentSessionId = null;
     var run = emptyRun();
 
     function emptyRun() {
         return {
             reasoning: null,
             tools: {},
+            permissions: {},
             cost: 0,
             input: 0,
             output: 0,
@@ -120,6 +122,139 @@
         return card;
     }
 
+    function permissionCard(data) {
+        var requestId = data.requestId;
+        if (!requestId) {
+            return null;
+        }
+        var card = run.permissions[requestId];
+        if (card) {
+            return card;
+        }
+        var box = steps();
+        if (!box) {
+            return null;
+        }
+        card = document.createElement('section');
+        card.className = 'permission-card';
+        card.setAttribute('data-request-id', requestId);
+        card.setAttribute('role', 'group');
+        card.setAttribute('aria-label', 'Запрос разрешения');
+        var title = document.createElement('p');
+        title.className = 'permission-title';
+        title.textContent = 'Требуется разрешение';
+        card.appendChild(title);
+        var action = document.createElement('p');
+        action.className = 'permission-action';
+        action.textContent = data.action || 'действие';
+        card.appendChild(action);
+        var resources = document.createElement('ul');
+        resources.className = 'permission-resources';
+        (Array.isArray(data.resources) ? data.resources : []).forEach(function (resource) {
+            var item = document.createElement('li');
+            item.textContent = String(resource);
+            resources.appendChild(item);
+        });
+        card.appendChild(resources);
+        var actions = document.createElement('div');
+        actions.className = 'permission-actions';
+        actions.appendChild(permissionButton(card, requestId, 'allow', 'Разрешить'));
+        actions.appendChild(permissionButton(card, requestId, 'reject', 'Отклонить'));
+        card.appendChild(actions);
+        var error = document.createElement('p');
+        error.className = 'permission-error';
+        error.setAttribute('role', 'alert');
+        error.hidden = true;
+        card.appendChild(error);
+        box.appendChild(card);
+        run.permissions[requestId] = card;
+        return card;
+    }
+
+    function permissionButton(card, requestId, decision, label) {
+        var button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'permission-' + decision;
+        button.textContent = label;
+        button.addEventListener('click', function () {
+            replyPermission(card, requestId, decision);
+        });
+        return button;
+    }
+
+    function replyPermission(card, requestId, decision) {
+        if (card.dataset.answered) {
+            return;
+        }
+        card.dataset.answered = 'sending';
+        var error = card.querySelector('.permission-error');
+        if (error) {
+            error.hidden = true;
+        }
+        setPermissionButtons(card, true);
+        if (!currentSessionId) {
+            permissionFailed(card, 'Нет сессии чата: ответить нельзя.', true);
+            return;
+        }
+        fetch('/api/chat/' + encodeURIComponent(currentSessionId) + '/permission/' + encodeURIComponent(requestId), {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({decision: decision})
+        }).then(function (response) {
+            if (response.ok) {
+                closePermission(requestId);
+                return;
+            }
+            return response.json().catch(function () {
+                return {};
+            }).then(function (body) {
+                var message = body && body.error ? body.error : 'Не удалось отправить ответ';
+                if (response.status === 404 || response.status === 400) {
+                    permissionFailed(card, 'Запрос устарел: ' + message, true);
+                } else {
+                    permissionFailed(card, message, false);
+                }
+            });
+        }).catch(function () {
+            permissionFailed(card, 'Нет связи с сервером', false);
+        });
+    }
+
+    function permissionFailed(card, message, final) {
+        var error = card.querySelector('.permission-error');
+        if (error) {
+            error.textContent = message;
+            error.hidden = false;
+        }
+        if (final) {
+            card.classList.add('permission-stale');
+            card.dataset.answered = 'failed';
+            setPermissionButtons(card, true);
+            return;
+        }
+        delete card.dataset.answered;
+        setPermissionButtons(card, false);
+    }
+
+    function setPermissionButtons(card, disabled) {
+        card.querySelectorAll('.permission-actions button').forEach(function (button) {
+            button.disabled = disabled;
+        });
+    }
+
+    function closePermission(requestId) {
+        var card = run.permissions[requestId];
+        if (!card) {
+            return;
+        }
+        delete run.permissions[requestId];
+        card.remove();
+    }
+
+    function foreignSession(data) {
+        return !!(currentSessionId && data.sessionId && data.sessionId !== currentSessionId);
+    }
+
     function status(card, text) {
         var label = card.querySelector('.tool-status');
         if (label) {
@@ -175,8 +310,9 @@
         footer.hidden = false;
     }
 
-    function connect(url) {
+    function connect(url, sessionId) {
         disconnect();
+        currentSessionId = sessionId || null;
         run = emptyRun();
         var source = new EventSource(url);
         stream = source;
@@ -253,6 +389,20 @@
         source.addEventListener('usage.step', function (event) {
             addUsage(parse(event));
         });
+        source.addEventListener('permission.asked', function (event) {
+            var data = parse(event);
+            if (foreignSession(data)) {
+                return;
+            }
+            permissionCard(data);
+        });
+        source.addEventListener('permission.replied', function (event) {
+            var data = parse(event);
+            if (foreignSession(data)) {
+                return;
+            }
+            closePermission(data.requestId);
+        });
         source.addEventListener('state', function (event) {
             var state = parse(event).state;
             setBusy(state === 'started');
@@ -271,7 +421,7 @@
     function connectAnswer(scope) {
         var answerBox = (scope || chat).querySelector('[data-sse-url]');
         if (answerBox) {
-            connect(answerBox.getAttribute('data-sse-url'));
+            connect(answerBox.getAttribute('data-sse-url'), answerBox.getAttribute('data-session-id'));
         }
     }
 
