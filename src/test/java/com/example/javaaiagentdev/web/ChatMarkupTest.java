@@ -46,6 +46,18 @@ class ChatMarkupTest {
     }
 
     @Test
+    void shouldProvideRunStepHooks() {
+        Context context = new Context();
+        context.setVariable("runId", "run_1");
+
+        String html = engine.process("fragments/run", context);
+
+        assertTrue(html.contains("class=\"run-steps\""), html);
+        assertTrue(html.contains("class=\"run-usage\""), html);
+        assertTrue(html.contains("hidden"), html);
+    }
+
+    @Test
     void shouldEscapeModelHtmlAndConnectAnswerToRun() {
         Context context = new Context();
         context.setVariable("message", "<script>alert('x')</script>");
