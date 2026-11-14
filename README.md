@@ -19,7 +19,7 @@ AI Lab — локальное приложение для практики по 
 - **Evals** — датасеты, прогоны, отчёты, регрессии.
 - **Runs / Trace** — полный след каждого запуска.
 
-Сейчас реализован каркас: Spring Boot-сервис работает с локальным OpenCode API (сессии, промпты, ожидание, чтение ответа). Модель — DeepSeek V4.1 Flash через провайдер `opencode-go`. Дальше — по плану.
+Сейчас реализован каркас: Spring Boot-сервис работает с локальным OpenCode API (сессии, промпты, ожидание, чтение ответа). Модель по умолчанию — локальная Ollama `qwen3.5:4b-q4_K_M` на `127.0.0.1:11434`; провайдер и модель переопределяются через `OPENCODE_PROVIDER` и `OPENCODE_MODEL`. Дальше — по плану.
 
 Каждая фича добавляется по циклу «спека → план → реализация агентом → ревью → проверка»: спека — `openspec/changes/<NNN>-<slug>/`, задача и приёмка — `docs/mini-jira/NNN-<slug>.md`.
 
@@ -29,12 +29,12 @@ AI Lab — локальное приложение для практики по 
 - **Spring Boot** — 4.1.1
 - **Gradle** — сборка проекта (wrapper в репозитории)
 - **Персистентность** — PostgreSQL, `jsonb`, Spring Data
-- **AI** — локальный OpenCode HTTP API
+- **AI** — локальный OpenCode HTTP API и Ollama
 - **GitHub** — работа с репозиторием и изменениями
 
 ## Статус
 
-Каркас и DB-фундамент: база данных, Liquibase, контекстный тест, клиент OpenCode API (`src/main/java/com/example/javaaiagentdev/opencode`), pgvector/роли/read-only datasource. План — `docs/plan.md`; 000/001 закрыты, в работе — `003-runtime-chat-api`. Процесс spec-driven: `openspec/`, пилот — change `003-runtime-chat-api`.
+Каркас и DB-фундамент: база данных, Liquibase, контекстный тест, клиент OpenCode API (`src/main/java/com/example/javaaiagentdev/opencode`), pgvector/роли/read-only datasource. План — `docs/plan.md`; 000–008, 010–015 и 024 закрыты, 018 на ревью, 019 в работе. Процесс spec-driven: `openspec/`, пилот — change `003-runtime-chat-api`.
 
 ## Документация
 
