@@ -42,6 +42,9 @@ public class OpenCodeEventParser {
                             data.path("cost").asDouble(), usage(data.path("tokens"))));
             case "session.execution.started" -> Optional.of(new ExecutionStartedEvent(sessionId));
             case "session.execution.succeeded" -> Optional.of(new ExecutionSucceededEvent(sessionId));
+            case "session.execution.failed" ->
+                    Optional.of(new ExecutionFailedEvent(sessionId, data.path("error").path("type").asText(),
+                            data.path("error").path("message").asText()));
             case "session.execution.interrupted" ->
                     Optional.of(new ExecutionInterruptedEvent(sessionId, data.path("reason").asText()));
             case "permission.asked" ->
