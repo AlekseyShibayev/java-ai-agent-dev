@@ -36,5 +36,5 @@ opencode:
   binary: ${OPENCODE_BIN:opencode}
   password: ${OPENCODE_PASSWORD:}
   directory: ${OPENCODE_DIRECTORY:}
-  provider: ${OPENCODE_PROVIDER:opencode-go}
-  model: ${OPENCODE_MODEL:deepseek-v4.1-flash}
+  provider: ${OPENCODE_PROVIDER:ollama}
+  model: ${OPENCODE_MODEL:qwen3.5:4b-q4_K_M}

@@ -1,5 +1,6 @@
 package com.example.javaaiagentdev.web;
 
+import com.example.javaaiagentdev.chat.ExecutionFailedEvent;
 import com.example.javaaiagentdev.chat.ExecutionInterruptedEvent;
 import com.example.javaaiagentdev.chat.ExecutionStartedEvent;
 import com.example.javaaiagentdev.chat.ExecutionSucceededEvent;
@@ -11,6 +12,7 @@ import com.example.javaaiagentdev.chat.RunRegistry.RunStatus;
 import com.example.javaaiagentdev.chat.TextDeltaEvent;
 import com.example.javaaiagentdev.chat.TextEndedEvent;
 import java.io.IOException;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Set;
@@ -84,6 +86,11 @@ public class SseBridge {
                 message.data(text(ended.text()), MediaType.TEXT_HTML);
             } else if (event instanceof ExecutionStartedEvent) {
                 message.data(state("started"), MediaType.APPLICATION_JSON);
+            } else if (event instanceof ExecutionFailedEvent failed) {
+                message.data(state("failed", failed.message()), MediaType.APPLICATION_JSON);
+                emitter.send(message);
+                emitter.complete();
+                return;
             } else if (event instanceof ExecutionSucceededEvent || event instanceof ExecutionInterruptedEvent) {
                 message.data(state(event instanceof ExecutionSucceededEvent ? "succeeded" : "interrupted"),
                         MediaType.APPLICATION_JSON);
@@ -100,7 +107,16 @@ public class SseBridge {
     }
 
     private String state(String state) {
-        return objectMapper.writeValueAsString(Map.of("state", state));
+        return state(state, null);
+    }
+
+    private String state(String state, String error) {
+        Map<String, String> body = new LinkedHashMap<>();
+        body.put("state", state);
+        if (error != null && !error.isBlank()) {
+            body.put("error", error);
+        }
+        return objectMapper.writeValueAsString(body);
     }
 
     private static String text(String value) {

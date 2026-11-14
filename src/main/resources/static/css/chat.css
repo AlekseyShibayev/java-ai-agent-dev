@@ -201,6 +201,16 @@ body {
 
 .run-cost { color: var(--text); font-weight: 600; }
 
+.run-error {
+    margin: 10px 0 0;
+    padding: 8px 12px;
+    border: 1px solid var(--error-border);
+    border-radius: 12px;
+    background: var(--error-bg);
+    color: var(--error-fg);
+    font-size: 14px;
+}
+
 .permission-card {
     padding: 10px 12px;
     border: 1px solid var(--warn-border);

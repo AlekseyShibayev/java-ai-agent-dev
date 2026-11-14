@@ -125,6 +125,9 @@ public class RunRegistry {
                     status = RunStatus.SUCCEEDED;
                 } else if (event instanceof ExecutionInterruptedEvent) {
                     status = RunStatus.INTERRUPTED;
+                } else if (event instanceof ExecutionFailedEvent failed) {
+                    error = failed.message();
+                    status = RunStatus.FAILED;
                 }
                 if (status != RunStatus.ACTIVE) {
                     listeners.clear();

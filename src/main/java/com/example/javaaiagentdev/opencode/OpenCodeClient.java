@@ -272,11 +272,11 @@ public class OpenCodeClient {
     }
 
     private String provider() {
-        return isNotBlank(properties.provider()) ? properties.provider() : "opencode-go";
+        return isNotBlank(properties.provider()) ? properties.provider() : "ollama";
     }
 
     private String model() {
-        return isNotBlank(properties.model()) ? properties.model() : "deepseek-v4.1-flash";
+        return isNotBlank(properties.model()) ? properties.model() : "qwen3.5:4b-q4_K_M";
     }
 
     private String toJson(Object value) {

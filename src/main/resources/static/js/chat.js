@@ -311,6 +311,21 @@
         footer.hidden = false;
     }
 
+    function showError(message) {
+        var box = answer();
+        var error = box && box.querySelector('.run-error');
+        if (!error) {
+            return;
+        }
+        if (message) {
+            error.textContent = 'Ошибка прогона: ' + message;
+            error.hidden = false;
+            return;
+        }
+        error.textContent = '';
+        error.hidden = true;
+    }
+
     function connect(url, sessionId, box) {
         disconnect();
         currentSessionId = sessionId || null;
@@ -406,12 +421,14 @@
             closePermission(data.requestId);
         });
         source.addEventListener('state', function (event) {
-            var state = parse(event).state;
+            var data = parse(event);
+            var state = data.state;
             setBusy(state === 'started');
             if (state === 'started') {
                 return;
             }
             run.interrupted = state === 'interrupted';
+            showError(state === 'failed' ? data.error || 'провайдер недоступен' : null);
             showUsage();
             source.close();
             if (stream === source) {

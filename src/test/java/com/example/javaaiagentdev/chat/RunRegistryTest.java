@@ -64,6 +64,17 @@ class RunRegistryTest {
     }
 
     @Test
+    void shouldCloseRunOnExecutionFailure() {
+        String runId = registry.start("ses_test");
+        registry.publish("ses_test", 10L,
+                new ExecutionFailedEvent("ses_test", "provider.transport", "ConnectionRefused"));
+
+        RunRegistry.Run failed = registry.find(runId).orElseThrow();
+        assertEquals(RunRegistry.RunStatus.FAILED, failed.status());
+        assertEquals("ConnectionRefused", failed.error());
+    }
+
+    @Test
     void shouldReplayBufferedEventsOnSubscribe() {
         String runId = registry.start("ses_test");
         registry.publish("ses_test", 10L, new TextDeltaEvent("ses_test", "msg_test", 0, "buffered"));

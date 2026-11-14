@@ -5,6 +5,7 @@
      th:attr="data-sse-url='/chat/runs/' + ${runId} + '/events', data-session-id=${sessionId}">
     <div class="run-steps"></div>
     <span class="answer-text"></span>
+    <p class="run-error" role="alert" hidden></p>
     <footer class="run-usage" hidden>
         <span class="run-cost"></span>
         <span class="run-tokens"></span>

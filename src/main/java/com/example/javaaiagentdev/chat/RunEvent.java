@@ -14,6 +14,7 @@ public sealed interface RunEvent permits
         StepEndedEvent,
         ExecutionStartedEvent,
         ExecutionSucceededEvent,
+        ExecutionFailedEvent,
         ExecutionInterruptedEvent,
         PermissionAskedEvent,
         PermissionRepliedEvent {

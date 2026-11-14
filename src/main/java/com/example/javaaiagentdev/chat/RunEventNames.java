@@ -22,6 +22,7 @@ public final class RunEventNames {
             case PermissionRepliedEvent ignored -> "permission.replied";
             case ExecutionStartedEvent ignored -> "state";
             case ExecutionSucceededEvent ignored -> "state";
+            case ExecutionFailedEvent ignored -> "state";
             case ExecutionInterruptedEvent ignored -> "state";
         };
     }

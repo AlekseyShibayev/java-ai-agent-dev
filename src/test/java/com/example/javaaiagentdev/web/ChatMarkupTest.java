@@ -58,6 +58,17 @@ class ChatMarkupTest {
     }
 
     @Test
+    void shouldShowRunErrorPlaceholder() {
+        Context context = new Context();
+        context.setVariable("runId", "run_1");
+
+        String html = engine.process("fragments/run", context);
+
+        assertTrue(html.contains("class=\"run-error\""), html);
+        assertTrue(html.contains("role=\"alert\""), html);
+    }
+
+    @Test
     void shouldExposeSessionIdForPermissionReplies() {
         Context context = new Context();
         context.setVariable("message", "hi");

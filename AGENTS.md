@@ -21,7 +21,7 @@ On this machine, prefix Gradle commands with `GRADLE_USER_HOME=/tmp/opencode/gra
 - Java 21 (toolchain), Spring Boot 4.1.1, Gradle.
 - Boot 4: the MVC starter is `spring-boot-starter-webmvc`; `spring-boot-starter-web` is deprecated.
 - Boot 4 auto-configuration is modular: Liquibase requires `spring-boot-liquibase`, not just `liquibase-core`.
-- OpenCode local HTTP API: Basic auth `opencode:<service password>`, model `deepseek-v4.1-flash`, provider `opencode-go`.
+- OpenCode local HTTP API: Basic auth `opencode:<service password>`, model `qwen3.5:4b-q4_K_M` on Ollama (`127.0.0.1:11434`), provider `ollama`.
 - Single module, package `com.example.javaaiagentdev`, main class `JavaAiAgentDevApplication`.
 
 ## OpenCode API
@@ -105,8 +105,8 @@ On this machine, prefix Gradle commands with `GRADLE_USER_HOME=/tmp/opencode/gra
 | `opencode.binary` | `OPENCODE_BIN` | `opencode` |
 | `opencode.password` | `OPENCODE_PASSWORD` | empty |
 | `opencode.directory` | `OPENCODE_DIRECTORY` | empty (OpenCode default location) |
-| `opencode.provider` | `OPENCODE_PROVIDER` | `opencode-go` |
-| `opencode.model` | `OPENCODE_MODEL` | `deepseek-v4.1-flash` |
+| `opencode.provider` | `OPENCODE_PROVIDER` | `ollama` |
+| `opencode.model` | `OPENCODE_MODEL` | `qwen3.5:4b-q4_K_M` |
 
 - The OpenCode service URL changes on restart; resolve it with `opencode service status` instead of hardcoding the port.
 - Never log the OpenCode password or the DB password.
