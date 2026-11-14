@@ -123,7 +123,6 @@ On this machine, prefix Gradle commands with `GRADLE_USER_HOME=/tmp/opencode/gra
 
 - Branch `main`; the remote is SSH (`git@github.com:AlekseyShibayev/java-ai-agent-dev.git`), with the key configured via repo-local `core.sshCommand`.
 - Before pushing: run the build command from "Commands", check `git status`, and scan the changes for secrets.
-- Pre-commit hook `.githooks/pre-commit` enforces `.ai/constitution.md`: every item needs an id like `[S1]` and a `check_S1` function in the hook, otherwise the commit is blocked. Changing the constitution needs the human's approval: agree first, then `CONSTITUTION_APPROVED=1 git commit ...`. Enable it once per clone with `git config core.hooksPath .githooks`. Bypass only for a verified false positive: `SKIP_SECRET_CHECK=1 git commit ...`.
 - Secrets live only in `/application.yaml` and the launcher config. Do not add `build/`, `.gradle/`, IDE files, or other local files to the index.
 
 ## Tasks

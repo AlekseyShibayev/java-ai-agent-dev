@@ -36,14 +36,17 @@ fi
 
 db_config=$(git show :src/main/resources/application.yaml 2>/dev/null || true)
 
-# [S0] The constitution changes only with the human's approval.
+# [S0] The constitution and the hook itself change only with the human's
+# approval: the hook enforces the rules, so it must not be rewritten silently.
 check_S0() {
     if [ "${CONSTITUTION_APPROVED:-0}" = "1" ]; then
         return 0
     fi
-    changed=$(git diff --cached --name-only -- .ai/constitution.md 2>/dev/null || true)
+    changed=$(git diff --cached --name-only -- .ai/constitution.md .githooks/pre-commit 2>/dev/null || true)
     if [ -n "$changed" ]; then
-        echo "Commit blocked: [S0] .ai/constitution.md is changed without the human's approval." >&2
+        echo "Commit blocked: [S0] changed without the human's approval:" >&2
+        printf '%s\n' "$changed" >&2
+        echo >&2
         echo "Agree on the wording first, then commit with CONSTITUTION_APPROVED=1." >&2
         return 1
     fi

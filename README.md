@@ -41,6 +41,8 @@ AI Lab — локальное приложение для практики по 
 - `docs/plan.md` — цель, решения, 5 этапов.
 - `docs/mini-jira/` — mini-jira: текущие задачи и приёмка.
 - `docs/task-statuses.md` — статусы задач, claim, закрытие.
+- `.ai/constitution.md` — правила безопасности, которые проверяет `pre-commit`; `.ai/recommendations.md` — настройка окружения.
+- Хуки включаются один раз на клон: `git config core.hooksPath .githooks`. Правка конституции или самого хука — только с одобрением человека (`CONSTITUTION_APPROVED=1 git commit`).
 - `openspec/` — спеки (`specs/`), активные change (`changes/`) и архив (`changes/archive/`).
 
 ## Задания
