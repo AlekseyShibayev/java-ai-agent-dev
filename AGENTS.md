@@ -57,10 +57,9 @@ On this machine, prefix Gradle commands with `GRADLE_USER_HOME=/tmp/opencode/gra
 - Skeleton: database, Liquibase `empty` baseline, context test, and an OpenCode API client (`opencode/`).
 - DB foundation: pgvector:pg17, `owner`/`app`/`read_only` roles, read-only datasource, `SqlGuard`.
 - OpenCode API contract verified; fixtures in `src/test/resources/opencode/`.
-- Implemented: create session, send prompt, wait for completion, read the last assistant text.
-- Not implemented: agent loop, tools, MCP, evals, streaming, UI.
-- Skills: global, `~/.config/opencode/skills/skill-creator/` (imported from `anthropics/skills`); not vendored in the repository, except the OpenSpec skills in `.agents/skills/`.
-- MCP: `opencode.json` defines `intellij` as a remote server at `http://127.0.0.1:64342/stream`. Requires the IDE setting Settings | AI | MCP Server → Enable MCP Server. Use the HTTP Stream endpoint, not `/sse`.
+- Implemented: chat page (Thymeleaf + HTMX) with SSE streaming, run events (text, reasoning, tools, usage), abort, permission reply, and the OpenCode API client.
+- Not implemented: own agent loop, tool execution, evals, trace and RAG views.
+- Skills and MCP setup: `.ai/recommendations.md` (global `skill-creator`, `intellij` MCP over HTTP Stream).
 - Learning goal: AI development skills. Each feature follows spec → plan → implement → review → verify.
 
 ## Database
@@ -110,7 +109,6 @@ On this machine, prefix Gradle commands with `GRADLE_USER_HOME=/tmp/opencode/gra
 | `opencode.model` | `OPENCODE_MODEL` | `qwen3.5:4b-q4_K_M` |
 
 - The OpenCode service URL changes on restart; resolve it with `opencode service status` instead of hardcoding the port.
-- Never log the OpenCode password or the DB password.
 
 ## Environment
 
@@ -123,7 +121,7 @@ On this machine, prefix Gradle commands with `GRADLE_USER_HOME=/tmp/opencode/gra
 
 - Branch `main`; the remote is SSH (`git@github.com:AlekseyShibayev/java-ai-agent-dev.git`), with the key configured via repo-local `core.sshCommand`.
 - Before pushing: run the build command from "Commands", check `git status`, and scan the changes for secrets.
-- Secrets live only in `/application.yaml` and the launcher config. Do not add `build/`, `.gradle/`, IDE files, or other local files to the index.
+- Do not add `build/`, `.gradle/`, IDE files, or other local files to the index.
 
 ## Tasks
 
