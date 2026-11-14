@@ -111,6 +111,27 @@ class OpenCodeEventParserTest {
         assertEquals("user", first(events, ExecutionInterruptedEvent.class).reason());
     }
 
+    @Test
+    void shouldParseExecutionFailure() throws Exception {
+        JsonNode event = objectMapper.readTree("""
+                {"type":"session.execution.failed","data":{"sessionID":"ses_test",
+                 "error":{"type":"provider.transport","message":"ConnectionRefused"}}}""");
+
+        Optional<RunEvent> parsed = parser.parse(event);
+
+        assertEquals(Optional.of(new ExecutionFailedEvent("ses_test", "provider.transport", "ConnectionRefused")),
+                parsed);
+    }
+
+    @Test
+    void shouldIgnoreStepFailureBecauseOpenCodeRetriesIt() throws Exception {
+        JsonNode event = objectMapper.readTree("""
+                {"type":"session.step.failed","data":{"sessionID":"ses_test","assistantMessageID":"msg_test",
+                 "error":{"type":"provider.transport","message":"ConnectionRefused"}}}""");
+
+        assertEquals(Optional.empty(), parser.parse(event));
+    }
+
     private List<RunEvent> parseAll(String fixture) throws Exception {
         List<RunEvent> events = new ArrayList<>();
         for (JsonNode event : readEvents(fixture)) {

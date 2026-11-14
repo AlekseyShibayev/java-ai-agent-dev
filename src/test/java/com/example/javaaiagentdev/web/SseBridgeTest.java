@@ -8,6 +8,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.request;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import com.example.javaaiagentdev.chat.ExecutionFailedEvent;
 import com.example.javaaiagentdev.chat.ExecutionSucceededEvent;
 import com.example.javaaiagentdev.chat.PermissionAskedEvent;
 import com.example.javaaiagentdev.chat.PermissionRepliedEvent;
@@ -143,6 +144,37 @@ class SseBridgeTest {
     void shouldStopReconnectingWhenRunIsOver() throws Exception {
         String runId = registry.start("ses_1");
         registry.publish("ses_1", 1L, new ExecutionSucceededEvent("ses_1"));
+
+        mockMvc.perform(get("/chat/runs/" + runId + "/events")
+                        .accept("text/event-stream")
+                        .header("Last-Event-ID", "1"))
+                .andExpect(status().isNoContent())
+                .andExpect(request().asyncNotStarted());
+    }
+
+    @Test
+    void shouldSendExecutionFailureAsFailedStateWithError() throws Exception {
+        String runId = registry.start("ses_1");
+        registry.publish("ses_1", 1L,
+                new ExecutionFailedEvent("ses_1", "provider.transport", "ConnectionRefused"));
+        registry.publish("ses_1", 2L, new ExecutionSucceededEvent("ses_1"));
+
+        MvcResult result = mockMvc.perform(get("/chat/runs/" + runId + "/events").accept("text/event-stream"))
+                .andExpect(request().asyncStarted())
+                .andReturn();
+        String body = mockMvc.perform(asyncDispatch(result))
+                .andExpect(status().isOk())
+                .andReturn().getResponse().getContentAsString();
+
+        assertTrue(body.contains("\"state\":\"failed\""), body);
+        assertTrue(body.contains("ConnectionRefused"), body);
+    }
+
+    @Test
+    void shouldStopReconnectingAfterExecutionFailure() throws Exception {
+        String runId = registry.start("ses_1");
+        registry.publish("ses_1", 1L,
+                new ExecutionFailedEvent("ses_1", "provider.transport", "ConnectionRefused"));
 
         mockMvc.perform(get("/chat/runs/" + runId + "/events")
                         .accept("text/event-stream")
