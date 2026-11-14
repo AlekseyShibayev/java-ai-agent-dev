@@ -32,7 +32,7 @@ class DocsConsistencyTest {
     private static final Set<String> BOARD_STATUSES = Set.of("в работе", "выполнено");
 
     private final Path root = repositoryRoot();
-    private final Path tasks = root.resolve("docs/tasks");
+    private final Path tasks = root.resolve("docs/mini-jira");
     private final Path backlog = tasks.resolve("backlog");
     private final Path archive = root.resolve("openspec/changes/archive");
 
@@ -47,7 +47,7 @@ class DocsConsistencyTest {
             }
         }
 
-        assertEquals(List.of(), missing, "в доске есть номера без файла задачи в docs/tasks/");
+        assertEquals(List.of(), missing, "в доске есть номера без файла задачи в docs/mini-jira/");
     }
 
     @Test
@@ -134,7 +134,7 @@ class DocsConsistencyTest {
             }
         });
 
-        assertTrue(listed.isEmpty(), "задачи из docs/tasks/backlog/ попали в доску: " + listed);
+        assertTrue(listed.isEmpty(), "задачи из docs/mini-jira/backlog/ попали в доску: " + listed);
     }
 
     private Map<String, String> boardRows() {
@@ -189,11 +189,11 @@ class DocsConsistencyTest {
     private static Path repositoryRoot() {
         Path current = Path.of("").toAbsolutePath();
         while (current != null) {
-            if (Files.isRegularFile(current.resolve("docs/tasks/BOARD.md"))) {
+            if (Files.isRegularFile(current.resolve("docs/mini-jira/BOARD.md"))) {
                 return current;
             }
             current = current.getParent();
         }
-        throw new IllegalStateException("docs/tasks/BOARD.md не найден от " + Path.of("").toAbsolutePath());
+        throw new IllegalStateException("docs/mini-jira/BOARD.md не найден от " + Path.of("").toAbsolutePath());
     }
 }

@@ -7,7 +7,7 @@ context: |
 
 rules:
   proposal:
-    - "Id change совпадает с файлом задачи docs/tasks/NNN-slug.md (D5)."
+    - "Id change совпадает с файлом задачи docs/mini-jira/NNN-slug.md (D5)."
     - "Ссылайся на NNN-файл задачи в разделе Impact."
   specs:
     - "Спека описывает наблюдаемое поведение, без имён классов и выбора библиотек."
