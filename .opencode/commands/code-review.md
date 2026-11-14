@@ -12,14 +12,14 @@ subagent: true
 1. `NNN` — первые три цифры из `$1`: `021`, `021-code-review-command` и `task/021-code-review-command` дают `021`. Не три цифры — остановись: «нужен номер задачи, например `/code-review 021`».
 2. Файл задачи — ровно один `docs/mini-jira/NNN-*.md`. Нет файла — остановись и назови шаблон поиска.
 3. `docs/mini-jira/BOARD.md`: строка задачи должна быть в статусе `на ревью`. Нет строки или другой статус — остановись, назови фактический статус и ничего не меняй.
-4. Ветка: `branch:` из frontmatter файла задачи; пусто — `task/NNN-<slug>` из имени файла. `git rev-parse --verify <branch>`; ветки нет — остановись. `git fetch origin`, затем `git merge-base --is-ancestor <branch> origin/main`; не предок — остановись: ветка не влита.
+4. Ветка: `branch:` из frontmatter файла задачи; пусто — `task/NNN-<slug>` из имени файла. `git fetch origin`. Возьми локальную ветку, если она есть, иначе `origin/<branch>`; нет ни одной — остановись. `git merge-base --is-ancestor <ref> origin/main`; не предок — остановись: ветка не влита.
 5. `git symbolic-ref --short HEAD` = `main`; иначе остановись. `git status --porcelain -- docs/mini-jira/BOARD.md` пуст; иначе остановись и назови файлы.
 6. `git pull --rebase`, перечитай `BOARD.md`. Всё ещё `на ревью` — поставь `в ревью` в строке задачи, закоммить только `BOARD.md` (`git commit docs/mini-jira/BOARD.md`) сообщением `Task NNN: review in progress`, `git push`. Push отклонён — `git pull --rebase`, перечитай строку и повтори; статус уже не `на ревью` — остановись.
 7. Основной checkout не переключай: его ветку держит человек. Выгрузи ветку отдельно:
 
    ```sh
    wt=$(mktemp -d /tmp/opencode/review-NNN.XXXXXX)
-   git worktree add --detach "$wt" <branch>
+   git worktree add --detach "$wt" <ref>
    ```
 
    Не вышло — верни статус `на ревью` отдельным коммитом в `main`, затем остановись.
