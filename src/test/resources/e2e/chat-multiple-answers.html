@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <title>Chat multiple answers fixture</title>
+</head>
+<body>
+<main id="chat">
+    <div id="connection" class="banner" role="status" hidden>Нет связи</div>
+    <section id="thread">
+        <article class="message message-user">первый вопрос</article>
+        <article class="message message-assistant">
+            <div class="answer" data-sse-url="fixture://run-1" data-session-id="ses_1">
+                <div class="run-steps"></div>
+                <span class="answer-text">первый</span>
+                <footer class="run-usage" hidden>
+                    <span class="run-cost"></span>
+                    <span class="run-tokens"></span>
+                </footer>
+            </div>
+        </article>
+    </section>
+    <form id="composer">
+        <textarea id="message" name="text" aria-label="Сообщение"></textarea>
+        <button id="send" type="submit">Отправить</button>
+        <button id="stop" type="button" disabled>Stop</button>
+    </form>
+</main>
+<script>
+    window.__sources = [];
+    window.__addAnswer = function (sseUrl, sessionId, text) {
+        var thread = document.getElementById('thread');
+        var article = document.createElement('article');
+        article.className = 'message message-assistant';
+        var answer = document.createElement('div');
+        answer.className = 'answer';
+        answer.setAttribute('data-sse-url', sseUrl);
+        answer.setAttribute('data-session-id', sessionId);
+        var steps = document.createElement('div');
+        steps.className = 'run-steps';
+        var span = document.createElement('span');
+        span.className = 'answer-text';
+        if (text) {
+            span.textContent = text;
+        }
+        var footer = document.createElement('footer');
+        footer.className = 'run-usage';
+        footer.hidden = true;
+        var cost = document.createElement('span');
+        cost.className = 'run-cost';
+        var tokens = document.createElement('span');
+        tokens.className = 'run-tokens';
+        footer.appendChild(cost);
+        footer.appendChild(tokens);
+        answer.appendChild(steps);
+        answer.appendChild(span);
+        answer.appendChild(footer);
+        article.appendChild(answer);
+        thread.appendChild(article);
+        document.body.dispatchEvent(new CustomEvent('htmx:afterSwap', {detail: {target: thread}}));
+    };
+    window.__emit = function (index, name, data) {
+        var source = window.__sources[index];
+        var listeners = source.__listeners[name] || [];
+        listeners.forEach(function (listener) {
+            listener({data: data});
+        });
+    };
+    window.EventSource = function (url) {
+        this.url = url;
+        this.readyState = 1;
+        this.__listeners = {};
+        window.__sources.push(this);
+    };
+    window.EventSource.prototype.addEventListener = function (name, listener) {
+        (this.__listeners[name] = this.__listeners[name] || []).push(listener);
+    };
+    window.EventSource.prototype.close = function () {
+        this.readyState = 2;
+    };
+</script>
+<script src="../../main/static/js/chat.js"></script>
+</body>
+</html>
