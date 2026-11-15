@@ -17,11 +17,6 @@
 
 Правило жизненного цикла — `docs/task-statuses.md`.
 
-### 009 — E2E страницы чата
-
-- `src/test/java/com/example/javaaiagentdev/e2e/ChatPageE2ETest.java:57` — `emitTextDelta("При")` идёт сразу после `send(...)`, а `EventSource` страница открывает только после HTMX-свопа (`chat.js:334`); под нагрузкой кадр приходит до подписки и теряется: в полном `./gradlew e2e` тест упал `Expected: При, Received: ""` (trace `build/playwright-artifacts/shouldShowAnswerWhileItIsGenerating-trace.zip`), 1 падение из 6 прогонов. Ожидалось: до первой порции дождаться старта прогона (`#stop` enabled, `.answer-text` в DOM), чтобы сценарий приёмки не зависел от гонки.
-- `openspec/changes/009-chat-e2e/tasks.md:16` — пункт 2.4 «Merge ветки `task/009-chat-e2e` в `main`, статус `на ревью`» не отмечен, хотя merge `90c5517` уже в `main`. Ожидалось: `[x]`.
-
 ### 021 — Команда code review по номеру ветки
 
 - `.opencode/commands/code-review.md:15` — шаг 4 берёт `branch:` из frontmatter (локально или из `origin/<branch>`) и при отсутствии останавливается; у задачи в `на ревью` ветки уже нет: `git ls-remote --heads origin` отдаёт только `main`, `git rev-parse --verify origin/task/009-chat-e2e` → exit 128. Команда не может взять ни одну задачу. Ожидалось: фолбэк на merge-коммит/sha вершины задачи (ручной обход: `git worktree add --detach abe6474`).
