@@ -13,7 +13,7 @@
 - [x] 2.1 `GRADLE_USER_HOME=/tmp/opencode/gradle-home ./gradlew e2e` — сценарии зелёные.
 - [x] 2.2 `GRADLE_USER_HOME=/tmp/opencode/gradle-home ./gradlew test` — без фильтра зелёный, сценарии не выполняются.
 - [x] 2.3 `openspec validate --strict --all` зелёный.
-- [ ] 2.4 Merge ветки `task/009-chat-e2e` в `main`, статус `на ревью`.
+- [x] 2.4 Merge ветки `task/009-chat-e2e` в `main`, статус `на ревью`.
 
 ## Test map
 

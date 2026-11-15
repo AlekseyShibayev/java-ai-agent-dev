@@ -3,6 +3,8 @@ package com.example.javaaiagentdev.e2e;
 import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import com.microsoft.playwright.Page;
+import com.microsoft.playwright.options.WaitForSelectorState;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -53,6 +55,7 @@ class ChatPageE2ETest extends PlaywrightE2ETest {
     void shouldShowAnswerWhileItIsGenerating() {
         open();
         send("привет");
+        awaitRunStarted();
 
         model.emitTextDelta("При");
 
@@ -88,6 +91,16 @@ class ChatPageE2ETest extends PlaywrightE2ETest {
     private void send(String text) {
         session.page().locator("#message").fill(text);
         session.page().locator("#send").click();
+    }
+
+    /**
+     * The answer block is rendered from the response of POST /chat/messages, so once it is attached
+     * the run exists and its session is known. A delta emitted earlier would carry the session id of
+     * a previous run and be published to no run at all.
+     */
+    private void awaitRunStarted() {
+        session.page().waitForSelector(".answer-text",
+                new Page.WaitForSelectorOptions().setState(WaitForSelectorState.ATTACHED));
     }
 
     @TestConfiguration(proxyBeanMethods = false)
