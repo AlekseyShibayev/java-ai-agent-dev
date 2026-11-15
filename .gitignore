@@ -18,6 +18,9 @@ build/
 # Логи
 logs/
 
+# GitNexus: локальный индекс кода
+.gitnexus/
+
 # IDE
 .idea/
 *.iml
