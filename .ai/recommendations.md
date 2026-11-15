@@ -4,7 +4,9 @@
 
 ## Security
 
-1. `.md`-файл агент может проигнорировать, поэтому защита — жёсткий технический запрет (Deterministic Guardrails): например, `read_only` роль, `git hook script`.
+1. `.md`-файл агент может проигнорировать, поэтому защита — жёсткий технический запрет (Deterministic Guardrails pattern):
+- `read_only` роль в бд
+- `git hook script`
 
 ## Skills
 
