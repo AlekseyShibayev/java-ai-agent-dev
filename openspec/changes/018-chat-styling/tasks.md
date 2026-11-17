@@ -18,7 +18,7 @@
 
 - [x] 3.1 Браузер (Chromium): светлая и тёмная тема, пузыри, стриминг с индикатором, баннер при обрыве, фокус с клавиатуры.
 - [x] 3.2 `./gradlew test` без фильтра зелёный; `openspec validate --strict --all` зелёный.
-- [x] 3.3 Merge ветки `task/018-chat-styling` в `main`, статус `на ревью`.
+- [x] 3.3 Merge ветки `task/018-chat-styling` в `main`.
 
 ## Workflow follow-up
 

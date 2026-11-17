@@ -26,6 +26,5 @@
 
 ## Impact
 
-- Задача: `docs/mini-jira/018-chat-styling.md` — приёмка и статус.
 - Код: `src/main/resources/static/css/chat.css` (новый), `templates/chat.html` (link и шапка), новый тест `src/test/java/.../web/ChatStylesTest.java`.
 - Поведение, API, `chat.js`, контроллеры не меняются.

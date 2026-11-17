@@ -26,7 +26,6 @@
 
 ## Impact
 
-- Задача: `docs/mini-jira/019-local-ollama-model.md` — приёмка и статус.
 - Код: `src/main/resources/application.yaml`, `opencode/OpenCodeClient.java`, `chat/OpenCodeEventParser.java`, `chat/ExecutionFailedEvent.java` (новый), `chat/RunEvent.java`, `chat/RunEventNames.java`, `chat/RunRegistry.java`, `web/SseBridge.java`, `static/js/chat.js`, `static/css/chat.css`, `templates/fragments/answer.html`.
 - Тесты: `OpenCodeEventParserTest`, `RunRegistryTest`, `SseBridgeTest`, `ChatMarkupTest`, новый `OllamaDefaultsTest`.
 - Документация: `docs/plan.md`, `README.md`, `AGENTS.md`.

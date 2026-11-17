@@ -26,16 +26,13 @@
 4. **RAG + evals.** FTS → при разрыве `bge-m3`; JSONL-набор.
 5. **Guardrails + observability.** Политики, redaction, метрики, бюджет.
 
-Следующая задача пишется после завершения текущей; в `docs/mini-jira/` только незавершённые.
-
 ## Сейчас
 
-000/001/002/003/004/005/006/007/011 закрыты; 018 на ревью, 019 в работе.
+Закрытые change — в `openspec/changes/archive/`; активные — `018-chat-styling` и `019-local-ollama-model`.
 
 ## Правила
 
 - `build.gradle`, тесты, CI — protected paths.
-- Один NNN — один PR ≤ 300 строк; один NNN — один change, change может покрывать несколько NNN.
-- Требования — в `openspec/changes/<NNN>-<slug>/specs/`, приёмка — в файле задачи; текст не дублируется.
-- Статусы и жизненный цикл — `docs/task-statuses.md`, текущие статусы — `docs/mini-jira/BOARD.md`.
+- Один change — один PR ≤ 300 строк; id change — `NNN-slug`, номер не переиспользуется.
+- Требования — в `openspec/changes/<NNN>-<slug>/specs/`, текст не дублируется.
 - `openspec validate --strict --all` зелёный перед PR.

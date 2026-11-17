@@ -1,5 +1,3 @@
-> Этот проект полностью написан через [mini-jira](docs/mini-jira/) — ни строчки кода не написано руками.
-
 # AI Lab (java-ai-agent-dev)
 
 ## Цель проекта
@@ -10,7 +8,7 @@
 
 - **Приёмы LLM-приложений** — интеграция с LLM, tool calling, MCP, structured output, RAG, память, evals, guardrails, observability, локальные модели.
 - **Spec-driven development** — OpenSpec: спека как контракт, `openspec/changes/` и `archive/`, трассировка «требование → сценарий → тест».
-- **Процесс с агентом** — задача `NNN`, TDD red → green → refactor, ревью, проверка на чистом состоянии.
+- **Процесс с агентом** — change `NNN`, TDD red → green → refactor, ревью, проверка на чистом состоянии.
 
 ## Что делает приложение
 
@@ -23,7 +21,7 @@ AI Lab — локальное приложение для практики по 
 
 Сейчас реализован каркас: Spring Boot-сервис работает с локальным OpenCode API (сессии, промпты, ожидание, чтение ответа). Модель по умолчанию — локальная Ollama `qwen3.5:4b-q4_K_M` на `127.0.0.1:11434`; провайдер и модель переопределяются через `OPENCODE_PROVIDER` и `OPENCODE_MODEL`. Дальше — по плану.
 
-Каждая фича добавляется по циклу «спека → план → реализация агентом → ревью → проверка»: спека — `openspec/changes/<NNN>-<slug>/`, задача и приёмка — `docs/mini-jira/NNN-<slug>.md`.
+Каждая фича добавляется по циклу «спека → план → реализация агентом → ревью → проверка»: спека — `openspec/changes/<NNN>-<slug>/`.
 
 ## Стек
 
@@ -36,20 +34,18 @@ AI Lab — локальное приложение для практики по 
 
 ## Статус
 
-Каркас и DB-фундамент: база данных, Liquibase, контекстный тест, клиент OpenCode API (`src/main/java/com/example/javaaiagentdev/opencode`), pgvector/роли/read-only datasource. План — `docs/plan.md`; 000–008, 010–015 и 024 закрыты, 018 на ревью, 019 в работе. Процесс spec-driven: `openspec/`, пилот — change `003-runtime-chat-api`.
+Каркас и DB-фундамент: база данных, Liquibase, контекстный тест, клиент OpenCode API (`src/main/java/com/example/javaaiagentdev/opencode`), pgvector/роли/read-only datasource. План — `docs/plan.md`; закрытые change — в `openspec/changes/archive/`, активные — `018-chat-styling` и `019-local-ollama-model`. Процесс spec-driven: `openspec/`, пилот — change `003-runtime-chat-api`.
 
 ## Документация
 
 - `docs/plan.md` — цель, решения, 5 этапов.
-- `docs/mini-jira/` — mini-jira: текущие задачи и приёмка.
-- `docs/task-statuses.md` — статусы задач, claim, закрытие.
 - `.ai/constitution.md` — правила безопасности, которые проверяет `pre-commit`; `.ai/recommendations.md` — настройка окружения.
 - Хуки включаются один раз на клон: `git config core.hooksPath .githooks`. Правка конституции или самого хука — только с одобрением человека (`CONSTITUTION_APPROVED=1 git commit`).
 - `openspec/` — спеки (`specs/`), активные change (`changes/`) и архив (`changes/archive/`).
 
-## Задания
+## Изменения
 
-Задачи — в `docs/mini-jira/`. Поведение фичи описано в `openspec/changes/<NNN>-<slug>/`; файл задачи ссылается на change и держит только приёмку. После выполнения change и файл задачи уходят в `openspec/changes/archive/YYYY-MM-DD-<id>/` (`task.md` рядом со спекой), история остаётся в git.
+Поведение фичи описано в `openspec/changes/<NNN>-<slug>/`; после выполнения change уходит в `openspec/changes/archive/YYYY-MM-DD-<id>/`, история остаётся в git.
 
 ## Инструменты
 

@@ -7,13 +7,12 @@ context: |
 
 rules:
   proposal:
-    - "Id change совпадает с файлом задачи docs/mini-jira/NNN-slug.md (D5)."
-    - "Ссылайся на NNN-файл задачи в разделе Impact."
+    - "Id change — NNN-slug, номер уникален и не переиспользуется."
   specs:
     - "Спека описывает наблюдаемое поведение, без имён классов и выбора библиотек."
   tasks:
     - "TDD: задача на тест идёт раньше задачи на код."
-    - "Один change — один NNN; код в одном NNN не больше 300 строк."
+    - "Один change — один NNN; код в одном change не больше 300 строк."
 
 # Per-operation guidance (optional)
 # Add advisory guidance for how apply and archive work should be conducted.
